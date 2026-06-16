@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Clinical and Medical Statistics: A Reference Booklet by Jayant Rane, UCLH/UCL. Covers study design, clinical trials, survival analysis, regression, meta-analysis and more.">
+  <meta name="author" content="Jayant Rane">
+  <meta property="og:title" content="Clinical & Medical Statistics — Jayant Rane">
+  <meta property="og:description" content="A concise applied reference booklet for clinicians and clinical researchers.">
+  <meta property="og:type" content="website">
+  <title>Clinical &amp; Medical Statistics — Jayant Rane</title>
+  <style>
+    :root{
+      --navy:#1a2e44; --teal:#2E86AB; --blue:#1B6CA8; --green:#2E7D52;
+      --orange:#C0622A; --grey:#555; --light:#f0f4f8; --border:#b0c4d8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;background:#e2e8ef;color:var(--navy);}
+
+    /* ── Top bar ── */
+    #topbar{
+      position:fixed;top:0;left:0;right:0;height:52px;
+      background:var(--navy);display:flex;align-items:center;
+      padding:0 16px;gap:10px;z-index:1000;
+      box-shadow:0 2px 10px rgba(0,0,0,.35);
+    }
+    .logo{color:#fff;font-size:13px;font-weight:bold;white-space:nowrap;flex-shrink:0;line-height:1.25;}
+    .logo span{color:var(--teal);display:block;font-size:10px;font-weight:normal;}
+    #search-box{
+      flex:1;max-width:280px;padding:6px 14px;border-radius:20px;
+      border:none;background:rgba(255,255,255,.15);color:#fff;font-size:13px;outline:none;
+    }
+    #search-box::placeholder{color:rgba(255,255,255,.45);}
+    #search-box:focus{background:rgba(255,255,255,.25);}
+    .btn{
+      background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.15);
+      color:#fff;padding:6px 14px;border-radius:4px;cursor:pointer;font-size:12.5px;
+      white-space:nowrap;transition:background .15s;
+    }
+    .btn:hover{background:var(--teal);border-color:var(--teal);}
+    .btn:disabled{background:rgba(255,255,255,.06);color:rgba(255,255,255,.3);cursor:default;}
+    #page-counter{color:rgba(255,255,255,.6);font-size:12px;white-space:nowrap;}
+    #toc-toggle{margin-left:auto;}
+
+    /* ── Sidebar ── */
+    #sidebar{
+      position:fixed;top:52px;left:0;bottom:0;width:288px;
+      background:#fff;overflow-y:auto;z-index:900;
+      border-right:1px solid var(--border);
+      transform:translateX(-288px);transition:transform .22s ease;
+      box-shadow:3px 0 18px rgba(0,0,0,.15);
+    }
+    #sidebar.open{transform:translateX(0);}
+    #sidebar h2{
+      padding:13px 16px;font-size:11.5px;color:#fff;
+      background:var(--navy);letter-spacing:.1em;text-transform:uppercase;
+    }
+    .toc-item{
+      display:block;padding:9px 16px;font-size:12px;color:var(--navy);
+      text-decoration:none;border-bottom:1px solid #eef0f4;line-height:1.4;
+      transition:background .12s;
+    }
+    .toc-item:hover{background:var(--light);color:var(--teal);}
+    .toc-item .sec-num{display:inline-block;min-width:36px;font-weight:bold;color:var(--teal);font-size:10.5px;}
+    .toc-item.is-new{background:#fffde7;}
+    .toc-item.is-new:hover{background:#fff9c4;}
+    .new-badge{background:var(--orange);color:#fff;font-size:8px;padding:1px 5px;
+      border-radius:10px;margin-left:5px;font-weight:bold;vertical-align:middle;}
+    #sidebar::-webkit-scrollbar{width:4px;}
+    #sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+    /* ── Content ── */
+    #content{margin-top:52px;transition:margin-left .22s ease;min-height:calc(100vh - 52px);}
+    body.sidebar-open #content{margin-left:288px;}
+    .page-wrapper{display:none;padding:18px;max-width:860px;margin:0 auto;}
+    .page-wrapper.active{display:block;}
+
+    /* ── Page image ── */
+    .page-img-box{
+      background:#fff;border-radius:6px;
+      box-shadow:0 4px 22px rgba(0,0,0,.16);
+      overflow:hidden;margin-bottom:16px;cursor:zoom-in;
+      transition:box-shadow .2s;
+    }
+    .page-img-box:hover{box-shadow:0 6px 28px rgba(0,0,0,.22);}
+    .page-img-box img{display:block;width:100%;height:auto;}
+    .page-img-box.fullscreen{
+      position:fixed;inset:0;z-index:2000;border-radius:0;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.95);cursor:zoom-out;margin:0;
+      box-shadow:none;
+    }
+    .page-img-box.fullscreen img{max-height:100vh;max-width:100vw;width:auto;height:auto;}
+    .fs-hint{
+      position:absolute;bottom:14px;right:14px;
+      background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);
+      font-size:11px;padding:4px 10px;border-radius:3px;pointer-events:none;
+    }
+
+    /* ── Links panel ── */
+    .links-panel{
+      background:#fff;border-radius:6px;padding:15px 18px;
+      box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:16px;
+      border-left:3px solid var(--teal);
+    }
+    .links-panel h3{
+      font-size:10px;font-weight:bold;color:var(--teal);text-transform:uppercase;
+      letter-spacing:.1em;margin-bottom:10px;padding-bottom:6px;
+      border-bottom:1px solid var(--border);
+    }
+    .link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;}
+    .ext-link{
+      display:flex;align-items:center;gap:7px;padding:7px 10px;
+      background:var(--light);border-radius:4px;text-decoration:none;
+      color:var(--navy);font-size:12px;transition:all .12s;
+      border:1px solid transparent;
+    }
+    .ext-link:hover{background:#d8eaf5;border-color:var(--teal);color:var(--teal);}
+    .ext-link::before{content:"↗";font-size:10px;color:var(--teal);flex-shrink:0;}
+
+    /* ── Bottom nav ── */
+    .page-nav-bottom{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:0 0 20px;max-width:860px;margin:0 auto;
+    }
+    .page-nav-bottom button{
+      background:var(--navy);color:#fff;border:none;
+      padding:9px 20px;border-radius:4px;cursor:pointer;font-size:12.5px;
+      transition:background .15s;
+    }
+    .page-nav-bottom button:hover{background:var(--teal);}
+    .page-nav-bottom button:disabled{background:#aaa;cursor:default;}
+    .page-nav-bottom .pg-info{font-size:11px;color:var(--grey);text-align:center;line-height:1.5;}
+
+    /* ── Search dropdown ── */
+    #search-results{
+      position:fixed;top:52px;left:50%;transform:translateX(-50%);
+      width:min(560px,95vw);background:#fff;border-radius:0 0 8px 8px;
+      box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:1100;
+      display:none;max-height:360px;overflow-y:auto;
+    }
+    .search-hit{padding:10px 16px;border-bottom:1px solid #eee;cursor:pointer;font-size:12.5px;}
+    .search-hit:hover{background:var(--light);}
+    .search-hit .sec{color:var(--teal);font-size:10px;font-weight:bold;margin-bottom:2px;}
+    .search-no-result{padding:14px;color:var(--grey);font-size:12.5px;}
+
+    /* ── Progress bar ── */
+    #progress{
+      position:fixed;top:52px;left:0;height:2px;
+      background:var(--teal);z-index:999;transition:width .2s ease;
+    }
+
+    /* ── Responsive ── */
+    @media(max-width:640px){
+      .link-grid{grid-template-columns:1fr;}
+      .logo span{display:none;}
+      #search-box{max-width:140px;}
+      .page-wrapper{padding:10px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top navigation bar -->
+<div id="topbar">
+  <div class="logo">
+    Clinical &amp; Medical Statistics
+    <span>Jayant Rane &nbsp;·&nbsp; UCLH / UCL &nbsp;·&nbsp; 2025</span>
+  </div>
+  <input id="search-box" type="search" placeholder="Search sections…" autocomplete="off"
+         oninput="doSearch(this.value)" onkeydown="searchKeydown(event)"
+         aria-label="Search booklet sections">
+  <button class="btn" id="btn-prev" onclick="prevPage()">&#8592; Prev</button>
+  <button class="btn" id="btn-next" onclick="nextPage()">Next &#8594;</button>
+  <span id="page-counter" aria-live="polite">1 / 100</span>
+  <button class="btn" id="toc-toggle" onclick="toggleTOC()" aria-label="Toggle table of contents">
+    &#9776; Contents
+  </button>
+</div>
+
+<!-- Progress bar -->
+<div id="progress" style="width:1%"></div>
+
+<!-- Search results dropdown -->
+<div id="search-results" role="listbox" aria-label="Search results"></div>
+
+<!-- Sidebar table of contents -->
+<nav id="sidebar" aria-label="Table of contents">
+  <h2>Table of Contents</h2>
+  <a class="toc-item" href="#" onclick="gotoAnchor('title');return false;"><span class="sec-num"></span>Title Page — Jayant Rane</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('index');return false;"><span class="sec-num"></span>Index</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('study-design');return false;"><span class="sec-num">01</span>Study Design & Evidence Hierarchy</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('observational');return false;"><span class="sec-num">01b</span>Observational Studies</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('bias');return false;"><span class="sec-num">01c</span>Bias in Clinical Trials</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01e</span>Complex Trials with Embedded Translational Research</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('confounders-design');return false;"><span class="sec-num">01f</span>Confounders in Trial Design</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01g</span>Oncology Trial Atlas</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01h</span>Surgical Lessons from Oncology Trials</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01i</span>Trial Phases</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01k</span>Sample Size & Power Calculation<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('small-samples');return false;"><span class="sec-num">01j</span>Small Sample Strategies</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('variables');return false;"><span class="sec-num">02</span>Types of Variables & How to Describe Them</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">04b</span>Choosing a Statistical Test — Decision Flowchart<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02b</span>Visualising Clinical Data</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('probability');return false;"><span class="sec-num">03</span>Probability</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('hypothesis');return false;"><span class="sec-num">04</span>Hypothesis Testing & p-values</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07</span>Kaplan-Meier Survival Curves — Annotated<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('regression');return false;"><span class="sec-num">08</span>Regression Analysis</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08b</span>Confounding, Adjustment & Interaction</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08c</span>Reporting Templates & Common Mistakes</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('forest-plot');return false;"><span class="sec-num">09a</span>Reading a Forest Plot — Annotated<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('translational');return false;"><span class="sec-num">09b</span>Translational Statistics</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('software');return false;"><span class="sec-num">10</span>R, Stata & SPSS for Clinical Data Analysis</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('project-setup');return false;"><span class="sec-num">10a</span>Working Directory & Project Structure</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('r-workflow');return false;"><span class="sec-num">10b</span>R Clinical Workflow</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('stata-workflow');return false;"><span class="sec-num">10c</span>Stata Clinical Workflow</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('spss-workflow');return false;"><span class="sec-num">10d</span>SPSS Clinical Workflow</a>
+
+</nav>
+
+<!-- Main content -->
+<main id="content">
+<div class="page-wrapper active" id="page-0" data-anchor="title">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p001.jpg" alt="Title Page — Jayant Rane" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.uclh.nhs.uk/our-services/our-hospitals/university-college-hospital/cancer-services" target="_blank" rel="noopener">UCLH Department of Clinical Oncology</a><a class="ext-link" href="https://www.ucl.ac.uk/cancer/" target="_blank" rel="noopener">UCL Cancer Institute</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()" disabled>&#8592; Previous</button>
+    <span class="pg-info">Page 1 of 100&nbsp;|&nbsp;Title Page — Jayant Rane</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-1" data-anchor="index">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p002.jpg" alt="Index" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener">Cochrane Library</a><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 2 of 100&nbsp;|&nbsp;Index</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-2" data-anchor="study-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p003.jpg" alt="Study Design & Evidence Hierarchy" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT 2010</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE Guidelines</a><a class="ext-link" href="https://training.cochrane.org/handbook" target="_blank" rel="noopener">Cochrane Handbook</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 3 of 100&nbsp;|&nbsp;01&nbsp;|&nbsp;Study Design & Evidence Hierarchy</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-3" data-anchor="study-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p004.jpg" alt="Study Design — Design Comparison Table" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT 2010</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE Guidelines</a><a class="ext-link" href="https://training.cochrane.org/handbook" target="_blank" rel="noopener">Cochrane Handbook</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 4 of 100&nbsp;|&nbsp;01&nbsp;|&nbsp;Study Design — Design Comparison Table</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-4" data-anchor="study-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p005.jpg" alt="Study Design — CONSORT Flow & Statistical Workflow" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT 2010</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE Guidelines</a><a class="ext-link" href="https://training.cochrane.org/handbook" target="_blank" rel="noopener">Cochrane Handbook</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 5 of 100&nbsp;|&nbsp;01&nbsp;|&nbsp;Study Design — CONSORT Flow & Statistical Workflow</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-5" data-anchor="rct">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p006.jpg" alt="Randomised Trials: Design Features" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT Checklist</a><a class="ext-link" href="https://www.ema.europa.eu/en/ich-e9-r1-addendum-estimands-sensitivity-analysis-clinical-trials-guideline" target="_blank" rel="noopener">ICH E9(R1) Estimands</a><a class="ext-link" href="https://www.spirit-statement.org/" target="_blank" rel="noopener">SPIRIT 2013</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 6 of 100&nbsp;|&nbsp;01a&nbsp;|&nbsp;Randomised Trials: Design Features</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-6" data-anchor="rct">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p007.jpg" alt="Randomised Trials — Features & Randomisation Methods" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT Checklist</a><a class="ext-link" href="https://www.ema.europa.eu/en/ich-e9-r1-addendum-estimands-sensitivity-analysis-clinical-trials-guideline" target="_blank" rel="noopener">ICH E9(R1) Estimands</a><a class="ext-link" href="https://www.spirit-statement.org/" target="_blank" rel="noopener">SPIRIT 2013</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 7 of 100&nbsp;|&nbsp;01a&nbsp;|&nbsp;Randomised Trials — Features & Randomisation Methods</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-7" data-anchor="rct">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p008.jpg" alt="Randomised Trials — Non-inferiority & Estimands" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT Checklist</a><a class="ext-link" href="https://www.ema.europa.eu/en/ich-e9-r1-addendum-estimands-sensitivity-analysis-clinical-trials-guideline" target="_blank" rel="noopener">ICH E9(R1) Estimands</a><a class="ext-link" href="https://www.spirit-statement.org/" target="_blank" rel="noopener">SPIRIT 2013</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 8 of 100&nbsp;|&nbsp;01a&nbsp;|&nbsp;Randomised Trials — Non-inferiority & Estimands</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-8" data-anchor="rct">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p009.jpg" alt="Randomised Trials — Factorial & Crossover Designs" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT Checklist</a><a class="ext-link" href="https://www.ema.europa.eu/en/ich-e9-r1-addendum-estimands-sensitivity-analysis-clinical-trials-guideline" target="_blank" rel="noopener">ICH E9(R1) Estimands</a><a class="ext-link" href="https://www.spirit-statement.org/" target="_blank" rel="noopener">SPIRIT 2013</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 9 of 100&nbsp;|&nbsp;01a&nbsp;|&nbsp;Randomised Trials — Factorial & Crossover Designs</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-9" data-anchor="observational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p010.jpg" alt="Observational Studies" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE Statement</a><a class="ext-link" href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">GRADE Working Group</a><a class="ext-link" href="https://en.wikipedia.org/wiki/Bradford_Hill_criteria" target="_blank" rel="noopener">Bradford Hill Criteria</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 10 of 100&nbsp;|&nbsp;01b&nbsp;|&nbsp;Observational Studies</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-10" data-anchor="observational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p011.jpg" alt="Observational Studies — Bradford Hill & Evidence" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE Statement</a><a class="ext-link" href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">GRADE Working Group</a><a class="ext-link" href="https://en.wikipedia.org/wiki/Bradford_Hill_criteria" target="_blank" rel="noopener">Bradford Hill Criteria</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 11 of 100&nbsp;|&nbsp;01b&nbsp;|&nbsp;Observational Studies — Bradford Hill & Evidence</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-11" data-anchor="bias">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p012.jpg" alt="Bias in Clinical Trials" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.riskofbias.info/" target="_blank" rel="noopener">Cochrane RoB 2 Tool</a><a class="ext-link" href="https://www.riskofbias.info/welcome/robins-i-tool" target="_blank" rel="noopener">ROBINS-I Tool</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 12 of 100&nbsp;|&nbsp;01c&nbsp;|&nbsp;Bias in Clinical Trials</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-12" data-anchor="bias">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p013.jpg" alt="Bias — Types & Clinical Examples" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.riskofbias.info/" target="_blank" rel="noopener">Cochrane RoB 2 Tool</a><a class="ext-link" href="https://www.riskofbias.info/welcome/robins-i-tool" target="_blank" rel="noopener">ROBINS-I Tool</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 13 of 100&nbsp;|&nbsp;01c&nbsp;|&nbsp;Bias — Types & Clinical Examples</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-13" data-anchor="bias">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p014.jpg" alt="Bias — Risk of Bias Tools" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.riskofbias.info/" target="_blank" rel="noopener">Cochrane RoB 2 Tool</a><a class="ext-link" href="https://www.riskofbias.info/welcome/robins-i-tool" target="_blank" rel="noopener">ROBINS-I Tool</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 14 of 100&nbsp;|&nbsp;01c&nbsp;|&nbsp;Bias — Risk of Bias Tools</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-14" data-anchor="bias">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p015.jpg" alt="Bias — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.riskofbias.info/" target="_blank" rel="noopener">Cochrane RoB 2 Tool</a><a class="ext-link" href="https://www.riskofbias.info/welcome/robins-i-tool" target="_blank" rel="noopener">ROBINS-I Tool</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 15 of 100&nbsp;|&nbsp;01c&nbsp;|&nbsp;Bias — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-15" data-anchor="complex-trials">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p016.jpg" alt="Complex Trials with Embedded Translational Research" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stampedetrial.org/" target="_blank" rel="noopener">STAMPEDE Trial</a><a class="ext-link" href="https://www.fda.gov/media/78511/download" target="_blank" rel="noopener">FDA Adaptive Designs Guidance</a><a class="ext-link" href="https://www.ispy2.org/" target="_blank" rel="noopener">I-SPY 2</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 16 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Complex Trials with Embedded Translational Research</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-16" data-anchor="complex-trials">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p017.jpg" alt="Complex Trials — Design Types" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stampedetrial.org/" target="_blank" rel="noopener">STAMPEDE Trial</a><a class="ext-link" href="https://www.fda.gov/media/78511/download" target="_blank" rel="noopener">FDA Adaptive Designs Guidance</a><a class="ext-link" href="https://www.ispy2.org/" target="_blank" rel="noopener">I-SPY 2</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 17 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Complex Trials — Design Types</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-17" data-anchor="confounders-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p018.jpg" alt="Confounders in Trial Design" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 18 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders in Trial Design</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-18" data-anchor="confounders-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p019.jpg" alt="Confounders — Propensity Score & IPW Methods" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 19 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Propensity Score & IPW Methods</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-19" data-anchor="confounders-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p020.jpg" alt="Confounders — Mixed Effects & Sensitivity Analysis" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 20 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Mixed Effects & Sensitivity Analysis</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-20" data-anchor="confounders-design">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p021.jpg" alt="Confounders — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 21 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-21" data-anchor="oncology-atlas">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p022.jpg" alt="Oncology Trial Atlas" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 22 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Trial Atlas</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-22" data-anchor="oncology-atlas">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p023.jpg" alt="Oncology Atlas — Lung Cancer" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 23 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — Lung Cancer</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-23" data-anchor="oncology-atlas">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p024.jpg" alt="Oncology Atlas — Breast & GI Cancer" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 24 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — Breast & GI Cancer</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-24" data-anchor="oncology-atlas">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p025.jpg" alt="Oncology Atlas — GU & Translational" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 25 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — GU & Translational</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-25" data-anchor="oncology-atlas">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p026.jpg" alt="Oncology Atlas — References" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 26 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — References</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-26" data-anchor="surgical">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p027.jpg" alt="Surgical Lessons from Oncology Trials" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 27 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons from Oncology Trials</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-27" data-anchor="surgical">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p028.jpg" alt="Surgical Lessons — Design Patterns" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 28 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Design Patterns</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-28" data-anchor="surgical">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p029.jpg" alt="Surgical Lessons — Radical Oncology Trials" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 29 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Radical Oncology Trials</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-29" data-anchor="surgical">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p030.jpg" alt="Surgical Lessons — Confounders in Surgical Trials" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 30 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Confounders in Surgical Trials</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-30" data-anchor="surgical">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p031.jpg" alt="Surgical Lessons — Blueprint" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 31 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Blueprint</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-31" data-anchor="trial-phases">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p032.jpg" alt="Trial Phases" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 32 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-32" data-anchor="trial-phases">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p033.jpg" alt="Trial Phases — Phase I Designs" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 33 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases — Phase I Designs</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-33" data-anchor="trial-phases">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p034.jpg" alt="Trial Phases — Phase II, III & IV" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 34 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases — Phase II, III & IV</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-34" data-anchor="power">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p035.jpg" alt="Sample Size & Power Calculation" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower" target="_blank" rel="noopener">G*Power</a><a class="ext-link" href="https://cran.r-project.org/web/packages/pwr/" target="_blank" rel="noopener">pwr R package</a><a class="ext-link" href="https://www.sample-size.net/" target="_blank" rel="noopener">Sample Size Calculators</a><a class="ext-link" href="https://www.ncss.com/software/pass/" target="_blank" rel="noopener">PASS Software</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 35 of 100&nbsp;|&nbsp;01k&nbsp;|&nbsp;Sample Size & Power Calculation</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-35" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p036.jpg" alt="Small Sample Strategies" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 36 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Sample Strategies</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-36" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p037.jpg" alt="Small Samples — Bayesian Approaches" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 37 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Bayesian Approaches</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-37" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p038.jpg" alt="Small Samples — Simon Two-stage" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 38 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Simon Two-stage</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-38" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p039.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 39 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-39" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p040.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 40 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-40" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p041.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 41 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-41" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p042.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 42 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-42" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p043.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 43 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-43" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p044.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 44 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-44" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p045.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 45 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-45" data-anchor="small-samples">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p046.jpg" alt="Small Samples — Continued" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1016/0197-2456(89)90015-9" target="_blank" rel="noopener">Simon Two-stage Design</a><a class="ext-link" href="https://doi.org/10.2307/2532582" target="_blank" rel="noopener">Bryant-Day Phase I/II</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 46 of 100&nbsp;|&nbsp;01j&nbsp;|&nbsp;Small Samples — Continued</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-46" data-anchor="variables">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p047.jpg" alt="Types of Variables & How to Describe Them" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ctep.cancer.gov/protocoldevelopment/electronic_applications/ctc.htm" target="_blank" rel="noopener">CTCAE Grading</a><a class="ext-link" href="https://icd.who.int/en" target="_blank" rel="noopener">WHO ICD-11</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 47 of 100&nbsp;|&nbsp;02&nbsp;|&nbsp;Types of Variables & How to Describe Them</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-47" data-anchor="variables">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p048.jpg" alt="Variables — Continuous & Summary Statistics" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ctep.cancer.gov/protocoldevelopment/electronic_applications/ctc.htm" target="_blank" rel="noopener">CTCAE Grading</a><a class="ext-link" href="https://icd.who.int/en" target="_blank" rel="noopener">WHO ICD-11</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 48 of 100&nbsp;|&nbsp;02&nbsp;|&nbsp;Variables — Continuous & Summary Statistics</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-48" data-anchor="test-selection">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p049.jpg" alt="Statistical Test Selection by Variable Type" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.bmj.com/specialties/statistics-notes" target="_blank" rel="noopener">BMJ Statistics Notes</a><a class="ext-link" href="https://www.graphpad.com/guides/prism/latest/statistics/" target="_blank" rel="noopener">GraphPad Stats Guide</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 49 of 100&nbsp;|&nbsp;02&nbsp;|&nbsp;Statistical Test Selection by Variable Type</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-49" data-anchor="test-flowchart">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p050.jpg" alt="Choosing a Statistical Test — Decision Flowchart" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://stats.oarc.ucla.edu/" target="_blank" rel="noopener">UCLA OARC</a><a class="ext-link" href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener">NIST/SEMATECH e-Handbook</a><a class="ext-link" href="https://www.bmj.com/about-bmj/resources-readers/publications/statistics-square-one" target="_blank" rel="noopener">BMJ: Choosing a Statistical Test</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 50 of 100&nbsp;|&nbsp;04b&nbsp;|&nbsp;Choosing a Statistical Test — Decision Flowchart</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-50" data-anchor="visualising">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p051.jpg" alt="Visualising Clinical Data" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 51 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising Clinical Data</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-51" data-anchor="visualising">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p052.jpg" alt="Visualising — Chart Types" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 52 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — Chart Types</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-52" data-anchor="visualising">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p053.jpg" alt="Visualising — KM Curves & Forest Plots" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 53 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — KM Curves & Forest Plots</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-53" data-anchor="visualising">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p054.jpg" alt="Visualising — Figure Quality" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 54 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — Figure Quality</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-54" data-anchor="probability">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p055.jpg" alt="Probability" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.khanacademy.org/math/statistics-probability/probability-library" target="_blank" rel="noopener">Khan Academy: Probability</a><a class="ext-link" href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda366.htm" target="_blank" rel="noopener">NIST Distributions</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 55 of 100&nbsp;|&nbsp;03&nbsp;|&nbsp;Probability</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-55" data-anchor="probability">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p056.jpg" alt="Probability — Conditional & Bayes" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.khanacademy.org/math/statistics-probability/probability-library" target="_blank" rel="noopener">Khan Academy: Probability</a><a class="ext-link" href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda366.htm" target="_blank" rel="noopener">NIST Distributions</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 56 of 100&nbsp;|&nbsp;03&nbsp;|&nbsp;Probability — Conditional & Bayes</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-56" data-anchor="probability">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p057.jpg" alt="Probability — Distributions" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.khanacademy.org/math/statistics-probability/probability-library" target="_blank" rel="noopener">Khan Academy: Probability</a><a class="ext-link" href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda366.htm" target="_blank" rel="noopener">NIST Distributions</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 57 of 100&nbsp;|&nbsp;03&nbsp;|&nbsp;Probability — Distributions</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-57" data-anchor="hypothesis">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p058.jpg" alt="Hypothesis Testing & p-values" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">ASA Statement on p-values</a><a class="ext-link" href="https://doi.org/10.1177/0956797613504966" target="_blank" rel="noopener">The New Statistics</a><a class="ext-link" href="https://www.nejm.org/media/oembed/statistics" target="_blank" rel="noopener">NEJM Statistics Series</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 58 of 100&nbsp;|&nbsp;04&nbsp;|&nbsp;Hypothesis Testing & p-values</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-58" data-anchor="hypothesis">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p059.jpg" alt="Hypothesis Testing — Decision Matrix & p-value Scale" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">ASA Statement on p-values</a><a class="ext-link" href="https://doi.org/10.1177/0956797613504966" target="_blank" rel="noopener">The New Statistics</a><a class="ext-link" href="https://www.nejm.org/media/oembed/statistics" target="_blank" rel="noopener">NEJM Statistics Series</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 59 of 100&nbsp;|&nbsp;04&nbsp;|&nbsp;Hypothesis Testing — Decision Matrix & p-value Scale</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-59" data-anchor="hypothesis">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p060.jpg" alt="Hypothesis Testing — Confidence Intervals" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">ASA Statement on p-values</a><a class="ext-link" href="https://doi.org/10.1177/0956797613504966" target="_blank" rel="noopener">The New Statistics</a><a class="ext-link" href="https://www.nejm.org/media/oembed/statistics" target="_blank" rel="noopener">NEJM Statistics Series</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 60 of 100&nbsp;|&nbsp;04&nbsp;|&nbsp;Hypothesis Testing — Confidence Intervals</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-60" data-anchor="hypothesis">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p061.jpg" alt="Hypothesis Testing — Effect Sizes" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">ASA Statement on p-values</a><a class="ext-link" href="https://doi.org/10.1177/0956797613504966" target="_blank" rel="noopener">The New Statistics</a><a class="ext-link" href="https://www.nejm.org/media/oembed/statistics" target="_blank" rel="noopener">NEJM Statistics Series</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 61 of 100&nbsp;|&nbsp;04&nbsp;|&nbsp;Hypothesis Testing — Effect Sizes</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-61" data-anchor="multiple-testing">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p062.jpg" alt="Multiple Hypothesis Testing" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">Benjamini & Hochberg 1995</a><a class="ext-link" href="https://www.nature.com/articles/s41592-019-0429-7" target="_blank" rel="noopener">Nature Methods: Multiple Testing</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 62 of 100&nbsp;|&nbsp;05&nbsp;|&nbsp;Multiple Hypothesis Testing</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-62" data-anchor="multiple-testing">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p063.jpg" alt="Multiple Testing — FDR Methods" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">Benjamini & Hochberg 1995</a><a class="ext-link" href="https://www.nature.com/articles/s41592-019-0429-7" target="_blank" rel="noopener">Nature Methods: Multiple Testing</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 63 of 100&nbsp;|&nbsp;05&nbsp;|&nbsp;Multiple Testing — FDR Methods</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-63" data-anchor="multiple-testing">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p064.jpg" alt="Multiple Testing — Clinical Scenarios" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">Benjamini & Hochberg 1995</a><a class="ext-link" href="https://www.nature.com/articles/s41592-019-0429-7" target="_blank" rel="noopener">Nature Methods: Multiple Testing</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 64 of 100&nbsp;|&nbsp;05&nbsp;|&nbsp;Multiple Testing — Clinical Scenarios</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-64" data-anchor="multiple-testing">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p065.jpg" alt="Multiple Testing — Post-hoc Tests" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">Benjamini & Hochberg 1995</a><a class="ext-link" href="https://www.nature.com/articles/s41592-019-0429-7" target="_blank" rel="noopener">Nature Methods: Multiple Testing</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 65 of 100&nbsp;|&nbsp;05&nbsp;|&nbsp;Multiple Testing — Post-hoc Tests</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-65" data-anchor="diagnostic">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p066.jpg" alt="Diagnostic Tests" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 66 of 100&nbsp;|&nbsp;06&nbsp;|&nbsp;Diagnostic Tests</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-66" data-anchor="diagnostic">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p067.jpg" alt="Diagnostic Tests — 2×2 Table" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 67 of 100&nbsp;|&nbsp;06&nbsp;|&nbsp;Diagnostic Tests — 2×2 Table</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-67" data-anchor="diagnostic">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p068.jpg" alt="Diagnostic Tests — ROC Curves" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 68 of 100&nbsp;|&nbsp;06&nbsp;|&nbsp;Diagnostic Tests — ROC Curves</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-68" data-anchor="diagnostic">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p069.jpg" alt="Diagnostic Tests — Calibration & Effect Measures" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 69 of 100&nbsp;|&nbsp;06&nbsp;|&nbsp;Diagnostic Tests — Calibration & Effect Measures</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-69" data-anchor="diagnostic">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p070.jpg" alt="Diagnostic Tests — Likelihood Ratios" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 70 of 100&nbsp;|&nbsp;06&nbsp;|&nbsp;Diagnostic Tests — Likelihood Ratios</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-70" data-anchor="survival">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p071.jpg" alt="Survival Analysis" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1972.tb00899.x" target="_blank" rel="noopener">Cox 1972</a><a class="ext-link" href="https://doi.org/10.1002/sim.5728" target="_blank" rel="noopener">RMST Methods</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 71 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Survival Analysis</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-71" data-anchor="km-curve">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p072.jpg" alt="Kaplan-Meier Survival Curves — Annotated" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.2307/2281868" target="_blank" rel="noopener">Kaplan & Meier 1958</a><a class="ext-link" href="https://doi.org/10.1093/eurheartj/ehn120" target="_blank" rel="noopener">Reporting KM Curves</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 72 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Kaplan-Meier Survival Curves — Annotated</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-72" data-anchor="survival">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p073.jpg" alt="Survival Analysis — Cox Regression" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1972.tb00899.x" target="_blank" rel="noopener">Cox 1972</a><a class="ext-link" href="https://doi.org/10.1002/sim.5728" target="_blank" rel="noopener">RMST Methods</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 73 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Survival Analysis — Cox Regression</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-73" data-anchor="survival">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p074.jpg" alt="Survival Analysis — Competing Risks" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1972.tb00899.x" target="_blank" rel="noopener">Cox 1972</a><a class="ext-link" href="https://doi.org/10.1002/sim.5728" target="_blank" rel="noopener">RMST Methods</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 74 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Survival Analysis — Competing Risks</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-74" data-anchor="survival">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p075.jpg" alt="Survival Analysis — Landmark & RMST" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1972.tb00899.x" target="_blank" rel="noopener">Cox 1972</a><a class="ext-link" href="https://doi.org/10.1002/sim.5728" target="_blank" rel="noopener">RMST Methods</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 75 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Survival Analysis — Landmark & RMST</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-75" data-anchor="regression">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p076.jpg" alt="Regression Analysis" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1996.tb02080.x" target="_blank" rel="noopener">LASSO (Tibshirani 1996)</a><a class="ext-link" href="https://hbiostat.org/rmsc/" target="_blank" rel="noopener">Frank Harrell: RMS</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 76 of 100&nbsp;|&nbsp;08&nbsp;|&nbsp;Regression Analysis</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-76" data-anchor="confounding">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p077.jpg" alt="Confounding, Adjustment & Interaction" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference</a><a class="ext-link" href="https://doi.org/10.1093/ije/dyw341" target="_blank" rel="noopener">Pearl Causal Inference</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 77 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Confounding, Adjustment & Interaction</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-77" data-anchor="confounding">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p078.jpg" alt="Confounding — DAGs & Causal Inference" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference</a><a class="ext-link" href="https://doi.org/10.1093/ije/dyw341" target="_blank" rel="noopener">Pearl Causal Inference</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 78 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Confounding — DAGs & Causal Inference</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-78" data-anchor="reporting">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p079.jpg" alt="Reporting Templates & Common Mistakes" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 79 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting Templates & Common Mistakes</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-79" data-anchor="reporting">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p080.jpg" alt="Reporting — Common Statistical Mistakes" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 80 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — Common Statistical Mistakes</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-80" data-anchor="reporting">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p081.jpg" alt="Reporting — Study Credibility Checklist" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 81 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — Study Credibility Checklist</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-81" data-anchor="reporting">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p082.jpg" alt="Reporting — CONSORT & STROBE" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 82 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — CONSORT & STROBE</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-82" data-anchor="meta">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p083.jpg" alt="Meta-analysis" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://training.cochrane.org/online-learning/core-software/revman" target="_blank" rel="noopener">RevMan (Cochrane)</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a><a class="ext-link" href="https://www.metafor-project.org/" target="_blank" rel="noopener">metafor R package</a><a class="ext-link" href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">GRADE</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 83 of 100&nbsp;|&nbsp;09&nbsp;|&nbsp;Meta-analysis</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-83" data-anchor="forest-plot">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p084.jpg" alt="Reading a Forest Plot — Annotated" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://training.cochrane.org/handbook/current/chapter-10" target="_blank" rel="noopener">Cochrane Handbook Ch.10</a><a class="ext-link" href="https://cran.r-project.org/web/packages/meta/" target="_blank" rel="noopener">meta R package</a><a class="ext-link" href="https://www.eshackathon.org/software/PRISMA2020.html" target="_blank" rel="noopener">PRISMA Flow Generator</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 84 of 100&nbsp;|&nbsp;09a&nbsp;|&nbsp;Reading a Forest Plot — Annotated</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-84" data-anchor="translational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p085.jpg" alt="Translational Statistics" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD-AI</a><a class="ext-link" href="https://doi.org/10.1373/clinchem.2008.112797" target="_blank" rel="noopener">MIQE Guidelines</a><a class="ext-link" href="https://doi.org/10.1093/jnci/djj226" target="_blank" rel="noopener">REMARK Guidelines</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 85 of 100&nbsp;|&nbsp;09b&nbsp;|&nbsp;Translational Statistics</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-85" data-anchor="translational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p086.jpg" alt="Translational Stats — Sequencing & Omics" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD-AI</a><a class="ext-link" href="https://doi.org/10.1373/clinchem.2008.112797" target="_blank" rel="noopener">MIQE Guidelines</a><a class="ext-link" href="https://doi.org/10.1093/jnci/djj226" target="_blank" rel="noopener">REMARK Guidelines</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 86 of 100&nbsp;|&nbsp;09b&nbsp;|&nbsp;Translational Stats — Sequencing & Omics</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-86" data-anchor="translational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p087.jpg" alt="Translational Stats — Biomarker Validation" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD-AI</a><a class="ext-link" href="https://doi.org/10.1373/clinchem.2008.112797" target="_blank" rel="noopener">MIQE Guidelines</a><a class="ext-link" href="https://doi.org/10.1093/jnci/djj226" target="_blank" rel="noopener">REMARK Guidelines</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 87 of 100&nbsp;|&nbsp;09b&nbsp;|&nbsp;Translational Stats — Biomarker Validation</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-87" data-anchor="translational">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p088.jpg" alt="Translational Stats — Digital Pathology" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD-AI</a><a class="ext-link" href="https://doi.org/10.1373/clinchem.2008.112797" target="_blank" rel="noopener">MIQE Guidelines</a><a class="ext-link" href="https://doi.org/10.1093/jnci/djj226" target="_blank" rel="noopener">REMARK Guidelines</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 88 of 100&nbsp;|&nbsp;09b&nbsp;|&nbsp;Translational Stats — Digital Pathology</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-88" data-anchor="software">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p089.jpg" alt="R, Stata & SPSS for Clinical Data Analysis" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.r-project.org/" target="_blank" rel="noopener">R Project</a><a class="ext-link" href="https://posit.co/" target="_blank" rel="noopener">RStudio/Posit</a><a class="ext-link" href="https://www.stata.com/" target="_blank" rel="noopener">Stata</a><a class="ext-link" href="https://www.ibm.com/products/spss-statistics" target="_blank" rel="noopener">IBM SPSS</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 89 of 100&nbsp;|&nbsp;10&nbsp;|&nbsp;R, Stata & SPSS for Clinical Data Analysis</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-89" data-anchor="software">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p090.jpg" alt="Software — Online Resources" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.r-project.org/" target="_blank" rel="noopener">R Project</a><a class="ext-link" href="https://posit.co/" target="_blank" rel="noopener">RStudio/Posit</a><a class="ext-link" href="https://www.stata.com/" target="_blank" rel="noopener">Stata</a><a class="ext-link" href="https://www.ibm.com/products/spss-statistics" target="_blank" rel="noopener">IBM SPSS</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 90 of 100&nbsp;|&nbsp;10&nbsp;|&nbsp;Software — Online Resources</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-90" data-anchor="project-setup">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p091.jpg" alt="Working Directory & Project Structure" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://the-turing-way.netlify.app/" target="_blank" rel="noopener">The Turing Way</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 91 of 100&nbsp;|&nbsp;10a&nbsp;|&nbsp;Working Directory & Project Structure</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-91" data-anchor="project-setup">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p092.jpg" alt="Project Setup — R Directory Structure" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://the-turing-way.netlify.app/" target="_blank" rel="noopener">The Turing Way</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 92 of 100&nbsp;|&nbsp;10a&nbsp;|&nbsp;Project Setup — R Directory Structure</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-92" data-anchor="project-setup">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p093.jpg" alt="Project Setup — Data Dictionary" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://the-turing-way.netlify.app/" target="_blank" rel="noopener">The Turing Way</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 93 of 100&nbsp;|&nbsp;10a&nbsp;|&nbsp;Project Setup — Data Dictionary</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-93" data-anchor="r-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p094.jpg" alt="R Clinical Workflow" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://cran.r-project.org/web/views/ClinicalTrials.html" target="_blank" rel="noopener">CRAN Task Views: Clinical Trials</a><a class="ext-link" href="https://www.tidyverse.org/" target="_blank" rel="noopener">tidyverse</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 94 of 100&nbsp;|&nbsp;10b&nbsp;|&nbsp;R Clinical Workflow</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-94" data-anchor="r-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p095.jpg" alt="R Workflow — Descriptive Statistics" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://cran.r-project.org/web/views/ClinicalTrials.html" target="_blank" rel="noopener">CRAN Task Views: Clinical Trials</a><a class="ext-link" href="https://www.tidyverse.org/" target="_blank" rel="noopener">tidyverse</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 95 of 100&nbsp;|&nbsp;10b&nbsp;|&nbsp;R Workflow — Descriptive Statistics</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-95" data-anchor="r-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p096.jpg" alt="R Workflow — Survival & Regression" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://cran.r-project.org/web/views/ClinicalTrials.html" target="_blank" rel="noopener">CRAN Task Views: Clinical Trials</a><a class="ext-link" href="https://www.tidyverse.org/" target="_blank" rel="noopener">tidyverse</a><a class="ext-link" href="https://r4ds.hadley.nz/" target="_blank" rel="noopener">R for Data Science</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 96 of 100&nbsp;|&nbsp;10b&nbsp;|&nbsp;R Workflow — Survival & Regression</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-96" data-anchor="stata-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p097.jpg" alt="Stata Clinical Workflow" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stata.com/manuals/" target="_blank" rel="noopener">Stata Documentation</a><a class="ext-link" href="https://stats.oarc.ucla.edu/stata/" target="_blank" rel="noopener">UCLA Stata Resources</a><a class="ext-link" href="https://www.stata-journal.com/" target="_blank" rel="noopener">Stata Journal</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 97 of 100&nbsp;|&nbsp;10c&nbsp;|&nbsp;Stata Clinical Workflow</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-97" data-anchor="stata-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p098.jpg" alt="Stata Workflow — Commands" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stata.com/manuals/" target="_blank" rel="noopener">Stata Documentation</a><a class="ext-link" href="https://stats.oarc.ucla.edu/stata/" target="_blank" rel="noopener">UCLA Stata Resources</a><a class="ext-link" href="https://www.stata-journal.com/" target="_blank" rel="noopener">Stata Journal</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 98 of 100&nbsp;|&nbsp;10c&nbsp;|&nbsp;Stata Workflow — Commands</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-98" data-anchor="spss-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p099.jpg" alt="SPSS Clinical Workflow" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ibm.com/docs/en/spss-statistics" target="_blank" rel="noopener">IBM SPSS Docs</a><a class="ext-link" href="https://stats.oarc.ucla.edu/spss/" target="_blank" rel="noopener">UCLA SPSS Resources</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 99 of 100&nbsp;|&nbsp;10d&nbsp;|&nbsp;SPSS Clinical Workflow</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+</div>
+<div class="page-wrapper" id="page-99" data-anchor="spss-workflow">
+  <div class="page-img-box" onclick="toggleFS(this)">
+    <img src="pages/p100.jpg" alt="SPSS Workflow — Commands" loading="lazy">
+  </div>
+  <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ibm.com/docs/en/spss-statistics" target="_blank" rel="noopener">IBM SPSS Docs</a><a class="ext-link" href="https://stats.oarc.ucla.edu/spss/" target="_blank" rel="noopener">UCLA SPSS Resources</a></div></div>
+  <div class="page-nav-bottom">
+    <button onclick="prevPage()">&#8592; Previous</button>
+    <span class="pg-info">Page 100 of 100&nbsp;|&nbsp;10d&nbsp;|&nbsp;SPSS Workflow — Commands</span>
+    <button onclick="nextPage()" disabled>Next &#8594;</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ── Data ── */
+const PAGES = [{"idx": 0, "pid": "001", "snum": "", "title": "Title Page \u2014 Jayant Rane", "anchor": "title", "is_start": true}, {"idx": 1, "pid": "002", "snum": "", "title": "Index", "anchor": "index", "is_start": true}, {"idx": 2, "pid": "003", "snum": "01", "title": "Study Design & Evidence Hierarchy", "anchor": "study-design", "is_start": true}, {"idx": 3, "pid": "004", "snum": "01", "title": "Study Design \u2014 Design Comparison Table", "anchor": "study-design", "is_start": false}, {"idx": 4, "pid": "005", "snum": "01", "title": "Study Design \u2014 CONSORT Flow & Statistical Workflow", "anchor": "study-design", "is_start": false}, {"idx": 5, "pid": "006", "snum": "01a", "title": "Randomised Trials: Design Features", "anchor": "rct", "is_start": true}, {"idx": 6, "pid": "007", "snum": "01a", "title": "Randomised Trials \u2014 Features & Randomisation Methods", "anchor": "rct", "is_start": false}, {"idx": 7, "pid": "008", "snum": "01a", "title": "Randomised Trials \u2014 Non-inferiority & Estimands", "anchor": "rct", "is_start": false}, {"idx": 8, "pid": "009", "snum": "01a", "title": "Randomised Trials \u2014 Factorial & Crossover Designs", "anchor": "rct", "is_start": false}, {"idx": 9, "pid": "010", "snum": "01b", "title": "Observational Studies", "anchor": "observational", "is_start": true}, {"idx": 10, "pid": "011", "snum": "01b", "title": "Observational Studies \u2014 Bradford Hill & Evidence", "anchor": "observational", "is_start": false}, {"idx": 11, "pid": "012", "snum": "01c", "title": "Bias in Clinical Trials", "anchor": "bias", "is_start": true}, {"idx": 12, "pid": "013", "snum": "01c", "title": "Bias \u2014 Types & Clinical Examples", "anchor": "bias", "is_start": false}, {"idx": 13, "pid": "014", "snum": "01c", "title": "Bias \u2014 Risk of Bias Tools", "anchor": "bias", "is_start": false}, {"idx": 14, "pid": "015", "snum": "01c", "title": "Bias \u2014 Continued", "anchor": "bias", "is_start": false}, {"idx": 15, "pid": "016", "snum": "01e", "title": "Complex Trials with Embedded Translational Research", "anchor": "complex-trials", "is_start": true}, {"idx": 16, "pid": "017", "snum": "01e", "title": "Complex Trials \u2014 Design Types", "anchor": "complex-trials", "is_start": false}, {"idx": 17, "pid": "018", "snum": "01f", "title": "Confounders in Trial Design", "anchor": "confounders-design", "is_start": true}, {"idx": 18, "pid": "019", "snum": "01f", "title": "Confounders \u2014 Propensity Score & IPW Methods", "anchor": "confounders-design", "is_start": false}, {"idx": 19, "pid": "020", "snum": "01f", "title": "Confounders \u2014 Mixed Effects & Sensitivity Analysis", "anchor": "confounders-design", "is_start": false}, {"idx": 20, "pid": "021", "snum": "01f", "title": "Confounders \u2014 Continued", "anchor": "confounders-design", "is_start": false}, {"idx": 21, "pid": "022", "snum": "01g", "title": "Oncology Trial Atlas", "anchor": "oncology-atlas", "is_start": true}, {"idx": 22, "pid": "023", "snum": "01g", "title": "Oncology Atlas \u2014 Lung Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 23, "pid": "024", "snum": "01g", "title": "Oncology Atlas \u2014 Breast & GI Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 24, "pid": "025", "snum": "01g", "title": "Oncology Atlas \u2014 GU & Translational", "anchor": "oncology-atlas", "is_start": false}, {"idx": 25, "pid": "026", "snum": "01g", "title": "Oncology Atlas \u2014 References", "anchor": "oncology-atlas", "is_start": false}, {"idx": 26, "pid": "027", "snum": "01h", "title": "Surgical Lessons from Oncology Trials", "anchor": "surgical", "is_start": true}, {"idx": 27, "pid": "028", "snum": "01h", "title": "Surgical Lessons \u2014 Design Patterns", "anchor": "surgical", "is_start": false}, {"idx": 28, "pid": "029", "snum": "01h", "title": "Surgical Lessons \u2014 Radical Oncology Trials", "anchor": "surgical", "is_start": false}, {"idx": 29, "pid": "030", "snum": "01h", "title": "Surgical Lessons \u2014 Confounders in Surgical Trials", "anchor": "surgical", "is_start": false}, {"idx": 30, "pid": "031", "snum": "01h", "title": "Surgical Lessons \u2014 Blueprint", "anchor": "surgical", "is_start": false}, {"idx": 31, "pid": "032", "snum": "01i", "title": "Trial Phases", "anchor": "trial-phases", "is_start": true}, {"idx": 32, "pid": "033", "snum": "01i", "title": "Trial Phases \u2014 Phase I Designs", "anchor": "trial-phases", "is_start": false}, {"idx": 33, "pid": "034", "snum": "01i", "title": "Trial Phases \u2014 Phase II, III & IV", "anchor": "trial-phases", "is_start": false}, {"idx": 34, "pid": "035", "snum": "01k", "title": "Sample Size & Power Calculation", "anchor": "power", "is_start": true}, {"idx": 35, "pid": "036", "snum": "01j", "title": "Small Sample Strategies", "anchor": "small-samples", "is_start": true}, {"idx": 36, "pid": "037", "snum": "01j", "title": "Small Samples \u2014 Bayesian Approaches", "anchor": "small-samples", "is_start": false}, {"idx": 37, "pid": "038", "snum": "01j", "title": "Small Samples \u2014 Simon Two-stage", "anchor": "small-samples", "is_start": false}, {"idx": 38, "pid": "039", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 39, "pid": "040", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 40, "pid": "041", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 41, "pid": "042", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 42, "pid": "043", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 43, "pid": "044", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 44, "pid": "045", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 45, "pid": "046", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 46, "pid": "047", "snum": "02", "title": "Types of Variables & How to Describe Them", "anchor": "variables", "is_start": true}, {"idx": 47, "pid": "048", "snum": "02", "title": "Variables \u2014 Continuous & Summary Statistics", "anchor": "variables", "is_start": false}, {"idx": 48, "pid": "049", "snum": "02", "title": "Statistical Test Selection by Variable Type", "anchor": "test-selection", "is_start": false}, {"idx": 49, "pid": "050", "snum": "04b", "title": "Choosing a Statistical Test \u2014 Decision Flowchart", "anchor": "test-flowchart", "is_start": true}, {"idx": 50, "pid": "051", "snum": "02b", "title": "Visualising Clinical Data", "anchor": "visualising", "is_start": true}, {"idx": 51, "pid": "052", "snum": "02b", "title": "Visualising \u2014 Chart Types", "anchor": "visualising", "is_start": false}, {"idx": 52, "pid": "053", "snum": "02b", "title": "Visualising \u2014 KM Curves & Forest Plots", "anchor": "visualising", "is_start": false}, {"idx": 53, "pid": "054", "snum": "02b", "title": "Visualising \u2014 Figure Quality", "anchor": "visualising", "is_start": false}, {"idx": 54, "pid": "055", "snum": "03", "title": "Probability", "anchor": "probability", "is_start": true}, {"idx": 55, "pid": "056", "snum": "03", "title": "Probability \u2014 Conditional & Bayes", "anchor": "probability", "is_start": false}, {"idx": 56, "pid": "057", "snum": "03", "title": "Probability \u2014 Distributions", "anchor": "probability", "is_start": false}, {"idx": 57, "pid": "058", "snum": "04", "title": "Hypothesis Testing & p-values", "anchor": "hypothesis", "is_start": true}, {"idx": 58, "pid": "059", "snum": "04", "title": "Hypothesis Testing \u2014 Decision Matrix & p-value Scale", "anchor": "hypothesis", "is_start": false}, {"idx": 59, "pid": "060", "snum": "04", "title": "Hypothesis Testing \u2014 Confidence Intervals", "anchor": "hypothesis", "is_start": false}, {"idx": 60, "pid": "061", "snum": "04", "title": "Hypothesis Testing \u2014 Effect Sizes", "anchor": "hypothesis", "is_start": false}, {"idx": 61, "pid": "062", "snum": "05", "title": "Multiple Hypothesis Testing", "anchor": "multiple-testing", "is_start": true}, {"idx": 62, "pid": "063", "snum": "05", "title": "Multiple Testing \u2014 FDR Methods", "anchor": "multiple-testing", "is_start": false}, {"idx": 63, "pid": "064", "snum": "05", "title": "Multiple Testing \u2014 Clinical Scenarios", "anchor": "multiple-testing", "is_start": false}, {"idx": 64, "pid": "065", "snum": "05", "title": "Multiple Testing \u2014 Post-hoc Tests", "anchor": "multiple-testing", "is_start": false}, {"idx": 65, "pid": "066", "snum": "06", "title": "Diagnostic Tests", "anchor": "diagnostic", "is_start": true}, {"idx": 66, "pid": "067", "snum": "06", "title": "Diagnostic Tests \u2014 2\u00d72 Table", "anchor": "diagnostic", "is_start": false}, {"idx": 67, "pid": "068", "snum": "06", "title": "Diagnostic Tests \u2014 ROC Curves", "anchor": "diagnostic", "is_start": false}, {"idx": 68, "pid": "069", "snum": "06", "title": "Diagnostic Tests \u2014 Calibration & Effect Measures", "anchor": "diagnostic", "is_start": false}, {"idx": 69, "pid": "070", "snum": "06", "title": "Diagnostic Tests \u2014 Likelihood Ratios", "anchor": "diagnostic", "is_start": false}, {"idx": 70, "pid": "071", "snum": "07", "title": "Survival Analysis", "anchor": "survival", "is_start": true}, {"idx": 71, "pid": "072", "snum": "07", "title": "Kaplan-Meier Survival Curves \u2014 Annotated", "anchor": "km-curve", "is_start": true}, {"idx": 72, "pid": "073", "snum": "07", "title": "Survival Analysis \u2014 Cox Regression", "anchor": "survival", "is_start": false}, {"idx": 73, "pid": "074", "snum": "07", "title": "Survival Analysis \u2014 Competing Risks", "anchor": "survival", "is_start": false}, {"idx": 74, "pid": "075", "snum": "07", "title": "Survival Analysis \u2014 Landmark & RMST", "anchor": "survival", "is_start": false}, {"idx": 75, "pid": "076", "snum": "08", "title": "Regression Analysis", "anchor": "regression", "is_start": true}, {"idx": 76, "pid": "077", "snum": "08b", "title": "Confounding, Adjustment & Interaction", "anchor": "confounding", "is_start": true}, {"idx": 77, "pid": "078", "snum": "08b", "title": "Confounding \u2014 DAGs & Causal Inference", "anchor": "confounding", "is_start": false}, {"idx": 78, "pid": "079", "snum": "08c", "title": "Reporting Templates & Common Mistakes", "anchor": "reporting", "is_start": true}, {"idx": 79, "pid": "080", "snum": "08c", "title": "Reporting \u2014 Common Statistical Mistakes", "anchor": "reporting", "is_start": false}, {"idx": 80, "pid": "081", "snum": "08c", "title": "Reporting \u2014 Study Credibility Checklist", "anchor": "reporting", "is_start": false}, {"idx": 81, "pid": "082", "snum": "08c", "title": "Reporting \u2014 CONSORT & STROBE", "anchor": "reporting", "is_start": false}, {"idx": 82, "pid": "083", "snum": "09", "title": "Meta-analysis", "anchor": "meta", "is_start": true}, {"idx": 83, "pid": "084", "snum": "09a", "title": "Reading a Forest Plot \u2014 Annotated", "anchor": "forest-plot", "is_start": true}, {"idx": 84, "pid": "085", "snum": "09b", "title": "Translational Statistics", "anchor": "translational", "is_start": true}, {"idx": 85, "pid": "086", "snum": "09b", "title": "Translational Stats \u2014 Sequencing & Omics", "anchor": "translational", "is_start": false}, {"idx": 86, "pid": "087", "snum": "09b", "title": "Translational Stats \u2014 Biomarker Validation", "anchor": "translational", "is_start": false}, {"idx": 87, "pid": "088", "snum": "09b", "title": "Translational Stats \u2014 Digital Pathology", "anchor": "translational", "is_start": false}, {"idx": 88, "pid": "089", "snum": "10", "title": "R, Stata & SPSS for Clinical Data Analysis", "anchor": "software", "is_start": true}, {"idx": 89, "pid": "090", "snum": "10", "title": "Software \u2014 Online Resources", "anchor": "software", "is_start": false}, {"idx": 90, "pid": "091", "snum": "10a", "title": "Working Directory & Project Structure", "anchor": "project-setup", "is_start": true}, {"idx": 91, "pid": "092", "snum": "10a", "title": "Project Setup \u2014 R Directory Structure", "anchor": "project-setup", "is_start": false}, {"idx": 92, "pid": "093", "snum": "10a", "title": "Project Setup \u2014 Data Dictionary", "anchor": "project-setup", "is_start": false}, {"idx": 93, "pid": "094", "snum": "10b", "title": "R Clinical Workflow", "anchor": "r-workflow", "is_start": true}, {"idx": 94, "pid": "095", "snum": "10b", "title": "R Workflow \u2014 Descriptive Statistics", "anchor": "r-workflow", "is_start": false}, {"idx": 95, "pid": "096", "snum": "10b", "title": "R Workflow \u2014 Survival & Regression", "anchor": "r-workflow", "is_start": false}, {"idx": 96, "pid": "097", "snum": "10c", "title": "Stata Clinical Workflow", "anchor": "stata-workflow", "is_start": true}, {"idx": 97, "pid": "098", "snum": "10c", "title": "Stata Workflow \u2014 Commands", "anchor": "stata-workflow", "is_start": false}, {"idx": 98, "pid": "099", "snum": "10d", "title": "SPSS Clinical Workflow", "anchor": "spss-workflow", "is_start": true}, {"idx": 99, "pid": "100", "snum": "10d", "title": "SPSS Workflow \u2014 Commands", "anchor": "spss-workflow", "is_start": false}];
+const N = 100;
+let cur = 0, sidebarOpen = false;
+
+/* ── Core navigation ── */
+function showPage(idx) {
+  if (idx < 0 || idx >= N) return;
+  document.querySelectorAll('.page-wrapper').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  cur = idx;
+  document.getElementById('page-counter').textContent = (idx + 1) + ' / ' + N;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === N - 1;
+  document.getElementById('progress').style.width = ((idx + 1) / N * 100) + '%';
+  window.scrollTo(0, 0);
+  // Update URL so page is bookmarkable and shareable
+  const p = PAGES[idx];
+  history.replaceState(null, '', '#' + p.anchor + (p.is_start ? '' : '-p' + (idx + 1)));
+  // Update document title
+  document.title = p.title + ' — Clinical Statistics';
+}
+function prevPage() { showPage(cur - 1); }
+function nextPage() { showPage(cur + 1); }
+
+/* ── Sidebar ── */
+function toggleTOC() {
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+  document.body.classList.toggle('sidebar-open', sidebarOpen);
+}
+function gotoAnchor(anchor) {
+  const idx = PAGES.findIndex(p => p.anchor === anchor && p.is_start);
+  if (idx >= 0) {
+    showPage(idx);
+    if (window.innerWidth < 768) toggleTOC();
+  }
+}
+
+/* ── Search ── */
+function doSearch(q) {
+  const box = document.getElementById('search-results');
+  if (!q || q.length < 2) { box.style.display = 'none'; return; }
+  const ql = q.toLowerCase();
+  const hits = PAGES.filter(p =>
+    p.title.toLowerCase().includes(ql) ||
+    p.snum.toLowerCase().includes(ql) ||
+    p.anchor.toLowerCase().replace(/-/g,' ').includes(ql)
+  );
+  if (!hits.length) {
+    box.innerHTML = `<div class="search-no-result">No results for "<em>${q}</em>"</div>`;
+  } else {
+    box.innerHTML = hits.slice(0, 14).map(p =>
+      `<div class="search-hit" role="option" onclick="showPage(${p.idx});closeSearch()">
+        <div class="sec">${p.snum || 'Front matter'}</div>${p.title}
+      </div>`
+    ).join('');
+  }
+  box.style.display = 'block';
+}
+function searchKeydown(e) {
+  if (e.key === 'Escape') closeSearch();
+  if (e.key === 'Enter') {
+    const f = document.querySelector('.search-hit');
+    if (f) f.click();
+  }
+}
+function closeSearch() {
+  document.getElementById('search-box').value = '';
+  document.getElementById('search-results').style.display = 'none';
+}
+
+/* ── Fullscreen ── */
+function toggleFS(el) {
+  const wasFS = el.classList.contains('fullscreen');
+  document.querySelectorAll('.page-img-box.fullscreen').forEach(e => e.classList.remove('fullscreen'));
+  if (!wasFS) {
+    el.classList.add('fullscreen');
+    // Add ESC hint
+    if (!el.querySelector('.fs-hint')) {
+      const hint = document.createElement('div');
+      hint.className = 'fs-hint';
+      hint.textContent = 'Press ESC or click to exit';
+      el.appendChild(hint);
+    }
+  }
+}
+
+/* ── Keyboard shortcuts ── */
+document.addEventListener('keydown', e => {
+  const inSearch = e.target === document.getElementById('search-box');
+  if (e.key === 'Escape') {
+    closeSearch();
+    document.querySelectorAll('.page-img-box.fullscreen').forEach(el => el.classList.remove('fullscreen'));
+    if (sidebarOpen) toggleTOC();
+    return;
+  }
+  if (inSearch) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextPage(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevPage(); }
+  else if (e.key === 'Home') showPage(0);
+  else if (e.key === 'End') showPage(N - 1);
+  else if (e.key === 't' || e.key === 'T') toggleTOC();
+  else if (e.key === '/' || e.key === 's') {
+    e.preventDefault();
+    document.getElementById('search-box').focus();
+  }
+});
+
+/* ── Touch/swipe ── */
+let tX = 0;
+document.addEventListener('touchstart', e => { tX = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tX;
+  if (Math.abs(dx) > 60) { dx < 0 ? nextPage() : prevPage(); }
+}, {passive:true});
+
+/* ── Close search on outside click ── */
+document.addEventListener('click', e => {
+  if (!e.target.closest('#search-box') && !e.target.closest('#search-results')) closeSearch();
+});
+
+/* ── URL hash routing on load ── */
+window.addEventListener('load', () => {
+  const hash = window.location.hash.slice(1); // remove #
+  if (!hash) return;
+  // Try anchor match first
+  const byAnchor = PAGES.findIndex(p => p.anchor === hash && p.is_start);
+  if (byAnchor >= 0) { showPage(byAnchor); return; }
+  // Try p-number match e.g. #p42
+  const numMatch = hash.match(/^p(\d+)$/);
+  if (numMatch) {
+    const n = parseInt(numMatch[1]) - 1;
+    if (n >= 0 && n < N) showPage(n);
+  }
+});
+
+// Initialise button states
+document.getElementById('btn-prev').disabled = true;
+</script>
+</body>
+</html>
