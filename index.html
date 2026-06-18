@@ -66,6 +66,14 @@
     .toc-item.is-new:hover{background:#fff9c4;}
     .new-badge{background:var(--orange);color:#fff;font-size:8px;padding:1px 5px;
       border-radius:10px;margin-left:5px;font-weight:bold;vertical-align:middle;}
+    .toc-item.has-tool{background:#eaf6f4;}
+    .toc-item.has-tool:hover{background:#d7f0eb;}
+    .tool-badge{
+      background:var(--teal);color:#fff;font-size:8px;padding:1px 6px 1px 4px;
+      border-radius:10px;margin-left:5px;font-weight:bold;vertical-align:middle;
+      display:inline-flex;align-items:center;gap:2px;letter-spacing:.03em;
+    }
+    .tool-badge::before{content:"⚙";font-size:8px;}
     #sidebar::-webkit-scrollbar{width:4px;}
     #sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
@@ -152,16 +160,22 @@
 
     /* ── Interactive tool panel ── */
     .tool-panel{
-      background:#fff;border-radius:6px;padding:16px 18px 18px;
-      box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:16px;
-      border-left:3px solid var(--orange);
+      background:#fffaf6;border-radius:6px;padding:16px 18px 18px;
+      box-shadow:0 3px 14px rgba(192,98,42,.13);margin-bottom:16px;
+      border-left:3px solid var(--orange);border-top:3px solid var(--orange);
+      position:relative;
     }
     .tool-panel h3{
-      font-size:10px;font-weight:bold;color:var(--orange);text-transform:uppercase;
+      font-size:11px;font-weight:bold;color:var(--orange);text-transform:uppercase;
       letter-spacing:.1em;margin-bottom:3px;padding-bottom:6px;
-      border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;
+      border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;
     }
-    .tool-panel h3::before{content:"⚙";font-size:11px;}
+    .tool-panel h3::before{content:"⚙";font-size:14px;}
+    .tool-panel h3::after{
+      content:"Interactive";margin-left:auto;background:var(--orange);color:#fff;
+      font-size:8.5px;padding:2px 7px;border-radius:10px;letter-spacing:.04em;
+      text-transform:uppercase;font-weight:bold;
+    }
     .tool-sub{font-size:11.5px;color:var(--grey);margin:8px 0 14px;line-height:1.5;}
     .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
     .tool-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
@@ -244,8 +258,14 @@
       border-bottom:1px solid #eef2f6;transition:background .12s;
     }
     .toc-page-item:hover{background:var(--light);}
+    .toc-page-item.has-tool{background:#eaf6f4;}
+    .toc-page-item.has-tool:hover{background:#d7f0eb;}
     .toc-page-item .sec-num{
       flex-shrink:0;width:34px;font-weight:bold;color:var(--orange);font-size:12px;
+    }
+    .toc-page-legend{
+      font-size:11px;color:var(--grey);margin-top:14px;padding-top:12px;
+      border-top:1px solid #eef2f6;display:flex;align-items:center;gap:6px;
     }
 
     /* ── Continuous-scroll mode ── */
@@ -305,7 +325,7 @@
   <a class="toc-item" href="#" onclick="gotoAnchor('title');return false;"><span class="sec-num"></span>Title Page — Jayant Rane</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('index');return false;"><span class="sec-num"></span>Index</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('study-design');return false;"><span class="sec-num">01</span>Study Design & Evidence Hierarchy</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features</a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features<span class="tool-badge">TOOL</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('observational');return false;"><span class="sec-num">01b</span>Observational Studies</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('bias');return false;"><span class="sec-num">01c</span>Bias in Clinical Trials</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01d</span>Complex Trials with Embedded Translational Research</a>
@@ -313,22 +333,22 @@
 <a class="toc-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01f</span>Oncology Trial Atlas</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01g</span>Surgical Lessons from Oncology Trials</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01h</span>Trial Phases</a>
-<a class="toc-item is-new" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size & Power Calculation<span class="new-badge">NEW</span></a>
+<a class="toc-item is-new has-tool" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size & Power Calculation<span class="new-badge">NEW</span><span class="tool-badge">TOOL</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('small-samples');return false;"><span class="sec-num">01j</span>Small Sample Strategies</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('variables');return false;"><span class="sec-num">02</span>Types of Variables & How to Describe Them</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('test-selection');return false;"><span class="sec-num">02a</span>Statistical Test Selection by Variable Type</a>
-<a class="toc-item is-new" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table<span class="new-badge">NEW</span></a>
+<a class="toc-item is-new has-tool" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table<span class="new-badge">NEW</span><span class="tool-badge">TOOL</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02c</span>Visualising Clinical Data</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('probability');return false;"><span class="sec-num">03</span>Probability</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('hypothesis');return false;"><span class="sec-num">04</span>Hypothesis Testing & p-values</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis</a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing<span class="tool-badge">TOOL</span></a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests<span class="tool-badge">TOOL</span></a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis<span class="tool-badge">TOOL</span></a>
 <a class="toc-item is-new" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07a</span>Kaplan-Meier Survival Curves — Annotated<span class="new-badge">NEW</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('regression');return false;"><span class="sec-num">08</span>Regression Analysis</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment & Interaction</a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment & Interaction<span class="tool-badge">TOOL</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08b</span>Reporting Templates & Common Mistakes</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis</a>
+<a class="toc-item has-tool" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis<span class="tool-badge">TOOL</span></a>
 <a class="toc-item is-new" href="#" onclick="gotoAnchor('forest-plot');return false;"><span class="sec-num">09a</span>Reading a Forest Plot — Annotated<span class="new-badge">NEW</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('translational');return false;"><span class="sec-num">09b</span>Translational Statistics</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('software');return false;"><span class="sec-num">10</span>R, Stata & SPSS for Clinical Data Analysis</a>
@@ -358,7 +378,7 @@
     <p class="toc-page-sub">Clinical &amp; Medical Statistics — Jayant Rane, UCLH / UCL</p>
     <div class="toc-page-list">
       <a class="toc-page-item" href="#" onclick="gotoAnchor('study-design');return false;"><span class="sec-num">01</span>Study Design &amp; Evidence Hierarchy</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('observational');return false;"><span class="sec-num">01b</span>Observational Studies</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('bias');return false;"><span class="sec-num">01c</span>Bias in Clinical Trials</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01d</span>Complex Trials with Embedded Translational Research</a>
@@ -366,22 +386,22 @@
       <a class="toc-page-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01f</span>Oncology Trial Atlas</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01g</span>Surgical Lessons from Oncology Trials</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01h</span>Trial Phases</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size &amp; Power Calculation</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size &amp; Power Calculation<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('small-samples');return false;"><span class="sec-num">01j</span>Small Sample Strategies</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('variables');return false;"><span class="sec-num">02</span>Types of Variables &amp; How to Describe Them</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('test-selection');return false;"><span class="sec-num">02a</span>Statistical Test Selection by Variable Type</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02c</span>Visualising Clinical Data</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('probability');return false;"><span class="sec-num">03</span>Probability</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('hypothesis');return false;"><span class="sec-num">04</span>Hypothesis Testing &amp; p-values</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing<span class="tool-badge">TOOL</span></a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests<span class="tool-badge">TOOL</span></a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07a</span>Kaplan-Meier Survival Curves — Annotated</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('regression');return false;"><span class="sec-num">08</span>Regression Analysis</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment &amp; Interaction</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment &amp; Interaction<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08b</span>Reporting Templates &amp; Common Mistakes</a>
-      <a class="toc-page-item" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis</a>
+      <a class="toc-page-item has-tool" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis<span class="tool-badge">TOOL</span></a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('forest-plot');return false;"><span class="sec-num">09a</span>Reading a Forest Plot — Annotated</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('translational');return false;"><span class="sec-num">09b</span>Translational Statistics</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('software');return false;"><span class="sec-num">10</span>R, Stata &amp; SPSS for Clinical Data Analysis</a>
@@ -390,6 +410,7 @@
       <a class="toc-page-item" href="#" onclick="gotoAnchor('stata-workflow');return false;"><span class="sec-num">10c</span>Stata Clinical Workflow</a>
       <a class="toc-page-item" href="#" onclick="gotoAnchor('spss-workflow');return false;"><span class="sec-num">10d</span>SPSS Clinical Workflow</a>
     </div>
+    <div class="toc-page-legend"><span class="tool-badge">TOOL</span> Sections with an interactive calculator or questionnaire embedded in the page.</div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener">Cochrane Library</a><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
   <div class="page-nav-bottom">
