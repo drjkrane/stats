@@ -230,7 +230,37 @@
     .tool-2x2 th{background:var(--light);color:var(--navy);font-size:10.5px;}
     .tool-2x2 input{width:64px;padding:5px;border:1px solid var(--border);border-radius:3px;text-align:center;font-size:13px;}
 
-    /* ── Responsive ── */
+    /* ── HTML-rendered index page ── */
+    .toc-page{
+      background:#fff;border-radius:6px;padding:28px 30px;
+      box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:16px;
+    }
+    .toc-page-title{font-size:26px;color:var(--navy);margin-bottom:4px;}
+    .toc-page-sub{font-size:12.5px;color:var(--grey);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+    .toc-page-list{display:flex;flex-direction:column;}
+    .toc-page-item{
+      display:flex;align-items:baseline;gap:12px;padding:9px 6px;
+      text-decoration:none;color:var(--navy);font-size:14px;
+      border-bottom:1px solid #eef2f6;transition:background .12s;
+    }
+    .toc-page-item:hover{background:var(--light);}
+    .toc-page-item .sec-num{
+      flex-shrink:0;width:34px;font-weight:bold;color:var(--orange);font-size:12px;
+    }
+
+    /* ── Continuous-scroll mode ── */
+    body.continuous-mode .page-wrapper{display:block !important;border-bottom:2px dashed var(--border);padding-bottom:30px;margin-bottom:14px;}
+    body.continuous-mode .page-wrapper:last-child{border-bottom:none;}
+    body.continuous-mode .page-nav-bottom{display:none;}
+    body.continuous-mode #btn-prev,
+    body.continuous-mode #btn-next,
+    body.continuous-mode #page-counter{display:none;}
+    body.continuous-mode #progress{display:none;}
+    .view-toggle-label{
+      display:inline-flex;align-items:center;gap:5px;color:rgba(255,255,255,.85);
+      font-size:11.5px;cursor:pointer;user-select:none;white-space:nowrap;
+    }
+    .view-toggle-label input{accent-color:var(--orange);cursor:pointer;}
     @media(max-width:640px){
       .link-grid{grid-template-columns:1fr;}
       .logo span{display:none;}
@@ -254,6 +284,10 @@
   <button class="btn" id="btn-prev" onclick="prevPage()">&#8592; Prev</button>
   <button class="btn" id="btn-next" onclick="nextPage()">Next &#8594;</button>
   <span id="page-counter" aria-live="polite">1 / 100</span>
+  <label class="view-toggle-label">
+    <input type="checkbox" id="continuous-toggle" onchange="toggleContinuousMode(this.checked)">
+    Continuous scroll
+  </label>
   <button class="btn" id="toc-toggle" onclick="toggleTOC()" aria-label="Toggle table of contents">
     &#9776; Contents
   </button>
@@ -319,8 +353,43 @@
   </div>
 </div>
 <div class="page-wrapper" id="page-1" data-anchor="index">
-  <div class="page-img-box" onclick="toggleFS(this)">
-    <img src="pages/p002.jpg" alt="Index" loading="lazy">
+  <div class="toc-page">
+    <h1 class="toc-page-title">Index</h1>
+    <p class="toc-page-sub">Clinical &amp; Medical Statistics — Jayant Rane, UCLH / UCL</p>
+    <div class="toc-page-list">
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('study-design');return false;"><span class="sec-num">01</span>Study Design &amp; Evidence Hierarchy</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('observational');return false;"><span class="sec-num">01b</span>Observational Studies</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('bias');return false;"><span class="sec-num">01c</span>Bias in Clinical Trials</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01d</span>Complex Trials with Embedded Translational Research</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('confounders-design');return false;"><span class="sec-num">01e</span>Confounders in Trial Design</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01f</span>Oncology Trial Atlas</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01g</span>Surgical Lessons from Oncology Trials</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01h</span>Trial Phases</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size &amp; Power Calculation</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('small-samples');return false;"><span class="sec-num">01j</span>Small Sample Strategies</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('variables');return false;"><span class="sec-num">02</span>Types of Variables &amp; How to Describe Them</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('test-selection');return false;"><span class="sec-num">02a</span>Statistical Test Selection by Variable Type</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02c</span>Visualising Clinical Data</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('probability');return false;"><span class="sec-num">03</span>Probability</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('hypothesis');return false;"><span class="sec-num">04</span>Hypothesis Testing &amp; p-values</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07a</span>Kaplan-Meier Survival Curves — Annotated</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('regression');return false;"><span class="sec-num">08</span>Regression Analysis</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment &amp; Interaction</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08b</span>Reporting Templates &amp; Common Mistakes</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('forest-plot');return false;"><span class="sec-num">09a</span>Reading a Forest Plot — Annotated</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('translational');return false;"><span class="sec-num">09b</span>Translational Statistics</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('software');return false;"><span class="sec-num">10</span>R, Stata &amp; SPSS for Clinical Data Analysis</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('project-setup');return false;"><span class="sec-num">10a</span>Working Directory &amp; Project Structure</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('r-workflow');return false;"><span class="sec-num">10b</span>R Clinical Workflow</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('stata-workflow');return false;"><span class="sec-num">10c</span>Stata Clinical Workflow</a>
+      <a class="toc-page-item" href="#" onclick="gotoAnchor('spss-workflow');return false;"><span class="sec-num">10d</span>SPSS Clinical Workflow</a>
+    </div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.cochranelibrary.com/" target="_blank" rel="noopener">Cochrane Library</a><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.equator-network.org/" target="_blank" rel="noopener">EQUATOR Network</a></div></div>
   <div class="page-nav-bottom">
@@ -1644,20 +1713,26 @@
 /* ── Data ── */
 const PAGES = [{"idx": 0, "pid": "001", "snum": "", "title": "Title Page — Jayant Rane", "anchor": "title", "is_start": true}, {"idx": 1, "pid": "002", "snum": "", "title": "Index", "anchor": "index", "is_start": true}, {"idx": 2, "pid": "003", "snum": "01", "title": "Study Design & Evidence Hierarchy", "anchor": "study-design", "is_start": true}, {"idx": 3, "pid": "004", "snum": "01", "title": "Study Design — Design Comparison Table", "anchor": "study-design", "is_start": false}, {"idx": 4, "pid": "005", "snum": "01", "title": "Study Design — CONSORT Flow & Statistical Workflow", "anchor": "study-design", "is_start": false}, {"idx": 5, "pid": "006", "snum": "01a", "title": "Randomised Trials: Design Features", "anchor": "rct", "is_start": true}, {"idx": 6, "pid": "007", "snum": "01a", "title": "Randomised Trials — Features & Randomisation Methods", "anchor": "rct", "is_start": false}, {"idx": 7, "pid": "008", "snum": "01a", "title": "Randomised Trials — Non-inferiority & Estimands", "anchor": "rct", "is_start": false}, {"idx": 8, "pid": "009", "snum": "01a", "title": "Randomised Trials — Factorial & Crossover Designs", "anchor": "rct", "is_start": false}, {"idx": 9, "pid": "010", "snum": "01b", "title": "Observational Studies", "anchor": "observational", "is_start": true}, {"idx": 10, "pid": "011", "snum": "01b", "title": "Observational Studies — Bradford Hill & Evidence", "anchor": "observational", "is_start": false}, {"idx": 11, "pid": "012", "snum": "01c", "title": "Bias in Clinical Trials", "anchor": "bias", "is_start": true}, {"idx": 12, "pid": "013", "snum": "01c", "title": "Bias — Types & Clinical Examples", "anchor": "bias", "is_start": false}, {"idx": 13, "pid": "014", "snum": "01c", "title": "Bias — Risk of Bias Tools", "anchor": "bias", "is_start": false}, {"idx": 14, "pid": "015", "snum": "01c", "title": "Bias — Continued", "anchor": "bias", "is_start": false}, {"idx": 15, "pid": "016", "snum": "01d", "title": "Complex Trials with Embedded Translational Research", "anchor": "complex-trials", "is_start": true}, {"idx": 16, "pid": "017", "snum": "01d", "title": "Complex Trials — Design Types", "anchor": "complex-trials", "is_start": false}, {"idx": 17, "pid": "018", "snum": "01e", "title": "Confounders in Trial Design", "anchor": "confounders-design", "is_start": true}, {"idx": 18, "pid": "019", "snum": "01e", "title": "Confounders — Propensity Score & IPW Methods", "anchor": "confounders-design", "is_start": false}, {"idx": 19, "pid": "020", "snum": "01e", "title": "Confounders — Mixed Effects & Sensitivity Analysis", "anchor": "confounders-design", "is_start": false}, {"idx": 20, "pid": "021", "snum": "01e", "title": "Confounders — Continued", "anchor": "confounders-design", "is_start": false}, {"idx": 21, "pid": "022", "snum": "01f", "title": "Oncology Trial Atlas", "anchor": "oncology-atlas", "is_start": true}, {"idx": 22, "pid": "023", "snum": "01f", "title": "Oncology Atlas — Lung Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 23, "pid": "024", "snum": "01f", "title": "Oncology Atlas — Breast & GI Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 24, "pid": "025", "snum": "01f", "title": "Oncology Atlas — GU & Translational", "anchor": "oncology-atlas", "is_start": false}, {"idx": 25, "pid": "026", "snum": "01f", "title": "Oncology Atlas — References", "anchor": "oncology-atlas", "is_start": false}, {"idx": 26, "pid": "027", "snum": "01g", "title": "Surgical Lessons from Oncology Trials", "anchor": "surgical", "is_start": true}, {"idx": 27, "pid": "028", "snum": "01g", "title": "Surgical Lessons — Design Patterns", "anchor": "surgical", "is_start": false}, {"idx": 28, "pid": "029", "snum": "01g", "title": "Surgical Lessons — Radical Oncology Trials", "anchor": "surgical", "is_start": false}, {"idx": 29, "pid": "030", "snum": "01g", "title": "Surgical Lessons — Confounders in Surgical Trials", "anchor": "surgical", "is_start": false}, {"idx": 30, "pid": "031", "snum": "01g", "title": "Surgical Lessons — Blueprint", "anchor": "surgical", "is_start": false}, {"idx": 31, "pid": "032", "snum": "01h", "title": "Trial Phases", "anchor": "trial-phases", "is_start": true}, {"idx": 32, "pid": "033", "snum": "01h", "title": "Trial Phases — Phase I Designs", "anchor": "trial-phases", "is_start": false}, {"idx": 33, "pid": "034", "snum": "01h", "title": "Trial Phases — Phase II, III & IV", "anchor": "trial-phases", "is_start": false}, {"idx": 34, "pid": "035", "snum": "01i", "title": "Sample Size & Power Calculation", "anchor": "power", "is_start": true}, {"idx": 35, "pid": "036", "snum": "01j", "title": "Small Sample Strategies", "anchor": "small-samples", "is_start": true}, {"idx": 36, "pid": "037", "snum": "01j", "title": "Small Samples — Bayesian Approaches", "anchor": "small-samples", "is_start": false}, {"idx": 37, "pid": "038", "snum": "01j", "title": "Small Samples — Simon Two-stage", "anchor": "small-samples", "is_start": false}, {"idx": 38, "pid": "039", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 39, "pid": "040", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 40, "pid": "041", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 41, "pid": "042", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 42, "pid": "043", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 43, "pid": "044", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 44, "pid": "045", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 45, "pid": "046", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 46, "pid": "047", "snum": "02", "title": "Types of Variables & How to Describe Them", "anchor": "variables", "is_start": true}, {"idx": 47, "pid": "048", "snum": "02", "title": "Variables — Continuous & Summary Statistics", "anchor": "variables", "is_start": false}, {"idx": 48, "pid": "049", "snum": "02a", "title": "Statistical Test Selection by Variable Type", "anchor": "test-selection", "is_start": false}, {"idx": 49, "pid": "050", "snum": "02b", "title": "Choosing a Statistical Test — Reference Table", "anchor": "test-flowchart", "is_start": true}, {"idx": 50, "pid": "051", "snum": "02c", "title": "Visualising Clinical Data", "anchor": "visualising", "is_start": true}, {"idx": 51, "pid": "052", "snum": "02c", "title": "Visualising — Chart Types", "anchor": "visualising", "is_start": false}, {"idx": 52, "pid": "053", "snum": "02c", "title": "Visualising — KM Curves & Forest Plots", "anchor": "visualising", "is_start": false}, {"idx": 53, "pid": "054", "snum": "02c", "title": "Visualising — Figure Quality", "anchor": "visualising", "is_start": false}, {"idx": 54, "pid": "055", "snum": "03", "title": "Probability", "anchor": "probability", "is_start": true}, {"idx": 55, "pid": "056", "snum": "03", "title": "Probability — Conditional & Bayes", "anchor": "probability", "is_start": false}, {"idx": 56, "pid": "057", "snum": "03", "title": "Probability — Distributions", "anchor": "probability", "is_start": false}, {"idx": 57, "pid": "058", "snum": "04", "title": "Hypothesis Testing & p-values", "anchor": "hypothesis", "is_start": true}, {"idx": 58, "pid": "059", "snum": "04", "title": "Hypothesis Testing — Decision Matrix & p-value Scale", "anchor": "hypothesis", "is_start": false}, {"idx": 59, "pid": "060", "snum": "04", "title": "Hypothesis Testing — Confidence Intervals", "anchor": "hypothesis", "is_start": false}, {"idx": 60, "pid": "061", "snum": "04", "title": "Hypothesis Testing — Effect Sizes", "anchor": "hypothesis", "is_start": false}, {"idx": 61, "pid": "062", "snum": "05", "title": "Multiple Hypothesis Testing", "anchor": "multiple-testing", "is_start": true}, {"idx": 62, "pid": "063", "snum": "05", "title": "Multiple Testing — FDR Methods", "anchor": "multiple-testing", "is_start": false}, {"idx": 63, "pid": "064", "snum": "05", "title": "Multiple Testing — Clinical Scenarios", "anchor": "multiple-testing", "is_start": false}, {"idx": 64, "pid": "065", "snum": "05", "title": "Multiple Testing — Post-hoc Tests", "anchor": "multiple-testing", "is_start": false}, {"idx": 65, "pid": "066", "snum": "06", "title": "Diagnostic Tests", "anchor": "diagnostic", "is_start": true}, {"idx": 66, "pid": "067", "snum": "06", "title": "Diagnostic Tests — 2×2 Table", "anchor": "diagnostic", "is_start": false}, {"idx": 67, "pid": "068", "snum": "06", "title": "Diagnostic Tests — ROC Curves", "anchor": "diagnostic", "is_start": false}, {"idx": 68, "pid": "069", "snum": "06", "title": "Diagnostic Tests — Calibration & Effect Measures", "anchor": "diagnostic", "is_start": false}, {"idx": 69, "pid": "070", "snum": "06", "title": "Diagnostic Tests — Likelihood Ratios", "anchor": "diagnostic", "is_start": false}, {"idx": 70, "pid": "071", "snum": "07", "title": "Survival Analysis", "anchor": "survival", "is_start": true}, {"idx": 71, "pid": "072", "snum": "07a", "title": "Kaplan-Meier Survival Curves — Annotated", "anchor": "km-curve", "is_start": true}, {"idx": 72, "pid": "073", "snum": "07", "title": "Survival Analysis — Cox Regression", "anchor": "survival", "is_start": false}, {"idx": 73, "pid": "074", "snum": "07", "title": "Survival Analysis — Competing Risks", "anchor": "survival", "is_start": false}, {"idx": 74, "pid": "075", "snum": "07", "title": "Survival Analysis — Landmark & RMST", "anchor": "survival", "is_start": false}, {"idx": 75, "pid": "076", "snum": "08", "title": "Regression Analysis", "anchor": "regression", "is_start": true}, {"idx": 76, "pid": "077", "snum": "08a", "title": "Confounding, Adjustment & Interaction", "anchor": "confounding", "is_start": true}, {"idx": 77, "pid": "078", "snum": "08a", "title": "Confounding — DAGs & Causal Inference", "anchor": "confounding", "is_start": false}, {"idx": 78, "pid": "079", "snum": "08b", "title": "Reporting Templates & Common Mistakes", "anchor": "reporting", "is_start": true}, {"idx": 79, "pid": "080", "snum": "08b", "title": "Reporting — Common Statistical Mistakes", "anchor": "reporting", "is_start": false}, {"idx": 80, "pid": "081", "snum": "08b", "title": "Reporting — Study Credibility Checklist", "anchor": "reporting", "is_start": false}, {"idx": 81, "pid": "082", "snum": "08b", "title": "Reporting — CONSORT & STROBE", "anchor": "reporting", "is_start": false}, {"idx": 82, "pid": "083", "snum": "09", "title": "Meta-analysis", "anchor": "meta", "is_start": true}, {"idx": 83, "pid": "084", "snum": "09a", "title": "Reading a Forest Plot — Annotated", "anchor": "forest-plot", "is_start": true}, {"idx": 84, "pid": "085", "snum": "09b", "title": "Translational Statistics", "anchor": "translational", "is_start": true}, {"idx": 85, "pid": "086", "snum": "09b", "title": "Translational Stats — Sequencing & Omics", "anchor": "translational", "is_start": false}, {"idx": 86, "pid": "087", "snum": "09b", "title": "Translational Stats — Biomarker Validation", "anchor": "translational", "is_start": false}, {"idx": 87, "pid": "088", "snum": "09b", "title": "Translational Stats — Digital Pathology", "anchor": "translational", "is_start": false}, {"idx": 88, "pid": "089", "snum": "10", "title": "R, Stata & SPSS for Clinical Data Analysis", "anchor": "software", "is_start": true}, {"idx": 89, "pid": "090", "snum": "10", "title": "Software — Online Resources", "anchor": "software", "is_start": false}, {"idx": 90, "pid": "091", "snum": "10a", "title": "Working Directory & Project Structure", "anchor": "project-setup", "is_start": true}, {"idx": 91, "pid": "092", "snum": "10a", "title": "Project Setup — R Directory Structure", "anchor": "project-setup", "is_start": false}, {"idx": 92, "pid": "093", "snum": "10a", "title": "Project Setup — Data Dictionary", "anchor": "project-setup", "is_start": false}, {"idx": 93, "pid": "094", "snum": "10b", "title": "R Clinical Workflow", "anchor": "r-workflow", "is_start": true}, {"idx": 94, "pid": "095", "snum": "10b", "title": "R Workflow — Descriptive Statistics", "anchor": "r-workflow", "is_start": false}, {"idx": 95, "pid": "096", "snum": "10b", "title": "R Workflow — Survival & Regression", "anchor": "r-workflow", "is_start": false}, {"idx": 96, "pid": "097", "snum": "10c", "title": "Stata Clinical Workflow", "anchor": "stata-workflow", "is_start": true}, {"idx": 97, "pid": "098", "snum": "10c", "title": "Stata Workflow — Commands", "anchor": "stata-workflow", "is_start": false}, {"idx": 98, "pid": "099", "snum": "10d", "title": "SPSS Clinical Workflow", "anchor": "spss-workflow", "is_start": true}, {"idx": 99, "pid": "100", "snum": "10d", "title": "SPSS Workflow — Commands", "anchor": "spss-workflow", "is_start": false}];
 const N = 100;
-let cur = 0, sidebarOpen = false;
+let cur = 0, sidebarOpen = false, continuousMode = false;
 
 /* ── Core navigation ── */
 function showPage(idx) {
   if (idx < 0 || idx >= N) return;
-  document.querySelectorAll('.page-wrapper').forEach((el, i) => {
-    el.classList.toggle('active', i === idx);
-  });
   cur = idx;
-  document.getElementById('page-counter').textContent = (idx + 1) + ' / ' + N;
-  document.getElementById('btn-prev').disabled = idx === 0;
-  document.getElementById('btn-next').disabled = idx === N - 1;
-  document.getElementById('progress').style.width = ((idx + 1) / N * 100) + '%';
-  window.scrollTo(0, 0);
+  if (continuousMode) {
+    // In continuous mode, every page is already visible — just scroll the target into view.
+    const target = document.querySelectorAll('.page-wrapper')[idx];
+    if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+  } else {
+    document.querySelectorAll('.page-wrapper').forEach((el, i) => {
+      el.classList.toggle('active', i === idx);
+    });
+    document.getElementById('page-counter').textContent = (idx + 1) + ' / ' + N;
+    document.getElementById('btn-prev').disabled = idx === 0;
+    document.getElementById('btn-next').disabled = idx === N - 1;
+    document.getElementById('progress').style.width = ((idx + 1) / N * 100) + '%';
+    window.scrollTo(0, 0);
+  }
   // Update URL so page is bookmarkable and shareable
   const p = PAGES[idx];
   history.replaceState(null, '', '#' + p.anchor + (p.is_start ? '' : '-p' + (idx + 1)));
@@ -1666,6 +1741,28 @@ function showPage(idx) {
 }
 function prevPage() { showPage(cur - 1); }
 function nextPage() { showPage(cur + 1); }
+
+/* ── Continuous-scroll view toggle ── */
+function toggleContinuousMode(enabled) {
+  continuousMode = enabled;
+  document.body.classList.toggle('continuous-mode', enabled);
+  if (enabled) {
+    // Show every page, then scroll to whichever page was current
+    document.querySelectorAll('.page-wrapper').forEach(el => el.classList.add('active'));
+    const target = document.querySelectorAll('.page-wrapper')[cur];
+    if (target) target.scrollIntoView({behavior: 'auto', block: 'start'});
+  } else {
+    // Return to single-page mode at whichever page is currently nearest the viewport
+    const wrappers = Array.from(document.querySelectorAll('.page-wrapper'));
+    let nearestIdx = cur;
+    let nearestDist = Infinity;
+    wrappers.forEach((el, i) => {
+      const dist = Math.abs(el.getBoundingClientRect().top);
+      if (dist < nearestDist) { nearestDist = dist; nearestIdx = i; }
+    });
+    showPage(nearestIdx);
+  }
+}
 
 /* ── Sidebar ── */
 function toggleTOC() {
@@ -1740,6 +1837,17 @@ document.addEventListener('keydown', e => {
     return;
   }
   if (inSearch) return;
+  if (continuousMode) {
+    // In continuous-scroll mode, let arrow keys/space scroll natively rather than jumping whole pages.
+    if (e.key === 'Home') window.scrollTo({top: 0, behavior: 'smooth'});
+    else if (e.key === 'End') window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    else if (e.key === 't' || e.key === 'T') toggleTOC();
+    else if (e.key === '/' || e.key === 's') {
+      e.preventDefault();
+      document.getElementById('search-box').focus();
+    }
+    return;
+  }
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextPage(); }
   else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevPage(); }
   else if (e.key === 'Home') showPage(0);
@@ -1755,6 +1863,7 @@ document.addEventListener('keydown', e => {
 let tX = 0;
 document.addEventListener('touchstart', e => { tX = e.touches[0].clientX; }, {passive:true});
 document.addEventListener('touchend', e => {
+  if (continuousMode) return;
   const dx = e.changedTouches[0].clientX - tX;
   if (Math.abs(dx) > 60) { dx < 0 ? nextPage() : prevPage(); }
 }, {passive:true});
