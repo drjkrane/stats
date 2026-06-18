@@ -150,12 +150,93 @@
       background:var(--teal);z-index:999;transition:width .2s ease;
     }
 
+    /* ── Interactive tool panel ── */
+    .tool-panel{
+      background:#fff;border-radius:6px;padding:16px 18px 18px;
+      box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:16px;
+      border-left:3px solid var(--orange);
+    }
+    .tool-panel h3{
+      font-size:10px;font-weight:bold;color:var(--orange);text-transform:uppercase;
+      letter-spacing:.1em;margin-bottom:3px;padding-bottom:6px;
+      border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;
+    }
+    .tool-panel h3::before{content:"⚙";font-size:11px;}
+    .tool-sub{font-size:11.5px;color:var(--grey);margin:8px 0 14px;line-height:1.5;}
+    .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
+    .tool-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+    .tool-field{display:flex;flex-direction:column;gap:4px;}
+    .tool-field.span-2{grid-column:1/-1;}
+    .tool-field label{font-size:11px;color:var(--navy);font-weight:bold;}
+    .tool-field .hint{font-size:10px;color:var(--grey);font-weight:normal;}
+    .tool-field input[type=number],.tool-field input[type=text],.tool-field select{
+      padding:7px 9px;border:1px solid var(--border);border-radius:4px;
+      font-size:13px;color:var(--navy);background:var(--light);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    .tool-field input:focus,.tool-field select:focus{
+      outline:none;border-color:var(--teal);background:#fff;
+    }
+    .tool-radio-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:2px;}
+    .tool-radio-row label{
+      display:flex;align-items:center;gap:5px;font-size:12px;font-weight:normal;
+      color:var(--navy);cursor:pointer;
+    }
+    .tool-radio-row input{accent-color:var(--teal);cursor:pointer;}
+    .tool-actions{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;}
+    .tool-btn{
+      background:var(--orange);color:#fff;border:none;padding:9px 20px;
+      border-radius:4px;cursor:pointer;font-size:12.5px;font-weight:bold;
+      transition:background .15s;
+    }
+    .tool-btn:hover{background:#a04f20;}
+    .tool-btn.secondary{
+      background:transparent;color:var(--grey);border:1px solid var(--border);font-weight:normal;
+    }
+    .tool-btn.secondary:hover{background:var(--light);color:var(--navy);}
+    .tool-result{
+      margin-top:14px;padding:13px 16px;background:var(--light);border-radius:5px;
+      border:1px solid var(--border);font-size:13px;color:var(--navy);
+      display:none;line-height:1.6;
+    }
+    .tool-result.show{display:block;}
+    .tool-result .headline{
+      font-size:22px;font-weight:bold;color:var(--orange);margin-bottom:2px;
+    }
+    .tool-result .headline .unit{font-size:13px;font-weight:normal;color:var(--grey);margin-left:4px;}
+    .tool-result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:10px;}
+    .tool-result-stat{background:#fff;border-radius:4px;padding:8px 10px;border:1px solid var(--border);}
+    .tool-result-stat .label{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey);font-weight:bold;}
+    .tool-result-stat .value{font-size:16px;color:var(--navy);font-weight:bold;margin-top:1px;}
+    .tool-result-stat .ci{font-size:10.5px;color:var(--grey);}
+    .tool-note{font-size:11px;color:var(--grey);margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);line-height:1.5;}
+    .tool-error{color:#b3261e;font-size:12px;margin-top:8px;display:none;}
+    .tool-error.show{display:block;}
+    .tool-step{display:none;}
+    .tool-step.active{display:block;}
+    .tool-tree-q{font-size:13px;color:var(--navy);font-weight:bold;margin-bottom:10px;}
+    .tool-tree-opts{display:flex;flex-direction:column;gap:7px;}
+    .tool-tree-opt{
+      display:block;width:100%;text-align:left;padding:10px 13px;
+      background:var(--light);border:1px solid var(--border);border-radius:5px;
+      cursor:pointer;font-size:12.5px;color:var(--navy);transition:all .12s;
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    .tool-tree-opt:hover{background:#d8eaf5;border-color:var(--teal);}
+    .tool-tree-path{font-size:10.5px;color:var(--teal);margin-bottom:10px;min-height:14px;}
+    .tool-tree-back{font-size:11px;color:var(--grey);cursor:pointer;text-decoration:underline;margin-bottom:10px;display:inline-block;}
+    .tool-2x2{border-collapse:collapse;margin:6px 0 4px;}
+    .tool-2x2 th,.tool-2x2 td{border:1px solid var(--border);padding:6px 10px;text-align:center;font-size:12px;}
+    .tool-2x2 th{background:var(--light);color:var(--navy);font-size:10.5px;}
+    .tool-2x2 input{width:64px;padding:5px;border:1px solid var(--border);border-radius:3px;text-align:center;font-size:13px;}
+
     /* ── Responsive ── */
     @media(max-width:640px){
       .link-grid{grid-template-columns:1fr;}
       .logo span{display:none;}
       #search-box{max-width:140px;}
       .page-wrapper{padding:10px;}
+      .tool-grid,.tool-grid.cols-3{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -193,25 +274,26 @@
 <a class="toc-item" href="#" onclick="gotoAnchor('rct');return false;"><span class="sec-num">01a</span>Randomised Trials: Design Features</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('observational');return false;"><span class="sec-num">01b</span>Observational Studies</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('bias');return false;"><span class="sec-num">01c</span>Bias in Clinical Trials</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01e</span>Complex Trials with Embedded Translational Research</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('confounders-design');return false;"><span class="sec-num">01f</span>Confounders in Trial Design</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01g</span>Oncology Trial Atlas</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01h</span>Surgical Lessons from Oncology Trials</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01i</span>Trial Phases</a>
-<a class="toc-item is-new" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01k</span>Sample Size & Power Calculation<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('complex-trials');return false;"><span class="sec-num">01d</span>Complex Trials with Embedded Translational Research</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('confounders-design');return false;"><span class="sec-num">01e</span>Confounders in Trial Design</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('oncology-atlas');return false;"><span class="sec-num">01f</span>Oncology Trial Atlas</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('surgical');return false;"><span class="sec-num">01g</span>Surgical Lessons from Oncology Trials</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('trial-phases');return false;"><span class="sec-num">01h</span>Trial Phases</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('power');return false;"><span class="sec-num">01i</span>Sample Size & Power Calculation<span class="new-badge">NEW</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('small-samples');return false;"><span class="sec-num">01j</span>Small Sample Strategies</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('variables');return false;"><span class="sec-num">02</span>Types of Variables & How to Describe Them</a>
-<a class="toc-item is-new" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">04b</span>Choosing a Statistical Test — Decision Flowchart<span class="new-badge">NEW</span></a>
-<a class="toc-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02b</span>Visualising Clinical Data</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('test-selection');return false;"><span class="sec-num">02a</span>Statistical Test Selection by Variable Type</a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('test-flowchart');return false;"><span class="sec-num">02b</span>Choosing a Statistical Test — Reference Table<span class="new-badge">NEW</span></a>
+<a class="toc-item" href="#" onclick="gotoAnchor('visualising');return false;"><span class="sec-num">02c</span>Visualising Clinical Data</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('probability');return false;"><span class="sec-num">03</span>Probability</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('hypothesis');return false;"><span class="sec-num">04</span>Hypothesis Testing & p-values</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('multiple-testing');return false;"><span class="sec-num">05</span>Multiple Hypothesis Testing</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('diagnostic');return false;"><span class="sec-num">06</span>Diagnostic Tests</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('survival');return false;"><span class="sec-num">07</span>Survival Analysis</a>
-<a class="toc-item is-new" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07</span>Kaplan-Meier Survival Curves — Annotated<span class="new-badge">NEW</span></a>
+<a class="toc-item is-new" href="#" onclick="gotoAnchor('km-curve');return false;"><span class="sec-num">07a</span>Kaplan-Meier Survival Curves — Annotated<span class="new-badge">NEW</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('regression');return false;"><span class="sec-num">08</span>Regression Analysis</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08b</span>Confounding, Adjustment & Interaction</a>
-<a class="toc-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08c</span>Reporting Templates & Common Mistakes</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('confounding');return false;"><span class="sec-num">08a</span>Confounding, Adjustment & Interaction</a>
+<a class="toc-item" href="#" onclick="gotoAnchor('reporting');return false;"><span class="sec-num">08b</span>Reporting Templates & Common Mistakes</a>
 <a class="toc-item" href="#" onclick="gotoAnchor('meta');return false;"><span class="sec-num">09</span>Meta-analysis</a>
 <a class="toc-item is-new" href="#" onclick="gotoAnchor('forest-plot');return false;"><span class="sec-num">09a</span>Reading a Forest Plot — Annotated<span class="new-badge">NEW</span></a>
 <a class="toc-item" href="#" onclick="gotoAnchor('translational');return false;"><span class="sec-num">09b</span>Translational Statistics</a>
@@ -283,6 +365,60 @@
 <div class="page-wrapper" id="page-5" data-anchor="rct">
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p006.jpg" alt="Randomised Trials: Design Features" loading="lazy">
+  </div>
+  <div class="tool-panel" id="tool-trial">
+    <h3>Interactive Tool — Trial Design Advisor</h3>
+    <p class="tool-sub">Answer a few questions about your research question to get a suggested trial design, comparator structure, and endpoint type. This is a structured starting point, not a substitute for input from a statistician and your trial methodology team.</p>
+
+    <div class="tool-grid">
+      <div class="tool-field span-2">
+        <label>What is the primary aim?</label>
+        <select id="tr-aim">
+          <option value="superiority">Show a new intervention is better than current standard</option>
+          <option value="noninferiority">Show a new (e.g. less invasive/toxic/costly) intervention is not meaningfully worse</option>
+          <option value="dosefinding">Find the right dose/regimen (early phase)</option>
+          <option value="mechanistic">Test a biological mechanism / translational hypothesis</option>
+          <option value="diagnostic">Evaluate a diagnostic or screening test</option>
+        </select>
+      </div>
+      <div class="tool-field">
+        <label>Disease stage / setting</label>
+        <select id="tr-stage">
+          <option value="early">Early-phase / first-in-human or limited prior data</option>
+          <option value="established">Established disease area with existing standard of care</option>
+          <option value="rare">Rare disease / small eligible population</option>
+        </select>
+      </div>
+      <div class="tool-field">
+        <label>Primary endpoint type</label>
+        <select id="tr-endpoint">
+          <option value="survival">Time-to-event (e.g. OS, PFS, DFS)</option>
+          <option value="binary">Binary response (e.g. ORR, pCR, success/failure)</option>
+          <option value="continuous">Continuous measure (e.g. tumour size, biomarker level, score)</option>
+          <option value="composite">Composite / multiple co-primary endpoints</option>
+        </select>
+      </div>
+      <div class="tool-field">
+        <label>Is blinding feasible?</label>
+        <select id="tr-blind">
+          <option value="yes">Yes — interventions can be matched/placebo-controlled</option>
+          <option value="no">No — open-label only (e.g. surgery vs drug, device)</option>
+        </select>
+      </div>
+      <div class="tool-field">
+        <label>Expecting meaningful treatment crossover or non-adherence?</label>
+        <select id="tr-crossover">
+          <option value="no">No / minimal expected</option>
+          <option value="yes">Yes — significant crossover or non-adherence likely</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="trCalculate()">Suggest a design</button>
+      <button class="tool-btn secondary" onclick="trReset()">Reset</button>
+    </div>
+    <div class="tool-result" id="tr-result"></div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT Checklist</a><a class="ext-link" href="https://www.ema.europa.eu/en/ich-e9-r1-addendum-estimands-sensitivity-analysis-clinical-trials-guideline" target="_blank" rel="noopener">ICH E9(R1) Estimands</a><a class="ext-link" href="https://www.spirit-statement.org/" target="_blank" rel="noopener">SPIRIT 2013</a></div></div>
   <div class="page-nav-bottom">
@@ -397,7 +533,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stampedetrial.org/" target="_blank" rel="noopener">STAMPEDE Trial</a><a class="ext-link" href="https://www.fda.gov/media/78511/download" target="_blank" rel="noopener">FDA Adaptive Designs Guidance</a><a class="ext-link" href="https://www.ispy2.org/" target="_blank" rel="noopener">I-SPY 2</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 16 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Complex Trials with Embedded Translational Research</span>
+    <span class="pg-info">Page 16 of 100&nbsp;|&nbsp;01d&nbsp;|&nbsp;Complex Trials with Embedded Translational Research</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -408,7 +544,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.stampedetrial.org/" target="_blank" rel="noopener">STAMPEDE Trial</a><a class="ext-link" href="https://www.fda.gov/media/78511/download" target="_blank" rel="noopener">FDA Adaptive Designs Guidance</a><a class="ext-link" href="https://www.ispy2.org/" target="_blank" rel="noopener">I-SPY 2</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 17 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Complex Trials — Design Types</span>
+    <span class="pg-info">Page 17 of 100&nbsp;|&nbsp;01d&nbsp;|&nbsp;Complex Trials — Design Types</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -419,7 +555,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 18 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders in Trial Design</span>
+    <span class="pg-info">Page 18 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Confounders in Trial Design</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -430,7 +566,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 19 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Propensity Score & IPW Methods</span>
+    <span class="pg-info">Page 19 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Confounders — Propensity Score & IPW Methods</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -441,7 +577,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 20 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Mixed Effects & Sensitivity Analysis</span>
+    <span class="pg-info">Page 20 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Confounders — Mixed Effects & Sensitivity Analysis</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -452,7 +588,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference (free)</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 21 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Confounders — Continued</span>
+    <span class="pg-info">Page 21 of 100&nbsp;|&nbsp;01e&nbsp;|&nbsp;Confounders — Continued</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -463,7 +599,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 22 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Trial Atlas</span>
+    <span class="pg-info">Page 22 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Oncology Trial Atlas</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -474,7 +610,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 23 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — Lung Cancer</span>
+    <span class="pg-info">Page 23 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Oncology Atlas — Lung Cancer</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -485,7 +621,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 24 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — Breast & GI Cancer</span>
+    <span class="pg-info">Page 24 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Oncology Atlas — Breast & GI Cancer</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -496,7 +632,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 25 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — GU & Translational</span>
+    <span class="pg-info">Page 25 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Oncology Atlas — GU & Translational</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -507,7 +643,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://clinicaltrials.gov/" target="_blank" rel="noopener">ClinicalTrials.gov</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2105342" target="_blank" rel="noopener">KEYNOTE-522</a><a class="ext-link" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1709937" target="_blank" rel="noopener">PACIFIC Trial</a><a class="ext-link" href="https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30555-6/fulltext" target="_blank" rel="noopener">RAPIDO</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 26 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Oncology Atlas — References</span>
+    <span class="pg-info">Page 26 of 100&nbsp;|&nbsp;01f&nbsp;|&nbsp;Oncology Atlas — References</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -518,7 +654,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 27 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons from Oncology Trials</span>
+    <span class="pg-info">Page 27 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Surgical Lessons from Oncology Trials</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -529,7 +665,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 28 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Design Patterns</span>
+    <span class="pg-info">Page 28 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Surgical Lessons — Design Patterns</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -540,7 +676,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 29 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Radical Oncology Trials</span>
+    <span class="pg-info">Page 29 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Surgical Lessons — Radical Oncology Trials</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -551,7 +687,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 30 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Confounders in Surgical Trials</span>
+    <span class="pg-info">Page 30 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Surgical Lessons — Confounders in Surgical Trials</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -562,7 +698,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.ideal-collaboration.net/" target="_blank" rel="noopener">IDEAL Framework</a><a class="ext-link" href="https://mrc.ukri.org/research/facilities-and-resources-for-researchers/mrc-methodology-research/" target="_blank" rel="noopener">MRC Complex Interventions Framework</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 31 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Surgical Lessons — Blueprint</span>
+    <span class="pg-info">Page 31 of 100&nbsp;|&nbsp;01g&nbsp;|&nbsp;Surgical Lessons — Blueprint</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -573,7 +709,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 32 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases</span>
+    <span class="pg-info">Page 32 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Trial Phases</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -584,7 +720,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 33 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases — Phase I Designs</span>
+    <span class="pg-info">Page 33 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Trial Phases — Phase I Designs</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -595,7 +731,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents" target="_blank" rel="noopener">FDA Phase Guidance</a><a class="ext-link" href="https://www.ncri.ie/" target="_blank" rel="noopener">NCRI</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 34 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Trial Phases — Phase II, III & IV</span>
+    <span class="pg-info">Page 34 of 100&nbsp;|&nbsp;01h&nbsp;|&nbsp;Trial Phases — Phase II, III & IV</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -603,10 +739,44 @@
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p035.jpg" alt="Sample Size & Power Calculation" loading="lazy">
   </div>
+  <div class="tool-panel" id="tool-power">
+    <h3>Interactive Tool — Sample Size &amp; Power Calculator</h3>
+    <p class="tool-sub">Choose the comparison that matches your design, enter the parameters, and calculate the required sample size (solving for n) or the achieved power (solving for power, given n).</p>
+
+    <div class="tool-grid">
+      <div class="tool-field span-2">
+        <label>Comparison type</label>
+        <select id="pw-type" onchange="pwRenderFields()">
+          <option value="means2">Two independent means (t-test)</option>
+          <option value="meanspaired">Paired means (paired t-test)</option>
+          <option value="props2">Two independent proportions</option>
+          <option value="propspaired">Paired proportions (McNemar)</option>
+          <option value="survival">Survival — log-rank (Schoenfeld)</option>
+          <option value="onemean">One-sample mean vs. fixed value</option>
+        </select>
+      </div>
+      <div class="tool-field span-2">
+        <label>Solve for</label>
+        <div class="tool-radio-row">
+          <label><input type="radio" name="pw-solve" value="n" checked onchange="pwRenderFields()"> Sample size (given target power)</label>
+          <label><input type="radio" name="pw-solve" value="power" onchange="pwRenderFields()"> Power (given sample size)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-grid cols-3" id="pw-fields"></div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="pwCalculate()">Calculate</button>
+      <button class="tool-btn secondary" onclick="pwReset()">Reset</button>
+    </div>
+    <div class="tool-error" id="pw-error"></div>
+    <div class="tool-result" id="pw-result"></div>
+  </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower" target="_blank" rel="noopener">G*Power</a><a class="ext-link" href="https://cran.r-project.org/web/packages/pwr/" target="_blank" rel="noopener">pwr R package</a><a class="ext-link" href="https://www.sample-size.net/" target="_blank" rel="noopener">Sample Size Calculators</a><a class="ext-link" href="https://www.ncss.com/software/pass/" target="_blank" rel="noopener">PASS Software</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 35 of 100&nbsp;|&nbsp;01k&nbsp;|&nbsp;Sample Size & Power Calculation</span>
+    <span class="pg-info">Page 35 of 100&nbsp;|&nbsp;01i&nbsp;|&nbsp;Sample Size & Power Calculation</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -760,18 +930,29 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.bmj.com/specialties/statistics-notes" target="_blank" rel="noopener">BMJ Statistics Notes</a><a class="ext-link" href="https://www.graphpad.com/guides/prism/latest/statistics/" target="_blank" rel="noopener">GraphPad Stats Guide</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 49 of 100&nbsp;|&nbsp;02&nbsp;|&nbsp;Statistical Test Selection by Variable Type</span>
+    <span class="pg-info">Page 49 of 100&nbsp;|&nbsp;02a&nbsp;|&nbsp;Statistical Test Selection by Variable Type</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
 <div class="page-wrapper" id="page-49" data-anchor="test-flowchart">
   <div class="page-img-box" onclick="toggleFS(this)">
-    <img src="pages/p050.jpg" alt="Choosing a Statistical Test — Decision Flowchart" loading="lazy">
+    <img src="pages/p050.jpg" alt="Choosing a Statistical Test — Reference Table" loading="lazy">
+  </div>
+  <div class="tool-panel" id="tool-testselect">
+    <h3>Interactive Tool — Statistical Test Selector</h3>
+    <p class="tool-sub">Answer a few questions about your outcome and design to get a recommended test, its key assumptions, and the R/Stata function to run it.</p>
+    <div class="tool-tree-path" id="ts-path"></div>
+    <span class="tool-tree-back" id="ts-back" onclick="tsBack()" style="display:none;">&larr; Back one step</span>
+    <div id="ts-tree"></div>
+    <div class="tool-actions">
+      <button class="tool-btn secondary" onclick="tsReset()">Start over</button>
+    </div>
+    <div class="tool-result" id="ts-result"></div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://stats.oarc.ucla.edu/" target="_blank" rel="noopener">UCLA OARC</a><a class="ext-link" href="https://www.itl.nist.gov/div898/handbook/" target="_blank" rel="noopener">NIST/SEMATECH e-Handbook</a><a class="ext-link" href="https://www.bmj.com/about-bmj/resources-readers/publications/statistics-square-one" target="_blank" rel="noopener">BMJ: Choosing a Statistical Test</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 50 of 100&nbsp;|&nbsp;04b&nbsp;|&nbsp;Choosing a Statistical Test — Decision Flowchart</span>
+    <span class="pg-info">Page 50 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Choosing a Statistical Test — Reference Table</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -782,7 +963,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 51 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising Clinical Data</span>
+    <span class="pg-info">Page 51 of 100&nbsp;|&nbsp;02c&nbsp;|&nbsp;Visualising Clinical Data</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -793,7 +974,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 52 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — Chart Types</span>
+    <span class="pg-info">Page 52 of 100&nbsp;|&nbsp;02c&nbsp;|&nbsp;Visualising — Chart Types</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -804,7 +985,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 53 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — KM Curves & Forest Plots</span>
+    <span class="pg-info">Page 53 of 100&nbsp;|&nbsp;02c&nbsp;|&nbsp;Visualising — KM Curves & Forest Plots</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -815,7 +996,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://ggplot2.tidyverse.org/" target="_blank" rel="noopener">ggplot2 Docs</a><a class="ext-link" href="https://blog.datawrapper.de/" target="_blank" rel="noopener">Datawrapper Blog</a><a class="ext-link" href="https://www.nature.com/collections/qghhqm/pointsofsignificance" target="_blank" rel="noopener">Nature: Points of Significance</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 54 of 100&nbsp;|&nbsp;02b&nbsp;|&nbsp;Visualising — Figure Quality</span>
+    <span class="pg-info">Page 54 of 100&nbsp;|&nbsp;02c&nbsp;|&nbsp;Visualising — Figure Quality</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -911,6 +1092,28 @@
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p063.jpg" alt="Multiple Testing — FDR Methods" loading="lazy">
   </div>
+  <div class="tool-panel" id="tool-mtc">
+    <h3>Interactive Tool — Multiple Testing Correction</h3>
+    <p class="tool-sub">Paste or enter your raw p-values (one per line, or comma-separated) to see which survive Bonferroni, Holm-Bonferroni, and Benjamini-Hochberg FDR correction.</p>
+
+    <div class="tool-grid">
+      <div class="tool-field span-2">
+        <label>P-values <span class="hint">one per line or comma-separated</span></label>
+        <textarea id="mtc-input" rows="4" style="padding:8px 9px;border:1px solid var(--border);border-radius:4px;font-size:13px;font-family:Arial,Helvetica,sans-serif;background:var(--light);resize:vertical;" placeholder="e.g.&#10;0.001&#10;0.012&#10;0.04&#10;0.03&#10;0.21"></textarea>
+      </div>
+      <div class="tool-field">
+        <label>Family-wise &alpha; / FDR threshold (q)</label>
+        <input type="number" id="mtc-alpha" min="0" max="1" step="0.01" value="0.05">
+      </div>
+    </div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="mtcCalculate()">Apply corrections</button>
+      <button class="tool-btn secondary" onclick="mtcReset()">Reset</button>
+    </div>
+    <div class="tool-error" id="mtc-error"></div>
+    <div class="tool-result" id="mtc-result"></div>
+  </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">Benjamini & Hochberg 1995</a><a class="ext-link" href="https://www.nature.com/articles/s41592-019-0429-7" target="_blank" rel="noopener">Nature Methods: Multiple Testing</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
@@ -954,6 +1157,30 @@
 <div class="page-wrapper" id="page-66" data-anchor="diagnostic">
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p067.jpg" alt="Diagnostic Tests — 2×2 Table" loading="lazy">
+  </div>
+  <div class="tool-panel" id="tool-diag">
+    <h3>Interactive Tool — Diagnostic Test Calculator</h3>
+    <p class="tool-sub">Enter the four cells of your 2×2 table against the reference standard to compute sensitivity, specificity, predictive values and likelihood ratios with 95% confidence intervals (Wilson score method).</p>
+
+    <table class="tool-2x2">
+      <tr><th></th><th>Reference +</th><th>Reference −</th></tr>
+      <tr><th>Test +</th><td><input type="number" id="dx-tp" min="0" value="" placeholder="TP"></td><td><input type="number" id="dx-fp" min="0" value="" placeholder="FP"></td></tr>
+      <tr><th>Test −</th><td><input type="number" id="dx-fn" min="0" value="" placeholder="FN"></td><td><input type="number" id="dx-tn" min="0" value="" placeholder="TN"></td></tr>
+    </table>
+
+    <div class="tool-grid" style="margin-top:10px;">
+      <div class="tool-field">
+        <label>Pre-test (prior) prevalence <span class="hint">optional — overrides sample prevalence for PPV/NPV</span></label>
+        <input type="number" id="dx-prev" min="0" max="100" step="0.1" placeholder="e.g. 5 (%)">
+      </div>
+    </div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="dxCalculate()">Calculate</button>
+      <button class="tool-btn secondary" onclick="dxReset()">Reset</button>
+    </div>
+    <div class="tool-error" id="dx-error"></div>
+    <div class="tool-result" id="dx-result"></div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://www.equator-network.org/reporting-guidelines/stard/" target="_blank" rel="noopener">STARD 2015</a><a class="ext-link" href="https://www.medcalc.org/calc/diagnostic_test.php" target="_blank" rel="noopener">MedCalc Calculator</a><a class="ext-link" href="https://doi.org/10.2307/2531595" target="_blank" rel="noopener">DeLong AUC</a></div></div>
   <div class="page-nav-bottom">
@@ -1013,13 +1240,36 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.2307/2281868" target="_blank" rel="noopener">Kaplan & Meier 1958</a><a class="ext-link" href="https://doi.org/10.1093/eurheartj/ehn120" target="_blank" rel="noopener">Reporting KM Curves</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 72 of 100&nbsp;|&nbsp;07&nbsp;|&nbsp;Kaplan-Meier Survival Curves — Annotated</span>
+    <span class="pg-info">Page 72 of 100&nbsp;|&nbsp;07a&nbsp;|&nbsp;Kaplan-Meier Survival Curves — Annotated</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
 <div class="page-wrapper" id="page-72" data-anchor="survival">
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p073.jpg" alt="Survival Analysis — Cox Regression" loading="lazy">
+  </div>
+  <div class="tool-panel" id="tool-surv">
+    <h3>Interactive Tool — Survival Comparison Calculator</h3>
+    <p class="tool-sub">Enter event/censoring counts for two arms to estimate a hazard ratio and log-rank significance, or enter median survival times to compare arms directly. <strong>Convention: Arm A is treated as the reference (e.g. control); the reported HR is for Arm B relative to Arm A</strong> — an HR below 1 means Arm B has a lower hazard (better survival) than Arm A.</p>
+
+    <div class="tool-grid">
+      <div class="tool-field span-2">
+        <label>Input type</label>
+        <div class="tool-radio-row">
+          <label><input type="radio" name="sv-mode" value="events" checked onchange="svRenderFields()"> Event counts per arm (log-rank approximation)</label>
+          <label><input type="radio" name="sv-mode" value="medians" onchange="svRenderFields()"> Median survival times per arm</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-grid cols-3" id="sv-fields"></div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="svCalculate()">Calculate</button>
+      <button class="tool-btn secondary" onclick="svReset()">Reset</button>
+    </div>
+    <div class="tool-error" id="sv-error"></div>
+    <div class="tool-result" id="sv-result"></div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://doi.org/10.1111/j.2517-6161.1972.tb00899.x" target="_blank" rel="noopener">Cox 1972</a><a class="ext-link" href="https://doi.org/10.1002/sim.5728" target="_blank" rel="noopener">RMST Methods</a><a class="ext-link" href="https://rpkgs.datanovia.com/survminer/" target="_blank" rel="noopener">survminer R package</a></div></div>
   <div class="page-nav-bottom">
@@ -1065,10 +1315,46 @@
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p077.jpg" alt="Confounding, Adjustment & Interaction" loading="lazy">
   </div>
+  <div class="tool-panel" id="tool-conf">
+    <h3>Interactive Tool — Confounder / Mediator / Collider Classifier</h3>
+    <p class="tool-sub">Describe a candidate variable's relationship to your exposure and outcome to get guidance on whether — and how — to handle it in your analysis. Answer based on the underlying biology/causal structure, not on statistical significance in your data.</p>
+
+    <div class="tool-grid">
+      <div class="tool-field">
+        <label>Does the variable causally affect the exposure (or predict who receives it)?</label>
+        <select id="cf-exp">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="caused_by_exposure">No — the exposure causes/affects this variable</option>
+        </select>
+      </div>
+      <div class="tool-field">
+        <label>Does the variable causally affect the outcome (independent of the exposure)?</label>
+        <select id="cf-out">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+          <option value="caused_by_outcome">No — the outcome causes/affects this variable</option>
+        </select>
+      </div>
+      <div class="tool-field span-2">
+        <label>Does the effect of the exposure on the outcome differ across levels of this variable (e.g. subgroup effect)?</label>
+        <select id="cf-interact">
+          <option value="no">No — effect looks consistent across levels</option>
+          <option value="yes">Yes — there's a plausible biological/clinical reason effects would differ</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="cfClassify()">Classify variable</button>
+      <button class="tool-btn secondary" onclick="cfReset()">Reset</button>
+    </div>
+    <div class="tool-result" id="cf-result"></div>
+  </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference</a><a class="ext-link" href="https://doi.org/10.1093/ije/dyw341" target="_blank" rel="noopener">Pearl Causal Inference</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 77 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Confounding, Adjustment & Interaction</span>
+    <span class="pg-info">Page 77 of 100&nbsp;|&nbsp;08a&nbsp;|&nbsp;Confounding, Adjustment & Interaction</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -1079,7 +1365,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.dagitty.net/" target="_blank" rel="noopener">DAGitty</a><a class="ext-link" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">Hernán & Robins: Causal Inference</a><a class="ext-link" href="https://doi.org/10.1093/ije/dyw341" target="_blank" rel="noopener">Pearl Causal Inference</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 78 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Confounding — DAGs & Causal Inference</span>
+    <span class="pg-info">Page 78 of 100&nbsp;|&nbsp;08a&nbsp;|&nbsp;Confounding — DAGs & Causal Inference</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -1090,7 +1376,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 79 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting Templates & Common Mistakes</span>
+    <span class="pg-info">Page 79 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Reporting Templates & Common Mistakes</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -1101,7 +1387,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 80 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — Common Statistical Mistakes</span>
+    <span class="pg-info">Page 80 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Reporting — Common Statistical Mistakes</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -1112,7 +1398,7 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 81 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — Study Credibility Checklist</span>
+    <span class="pg-info">Page 81 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Reporting — Study Credibility Checklist</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
@@ -1123,13 +1409,39 @@
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="http://www.consort-statement.org/" target="_blank" rel="noopener">CONSORT</a><a class="ext-link" href="https://www.strobe-statement.org/" target="_blank" rel="noopener">STROBE</a><a class="ext-link" href="https://www.tripod-statement.org/" target="_blank" rel="noopener">TRIPOD</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a></div></div>
   <div class="page-nav-bottom">
     <button onclick="prevPage()">&#8592; Previous</button>
-    <span class="pg-info">Page 82 of 100&nbsp;|&nbsp;08c&nbsp;|&nbsp;Reporting — CONSORT & STROBE</span>
+    <span class="pg-info">Page 82 of 100&nbsp;|&nbsp;08b&nbsp;|&nbsp;Reporting — CONSORT & STROBE</span>
     <button onclick="nextPage()">Next &#8594;</button>
   </div>
 </div>
 <div class="page-wrapper" id="page-82" data-anchor="meta">
   <div class="page-img-box" onclick="toggleFS(this)">
     <img src="pages/p083.jpg" alt="Meta-analysis" loading="lazy">
+  </div>
+  <div class="tool-panel" id="tool-meta">
+    <h3>Interactive Tool — Meta-analysis Pooling Calculator</h3>
+    <p class="tool-sub">Add each study's effect estimate and 95% CI (on the log scale for ratio measures — the tool handles the conversion) to compute a pooled estimate under fixed-effect and random-effects (DerSimonian-Laird) models, with I² heterogeneity.</p>
+
+    <div class="tool-grid">
+      <div class="tool-field">
+        <label>Effect measure</label>
+        <select id="mt-measure" onchange="mtRenderRows()">
+          <option value="ratio">Ratio measure (HR / RR / OR)</option>
+          <option value="mean">Mean difference</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="mt-rows"></div>
+    <div class="tool-actions">
+      <button class="tool-btn secondary" onclick="mtAddRow()">+ Add study</button>
+    </div>
+
+    <div class="tool-actions">
+      <button class="tool-btn" onclick="mtCalculate()">Pool studies</button>
+      <button class="tool-btn secondary" onclick="mtReset()">Reset</button>
+    </div>
+    <div class="tool-error" id="mt-error"></div>
+    <div class="tool-result" id="mt-result"></div>
   </div>
   <div class="links-panel"><h3>References &amp; External Resources</h3><div class="link-grid"><a class="ext-link" href="https://training.cochrane.org/online-learning/core-software/revman" target="_blank" rel="noopener">RevMan (Cochrane)</a><a class="ext-link" href="http://www.prisma-statement.org/" target="_blank" rel="noopener">PRISMA 2020</a><a class="ext-link" href="https://www.metafor-project.org/" target="_blank" rel="noopener">metafor R package</a><a class="ext-link" href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">GRADE</a></div></div>
   <div class="page-nav-bottom">
@@ -1330,7 +1642,7 @@
 
 <script>
 /* ── Data ── */
-const PAGES = [{"idx": 0, "pid": "001", "snum": "", "title": "Title Page \u2014 Jayant Rane", "anchor": "title", "is_start": true}, {"idx": 1, "pid": "002", "snum": "", "title": "Index", "anchor": "index", "is_start": true}, {"idx": 2, "pid": "003", "snum": "01", "title": "Study Design & Evidence Hierarchy", "anchor": "study-design", "is_start": true}, {"idx": 3, "pid": "004", "snum": "01", "title": "Study Design \u2014 Design Comparison Table", "anchor": "study-design", "is_start": false}, {"idx": 4, "pid": "005", "snum": "01", "title": "Study Design \u2014 CONSORT Flow & Statistical Workflow", "anchor": "study-design", "is_start": false}, {"idx": 5, "pid": "006", "snum": "01a", "title": "Randomised Trials: Design Features", "anchor": "rct", "is_start": true}, {"idx": 6, "pid": "007", "snum": "01a", "title": "Randomised Trials \u2014 Features & Randomisation Methods", "anchor": "rct", "is_start": false}, {"idx": 7, "pid": "008", "snum": "01a", "title": "Randomised Trials \u2014 Non-inferiority & Estimands", "anchor": "rct", "is_start": false}, {"idx": 8, "pid": "009", "snum": "01a", "title": "Randomised Trials \u2014 Factorial & Crossover Designs", "anchor": "rct", "is_start": false}, {"idx": 9, "pid": "010", "snum": "01b", "title": "Observational Studies", "anchor": "observational", "is_start": true}, {"idx": 10, "pid": "011", "snum": "01b", "title": "Observational Studies \u2014 Bradford Hill & Evidence", "anchor": "observational", "is_start": false}, {"idx": 11, "pid": "012", "snum": "01c", "title": "Bias in Clinical Trials", "anchor": "bias", "is_start": true}, {"idx": 12, "pid": "013", "snum": "01c", "title": "Bias \u2014 Types & Clinical Examples", "anchor": "bias", "is_start": false}, {"idx": 13, "pid": "014", "snum": "01c", "title": "Bias \u2014 Risk of Bias Tools", "anchor": "bias", "is_start": false}, {"idx": 14, "pid": "015", "snum": "01c", "title": "Bias \u2014 Continued", "anchor": "bias", "is_start": false}, {"idx": 15, "pid": "016", "snum": "01e", "title": "Complex Trials with Embedded Translational Research", "anchor": "complex-trials", "is_start": true}, {"idx": 16, "pid": "017", "snum": "01e", "title": "Complex Trials \u2014 Design Types", "anchor": "complex-trials", "is_start": false}, {"idx": 17, "pid": "018", "snum": "01f", "title": "Confounders in Trial Design", "anchor": "confounders-design", "is_start": true}, {"idx": 18, "pid": "019", "snum": "01f", "title": "Confounders \u2014 Propensity Score & IPW Methods", "anchor": "confounders-design", "is_start": false}, {"idx": 19, "pid": "020", "snum": "01f", "title": "Confounders \u2014 Mixed Effects & Sensitivity Analysis", "anchor": "confounders-design", "is_start": false}, {"idx": 20, "pid": "021", "snum": "01f", "title": "Confounders \u2014 Continued", "anchor": "confounders-design", "is_start": false}, {"idx": 21, "pid": "022", "snum": "01g", "title": "Oncology Trial Atlas", "anchor": "oncology-atlas", "is_start": true}, {"idx": 22, "pid": "023", "snum": "01g", "title": "Oncology Atlas \u2014 Lung Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 23, "pid": "024", "snum": "01g", "title": "Oncology Atlas \u2014 Breast & GI Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 24, "pid": "025", "snum": "01g", "title": "Oncology Atlas \u2014 GU & Translational", "anchor": "oncology-atlas", "is_start": false}, {"idx": 25, "pid": "026", "snum": "01g", "title": "Oncology Atlas \u2014 References", "anchor": "oncology-atlas", "is_start": false}, {"idx": 26, "pid": "027", "snum": "01h", "title": "Surgical Lessons from Oncology Trials", "anchor": "surgical", "is_start": true}, {"idx": 27, "pid": "028", "snum": "01h", "title": "Surgical Lessons \u2014 Design Patterns", "anchor": "surgical", "is_start": false}, {"idx": 28, "pid": "029", "snum": "01h", "title": "Surgical Lessons \u2014 Radical Oncology Trials", "anchor": "surgical", "is_start": false}, {"idx": 29, "pid": "030", "snum": "01h", "title": "Surgical Lessons \u2014 Confounders in Surgical Trials", "anchor": "surgical", "is_start": false}, {"idx": 30, "pid": "031", "snum": "01h", "title": "Surgical Lessons \u2014 Blueprint", "anchor": "surgical", "is_start": false}, {"idx": 31, "pid": "032", "snum": "01i", "title": "Trial Phases", "anchor": "trial-phases", "is_start": true}, {"idx": 32, "pid": "033", "snum": "01i", "title": "Trial Phases \u2014 Phase I Designs", "anchor": "trial-phases", "is_start": false}, {"idx": 33, "pid": "034", "snum": "01i", "title": "Trial Phases \u2014 Phase II, III & IV", "anchor": "trial-phases", "is_start": false}, {"idx": 34, "pid": "035", "snum": "01k", "title": "Sample Size & Power Calculation", "anchor": "power", "is_start": true}, {"idx": 35, "pid": "036", "snum": "01j", "title": "Small Sample Strategies", "anchor": "small-samples", "is_start": true}, {"idx": 36, "pid": "037", "snum": "01j", "title": "Small Samples \u2014 Bayesian Approaches", "anchor": "small-samples", "is_start": false}, {"idx": 37, "pid": "038", "snum": "01j", "title": "Small Samples \u2014 Simon Two-stage", "anchor": "small-samples", "is_start": false}, {"idx": 38, "pid": "039", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 39, "pid": "040", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 40, "pid": "041", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 41, "pid": "042", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 42, "pid": "043", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 43, "pid": "044", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 44, "pid": "045", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 45, "pid": "046", "snum": "01j", "title": "Small Samples \u2014 Continued", "anchor": "small-samples", "is_start": false}, {"idx": 46, "pid": "047", "snum": "02", "title": "Types of Variables & How to Describe Them", "anchor": "variables", "is_start": true}, {"idx": 47, "pid": "048", "snum": "02", "title": "Variables \u2014 Continuous & Summary Statistics", "anchor": "variables", "is_start": false}, {"idx": 48, "pid": "049", "snum": "02", "title": "Statistical Test Selection by Variable Type", "anchor": "test-selection", "is_start": false}, {"idx": 49, "pid": "050", "snum": "04b", "title": "Choosing a Statistical Test \u2014 Decision Flowchart", "anchor": "test-flowchart", "is_start": true}, {"idx": 50, "pid": "051", "snum": "02b", "title": "Visualising Clinical Data", "anchor": "visualising", "is_start": true}, {"idx": 51, "pid": "052", "snum": "02b", "title": "Visualising \u2014 Chart Types", "anchor": "visualising", "is_start": false}, {"idx": 52, "pid": "053", "snum": "02b", "title": "Visualising \u2014 KM Curves & Forest Plots", "anchor": "visualising", "is_start": false}, {"idx": 53, "pid": "054", "snum": "02b", "title": "Visualising \u2014 Figure Quality", "anchor": "visualising", "is_start": false}, {"idx": 54, "pid": "055", "snum": "03", "title": "Probability", "anchor": "probability", "is_start": true}, {"idx": 55, "pid": "056", "snum": "03", "title": "Probability \u2014 Conditional & Bayes", "anchor": "probability", "is_start": false}, {"idx": 56, "pid": "057", "snum": "03", "title": "Probability \u2014 Distributions", "anchor": "probability", "is_start": false}, {"idx": 57, "pid": "058", "snum": "04", "title": "Hypothesis Testing & p-values", "anchor": "hypothesis", "is_start": true}, {"idx": 58, "pid": "059", "snum": "04", "title": "Hypothesis Testing \u2014 Decision Matrix & p-value Scale", "anchor": "hypothesis", "is_start": false}, {"idx": 59, "pid": "060", "snum": "04", "title": "Hypothesis Testing \u2014 Confidence Intervals", "anchor": "hypothesis", "is_start": false}, {"idx": 60, "pid": "061", "snum": "04", "title": "Hypothesis Testing \u2014 Effect Sizes", "anchor": "hypothesis", "is_start": false}, {"idx": 61, "pid": "062", "snum": "05", "title": "Multiple Hypothesis Testing", "anchor": "multiple-testing", "is_start": true}, {"idx": 62, "pid": "063", "snum": "05", "title": "Multiple Testing \u2014 FDR Methods", "anchor": "multiple-testing", "is_start": false}, {"idx": 63, "pid": "064", "snum": "05", "title": "Multiple Testing \u2014 Clinical Scenarios", "anchor": "multiple-testing", "is_start": false}, {"idx": 64, "pid": "065", "snum": "05", "title": "Multiple Testing \u2014 Post-hoc Tests", "anchor": "multiple-testing", "is_start": false}, {"idx": 65, "pid": "066", "snum": "06", "title": "Diagnostic Tests", "anchor": "diagnostic", "is_start": true}, {"idx": 66, "pid": "067", "snum": "06", "title": "Diagnostic Tests \u2014 2\u00d72 Table", "anchor": "diagnostic", "is_start": false}, {"idx": 67, "pid": "068", "snum": "06", "title": "Diagnostic Tests \u2014 ROC Curves", "anchor": "diagnostic", "is_start": false}, {"idx": 68, "pid": "069", "snum": "06", "title": "Diagnostic Tests \u2014 Calibration & Effect Measures", "anchor": "diagnostic", "is_start": false}, {"idx": 69, "pid": "070", "snum": "06", "title": "Diagnostic Tests \u2014 Likelihood Ratios", "anchor": "diagnostic", "is_start": false}, {"idx": 70, "pid": "071", "snum": "07", "title": "Survival Analysis", "anchor": "survival", "is_start": true}, {"idx": 71, "pid": "072", "snum": "07", "title": "Kaplan-Meier Survival Curves \u2014 Annotated", "anchor": "km-curve", "is_start": true}, {"idx": 72, "pid": "073", "snum": "07", "title": "Survival Analysis \u2014 Cox Regression", "anchor": "survival", "is_start": false}, {"idx": 73, "pid": "074", "snum": "07", "title": "Survival Analysis \u2014 Competing Risks", "anchor": "survival", "is_start": false}, {"idx": 74, "pid": "075", "snum": "07", "title": "Survival Analysis \u2014 Landmark & RMST", "anchor": "survival", "is_start": false}, {"idx": 75, "pid": "076", "snum": "08", "title": "Regression Analysis", "anchor": "regression", "is_start": true}, {"idx": 76, "pid": "077", "snum": "08b", "title": "Confounding, Adjustment & Interaction", "anchor": "confounding", "is_start": true}, {"idx": 77, "pid": "078", "snum": "08b", "title": "Confounding \u2014 DAGs & Causal Inference", "anchor": "confounding", "is_start": false}, {"idx": 78, "pid": "079", "snum": "08c", "title": "Reporting Templates & Common Mistakes", "anchor": "reporting", "is_start": true}, {"idx": 79, "pid": "080", "snum": "08c", "title": "Reporting \u2014 Common Statistical Mistakes", "anchor": "reporting", "is_start": false}, {"idx": 80, "pid": "081", "snum": "08c", "title": "Reporting \u2014 Study Credibility Checklist", "anchor": "reporting", "is_start": false}, {"idx": 81, "pid": "082", "snum": "08c", "title": "Reporting \u2014 CONSORT & STROBE", "anchor": "reporting", "is_start": false}, {"idx": 82, "pid": "083", "snum": "09", "title": "Meta-analysis", "anchor": "meta", "is_start": true}, {"idx": 83, "pid": "084", "snum": "09a", "title": "Reading a Forest Plot \u2014 Annotated", "anchor": "forest-plot", "is_start": true}, {"idx": 84, "pid": "085", "snum": "09b", "title": "Translational Statistics", "anchor": "translational", "is_start": true}, {"idx": 85, "pid": "086", "snum": "09b", "title": "Translational Stats \u2014 Sequencing & Omics", "anchor": "translational", "is_start": false}, {"idx": 86, "pid": "087", "snum": "09b", "title": "Translational Stats \u2014 Biomarker Validation", "anchor": "translational", "is_start": false}, {"idx": 87, "pid": "088", "snum": "09b", "title": "Translational Stats \u2014 Digital Pathology", "anchor": "translational", "is_start": false}, {"idx": 88, "pid": "089", "snum": "10", "title": "R, Stata & SPSS for Clinical Data Analysis", "anchor": "software", "is_start": true}, {"idx": 89, "pid": "090", "snum": "10", "title": "Software \u2014 Online Resources", "anchor": "software", "is_start": false}, {"idx": 90, "pid": "091", "snum": "10a", "title": "Working Directory & Project Structure", "anchor": "project-setup", "is_start": true}, {"idx": 91, "pid": "092", "snum": "10a", "title": "Project Setup \u2014 R Directory Structure", "anchor": "project-setup", "is_start": false}, {"idx": 92, "pid": "093", "snum": "10a", "title": "Project Setup \u2014 Data Dictionary", "anchor": "project-setup", "is_start": false}, {"idx": 93, "pid": "094", "snum": "10b", "title": "R Clinical Workflow", "anchor": "r-workflow", "is_start": true}, {"idx": 94, "pid": "095", "snum": "10b", "title": "R Workflow \u2014 Descriptive Statistics", "anchor": "r-workflow", "is_start": false}, {"idx": 95, "pid": "096", "snum": "10b", "title": "R Workflow \u2014 Survival & Regression", "anchor": "r-workflow", "is_start": false}, {"idx": 96, "pid": "097", "snum": "10c", "title": "Stata Clinical Workflow", "anchor": "stata-workflow", "is_start": true}, {"idx": 97, "pid": "098", "snum": "10c", "title": "Stata Workflow \u2014 Commands", "anchor": "stata-workflow", "is_start": false}, {"idx": 98, "pid": "099", "snum": "10d", "title": "SPSS Clinical Workflow", "anchor": "spss-workflow", "is_start": true}, {"idx": 99, "pid": "100", "snum": "10d", "title": "SPSS Workflow \u2014 Commands", "anchor": "spss-workflow", "is_start": false}];
+const PAGES = [{"idx": 0, "pid": "001", "snum": "", "title": "Title Page — Jayant Rane", "anchor": "title", "is_start": true}, {"idx": 1, "pid": "002", "snum": "", "title": "Index", "anchor": "index", "is_start": true}, {"idx": 2, "pid": "003", "snum": "01", "title": "Study Design & Evidence Hierarchy", "anchor": "study-design", "is_start": true}, {"idx": 3, "pid": "004", "snum": "01", "title": "Study Design — Design Comparison Table", "anchor": "study-design", "is_start": false}, {"idx": 4, "pid": "005", "snum": "01", "title": "Study Design — CONSORT Flow & Statistical Workflow", "anchor": "study-design", "is_start": false}, {"idx": 5, "pid": "006", "snum": "01a", "title": "Randomised Trials: Design Features", "anchor": "rct", "is_start": true}, {"idx": 6, "pid": "007", "snum": "01a", "title": "Randomised Trials — Features & Randomisation Methods", "anchor": "rct", "is_start": false}, {"idx": 7, "pid": "008", "snum": "01a", "title": "Randomised Trials — Non-inferiority & Estimands", "anchor": "rct", "is_start": false}, {"idx": 8, "pid": "009", "snum": "01a", "title": "Randomised Trials — Factorial & Crossover Designs", "anchor": "rct", "is_start": false}, {"idx": 9, "pid": "010", "snum": "01b", "title": "Observational Studies", "anchor": "observational", "is_start": true}, {"idx": 10, "pid": "011", "snum": "01b", "title": "Observational Studies — Bradford Hill & Evidence", "anchor": "observational", "is_start": false}, {"idx": 11, "pid": "012", "snum": "01c", "title": "Bias in Clinical Trials", "anchor": "bias", "is_start": true}, {"idx": 12, "pid": "013", "snum": "01c", "title": "Bias — Types & Clinical Examples", "anchor": "bias", "is_start": false}, {"idx": 13, "pid": "014", "snum": "01c", "title": "Bias — Risk of Bias Tools", "anchor": "bias", "is_start": false}, {"idx": 14, "pid": "015", "snum": "01c", "title": "Bias — Continued", "anchor": "bias", "is_start": false}, {"idx": 15, "pid": "016", "snum": "01d", "title": "Complex Trials with Embedded Translational Research", "anchor": "complex-trials", "is_start": true}, {"idx": 16, "pid": "017", "snum": "01d", "title": "Complex Trials — Design Types", "anchor": "complex-trials", "is_start": false}, {"idx": 17, "pid": "018", "snum": "01e", "title": "Confounders in Trial Design", "anchor": "confounders-design", "is_start": true}, {"idx": 18, "pid": "019", "snum": "01e", "title": "Confounders — Propensity Score & IPW Methods", "anchor": "confounders-design", "is_start": false}, {"idx": 19, "pid": "020", "snum": "01e", "title": "Confounders — Mixed Effects & Sensitivity Analysis", "anchor": "confounders-design", "is_start": false}, {"idx": 20, "pid": "021", "snum": "01e", "title": "Confounders — Continued", "anchor": "confounders-design", "is_start": false}, {"idx": 21, "pid": "022", "snum": "01f", "title": "Oncology Trial Atlas", "anchor": "oncology-atlas", "is_start": true}, {"idx": 22, "pid": "023", "snum": "01f", "title": "Oncology Atlas — Lung Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 23, "pid": "024", "snum": "01f", "title": "Oncology Atlas — Breast & GI Cancer", "anchor": "oncology-atlas", "is_start": false}, {"idx": 24, "pid": "025", "snum": "01f", "title": "Oncology Atlas — GU & Translational", "anchor": "oncology-atlas", "is_start": false}, {"idx": 25, "pid": "026", "snum": "01f", "title": "Oncology Atlas — References", "anchor": "oncology-atlas", "is_start": false}, {"idx": 26, "pid": "027", "snum": "01g", "title": "Surgical Lessons from Oncology Trials", "anchor": "surgical", "is_start": true}, {"idx": 27, "pid": "028", "snum": "01g", "title": "Surgical Lessons — Design Patterns", "anchor": "surgical", "is_start": false}, {"idx": 28, "pid": "029", "snum": "01g", "title": "Surgical Lessons — Radical Oncology Trials", "anchor": "surgical", "is_start": false}, {"idx": 29, "pid": "030", "snum": "01g", "title": "Surgical Lessons — Confounders in Surgical Trials", "anchor": "surgical", "is_start": false}, {"idx": 30, "pid": "031", "snum": "01g", "title": "Surgical Lessons — Blueprint", "anchor": "surgical", "is_start": false}, {"idx": 31, "pid": "032", "snum": "01h", "title": "Trial Phases", "anchor": "trial-phases", "is_start": true}, {"idx": 32, "pid": "033", "snum": "01h", "title": "Trial Phases — Phase I Designs", "anchor": "trial-phases", "is_start": false}, {"idx": 33, "pid": "034", "snum": "01h", "title": "Trial Phases — Phase II, III & IV", "anchor": "trial-phases", "is_start": false}, {"idx": 34, "pid": "035", "snum": "01i", "title": "Sample Size & Power Calculation", "anchor": "power", "is_start": true}, {"idx": 35, "pid": "036", "snum": "01j", "title": "Small Sample Strategies", "anchor": "small-samples", "is_start": true}, {"idx": 36, "pid": "037", "snum": "01j", "title": "Small Samples — Bayesian Approaches", "anchor": "small-samples", "is_start": false}, {"idx": 37, "pid": "038", "snum": "01j", "title": "Small Samples — Simon Two-stage", "anchor": "small-samples", "is_start": false}, {"idx": 38, "pid": "039", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 39, "pid": "040", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 40, "pid": "041", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 41, "pid": "042", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 42, "pid": "043", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 43, "pid": "044", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 44, "pid": "045", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 45, "pid": "046", "snum": "01j", "title": "Small Samples — Continued", "anchor": "small-samples", "is_start": false}, {"idx": 46, "pid": "047", "snum": "02", "title": "Types of Variables & How to Describe Them", "anchor": "variables", "is_start": true}, {"idx": 47, "pid": "048", "snum": "02", "title": "Variables — Continuous & Summary Statistics", "anchor": "variables", "is_start": false}, {"idx": 48, "pid": "049", "snum": "02a", "title": "Statistical Test Selection by Variable Type", "anchor": "test-selection", "is_start": false}, {"idx": 49, "pid": "050", "snum": "02b", "title": "Choosing a Statistical Test — Reference Table", "anchor": "test-flowchart", "is_start": true}, {"idx": 50, "pid": "051", "snum": "02c", "title": "Visualising Clinical Data", "anchor": "visualising", "is_start": true}, {"idx": 51, "pid": "052", "snum": "02c", "title": "Visualising — Chart Types", "anchor": "visualising", "is_start": false}, {"idx": 52, "pid": "053", "snum": "02c", "title": "Visualising — KM Curves & Forest Plots", "anchor": "visualising", "is_start": false}, {"idx": 53, "pid": "054", "snum": "02c", "title": "Visualising — Figure Quality", "anchor": "visualising", "is_start": false}, {"idx": 54, "pid": "055", "snum": "03", "title": "Probability", "anchor": "probability", "is_start": true}, {"idx": 55, "pid": "056", "snum": "03", "title": "Probability — Conditional & Bayes", "anchor": "probability", "is_start": false}, {"idx": 56, "pid": "057", "snum": "03", "title": "Probability — Distributions", "anchor": "probability", "is_start": false}, {"idx": 57, "pid": "058", "snum": "04", "title": "Hypothesis Testing & p-values", "anchor": "hypothesis", "is_start": true}, {"idx": 58, "pid": "059", "snum": "04", "title": "Hypothesis Testing — Decision Matrix & p-value Scale", "anchor": "hypothesis", "is_start": false}, {"idx": 59, "pid": "060", "snum": "04", "title": "Hypothesis Testing — Confidence Intervals", "anchor": "hypothesis", "is_start": false}, {"idx": 60, "pid": "061", "snum": "04", "title": "Hypothesis Testing — Effect Sizes", "anchor": "hypothesis", "is_start": false}, {"idx": 61, "pid": "062", "snum": "05", "title": "Multiple Hypothesis Testing", "anchor": "multiple-testing", "is_start": true}, {"idx": 62, "pid": "063", "snum": "05", "title": "Multiple Testing — FDR Methods", "anchor": "multiple-testing", "is_start": false}, {"idx": 63, "pid": "064", "snum": "05", "title": "Multiple Testing — Clinical Scenarios", "anchor": "multiple-testing", "is_start": false}, {"idx": 64, "pid": "065", "snum": "05", "title": "Multiple Testing — Post-hoc Tests", "anchor": "multiple-testing", "is_start": false}, {"idx": 65, "pid": "066", "snum": "06", "title": "Diagnostic Tests", "anchor": "diagnostic", "is_start": true}, {"idx": 66, "pid": "067", "snum": "06", "title": "Diagnostic Tests — 2×2 Table", "anchor": "diagnostic", "is_start": false}, {"idx": 67, "pid": "068", "snum": "06", "title": "Diagnostic Tests — ROC Curves", "anchor": "diagnostic", "is_start": false}, {"idx": 68, "pid": "069", "snum": "06", "title": "Diagnostic Tests — Calibration & Effect Measures", "anchor": "diagnostic", "is_start": false}, {"idx": 69, "pid": "070", "snum": "06", "title": "Diagnostic Tests — Likelihood Ratios", "anchor": "diagnostic", "is_start": false}, {"idx": 70, "pid": "071", "snum": "07", "title": "Survival Analysis", "anchor": "survival", "is_start": true}, {"idx": 71, "pid": "072", "snum": "07a", "title": "Kaplan-Meier Survival Curves — Annotated", "anchor": "km-curve", "is_start": true}, {"idx": 72, "pid": "073", "snum": "07", "title": "Survival Analysis — Cox Regression", "anchor": "survival", "is_start": false}, {"idx": 73, "pid": "074", "snum": "07", "title": "Survival Analysis — Competing Risks", "anchor": "survival", "is_start": false}, {"idx": 74, "pid": "075", "snum": "07", "title": "Survival Analysis — Landmark & RMST", "anchor": "survival", "is_start": false}, {"idx": 75, "pid": "076", "snum": "08", "title": "Regression Analysis", "anchor": "regression", "is_start": true}, {"idx": 76, "pid": "077", "snum": "08a", "title": "Confounding, Adjustment & Interaction", "anchor": "confounding", "is_start": true}, {"idx": 77, "pid": "078", "snum": "08a", "title": "Confounding — DAGs & Causal Inference", "anchor": "confounding", "is_start": false}, {"idx": 78, "pid": "079", "snum": "08b", "title": "Reporting Templates & Common Mistakes", "anchor": "reporting", "is_start": true}, {"idx": 79, "pid": "080", "snum": "08b", "title": "Reporting — Common Statistical Mistakes", "anchor": "reporting", "is_start": false}, {"idx": 80, "pid": "081", "snum": "08b", "title": "Reporting — Study Credibility Checklist", "anchor": "reporting", "is_start": false}, {"idx": 81, "pid": "082", "snum": "08b", "title": "Reporting — CONSORT & STROBE", "anchor": "reporting", "is_start": false}, {"idx": 82, "pid": "083", "snum": "09", "title": "Meta-analysis", "anchor": "meta", "is_start": true}, {"idx": 83, "pid": "084", "snum": "09a", "title": "Reading a Forest Plot — Annotated", "anchor": "forest-plot", "is_start": true}, {"idx": 84, "pid": "085", "snum": "09b", "title": "Translational Statistics", "anchor": "translational", "is_start": true}, {"idx": 85, "pid": "086", "snum": "09b", "title": "Translational Stats — Sequencing & Omics", "anchor": "translational", "is_start": false}, {"idx": 86, "pid": "087", "snum": "09b", "title": "Translational Stats — Biomarker Validation", "anchor": "translational", "is_start": false}, {"idx": 87, "pid": "088", "snum": "09b", "title": "Translational Stats — Digital Pathology", "anchor": "translational", "is_start": false}, {"idx": 88, "pid": "089", "snum": "10", "title": "R, Stata & SPSS for Clinical Data Analysis", "anchor": "software", "is_start": true}, {"idx": 89, "pid": "090", "snum": "10", "title": "Software — Online Resources", "anchor": "software", "is_start": false}, {"idx": 90, "pid": "091", "snum": "10a", "title": "Working Directory & Project Structure", "anchor": "project-setup", "is_start": true}, {"idx": 91, "pid": "092", "snum": "10a", "title": "Project Setup — R Directory Structure", "anchor": "project-setup", "is_start": false}, {"idx": 92, "pid": "093", "snum": "10a", "title": "Project Setup — Data Dictionary", "anchor": "project-setup", "is_start": false}, {"idx": 93, "pid": "094", "snum": "10b", "title": "R Clinical Workflow", "anchor": "r-workflow", "is_start": true}, {"idx": 94, "pid": "095", "snum": "10b", "title": "R Workflow — Descriptive Statistics", "anchor": "r-workflow", "is_start": false}, {"idx": 95, "pid": "096", "snum": "10b", "title": "R Workflow — Survival & Regression", "anchor": "r-workflow", "is_start": false}, {"idx": 96, "pid": "097", "snum": "10c", "title": "Stata Clinical Workflow", "anchor": "stata-workflow", "is_start": true}, {"idx": 97, "pid": "098", "snum": "10c", "title": "Stata Workflow — Commands", "anchor": "stata-workflow", "is_start": false}, {"idx": 98, "pid": "099", "snum": "10d", "title": "SPSS Clinical Workflow", "anchor": "spss-workflow", "is_start": true}, {"idx": 99, "pid": "100", "snum": "10d", "title": "SPSS Workflow — Commands", "anchor": "spss-workflow", "is_start": false}];
 const N = 100;
 let cur = 0, sidebarOpen = false;
 
@@ -1468,6 +1780,984 @@ window.addEventListener('load', () => {
 });
 
 // Initialise button states
+
+/* ════════════════════════════════════════════════════════════════
+   INTERACTIVE TOOLS
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Shared statistical helpers ── */
+function normCDF(z) {
+  // Abramowitz-Stegun approximation of the standard normal CDF
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const d = 0.3989423 * Math.exp(-z * z / 2);
+  let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+  return z >= 0 ? 1 - p : p;
+}
+function normInv(p) {
+  // Beasley-Springer-Moro approximation of the inverse standard normal CDF
+  const a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];
+  const b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01, -1.328068155288572e+01];
+  const c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];
+  const d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];
+  const pl = 0.02425;
+  let q, r;
+  if (p < pl) {
+    q = Math.sqrt(-2 * Math.log(p));
+    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+  } else if (p <= 1 - pl) {
+    q = p - 0.5; r = q * q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  } else {
+    q = Math.sqrt(-2 * Math.log(1 - p));
+    return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+  }
+}
+function wilsonCI(x, n) {
+  if (n === 0) return [NaN, NaN];
+  const z = 1.959964;
+  const p = x / n;
+  const denom = 1 + z*z/n;
+  const centre = p + z*z/(2*n);
+  const adj = z * Math.sqrt(p*(1-p)/n + z*z/(4*n*n));
+  return [(centre - adj) / denom, (centre + adj) / denom];
+}
+function fmtPct(p) { return (p*100).toFixed(1) + '%'; }
+function fmtNum(x, d) { return Number(x).toLocaleString(undefined, {maximumFractionDigits: d===undefined?2:d}); }
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 1 — SAMPLE SIZE & POWER CALCULATOR
+   ════════════════════════════════════════════════════════════════ */
+function pwGetSolve() {
+  return document.querySelector('input[name="pw-solve"]:checked').value;
+}
+function pwRenderFields() {
+  const type = document.getElementById('pw-type').value;
+  const solve = pwGetSolve();
+  const f = document.getElementById('pw-fields');
+  const nLabel = (type === 'survival') ? 'Total events required' : 'Sample size per group';
+  let html = '';
+
+  // Alpha & power/n fields common to most
+  html += `<div class="tool-field"><label>Significance level (&alpha;, two-sided)</label>
+    <select id="pw-alpha"><option value="0.05" selected>0.05</option><option value="0.01">0.01</option><option value="0.10">0.10</option></select></div>`;
+
+  if (solve === 'n') {
+    html += `<div class="tool-field"><label>Target power</label>
+      <select id="pw-power"><option value="0.8" selected>80%</option><option value="0.9">90%</option><option value="0.95">95%</option></select></div>`;
+  } else {
+    html += `<div class="tool-field"><label>${type === 'survival' ? 'Total events observed' : 'Sample size per group'}</label>
+      <input type="number" id="pw-n" min="2" placeholder="e.g. 40"></div>`;
+  }
+
+  if (type === 'means2' || type === 'onemean') {
+    html += `<div class="tool-field"><label>Mean difference to detect</label><input type="number" id="pw-delta" step="any" placeholder="e.g. 5"></div>`;
+    html += `<div class="tool-field"><label>Standard deviation (SD)</label><input type="number" id="pw-sd" step="any" min="0" placeholder="e.g. 10"></div>`;
+    if (type === 'means2') {
+      html += `<div class="tool-field"><label>Allocation ratio (n2/n1)</label><input type="number" id="pw-ratio" step="any" min="0.1" value="1"></div>`;
+    }
+  } else if (type === 'meanspaired') {
+    html += `<div class="tool-field"><label>Mean of paired differences</label><input type="number" id="pw-delta" step="any" placeholder="e.g. 3"></div>`;
+    html += `<div class="tool-field"><label>SD of paired differences</label><input type="number" id="pw-sd" step="any" min="0" placeholder="e.g. 6"></div>`;
+  } else if (type === 'props2') {
+    html += `<div class="tool-field"><label>Proportion, group 1 (control)</label><input type="number" id="pw-p1" step="any" min="0" max="1" placeholder="e.g. 0.30"></div>`;
+    html += `<div class="tool-field"><label>Proportion, group 2 (treatment)</label><input type="number" id="pw-p2" step="any" min="0" max="1" placeholder="e.g. 0.50"></div>`;
+    html += `<div class="tool-field"><label>Allocation ratio (n2/n1)</label><input type="number" id="pw-ratio" step="any" min="0.1" value="1"></div>`;
+  } else if (type === 'propspaired') {
+    html += `<div class="tool-field"><label>Discordant pair proportion 1 (only A +ve)</label><input type="number" id="pw-pa" step="any" min="0" max="1" placeholder="e.g. 0.10"></div>`;
+    html += `<div class="tool-field"><label>Discordant pair proportion 2 (only B +ve)</label><input type="number" id="pw-pb" step="any" min="0" max="1" placeholder="e.g. 0.25"></div>`;
+  } else if (type === 'survival') {
+    html += `<div class="tool-field"><label>Hazard ratio to detect</label><input type="number" id="pw-hr" step="any" min="0" placeholder="e.g. 0.7"></div>`;
+    html += `<div class="tool-field"><label>Allocation ratio (arm2/arm1)</label><input type="number" id="pw-ratio" step="any" min="0.1" value="1"></div>`;
+  }
+
+  f.innerHTML = html;
+  document.getElementById('pw-result').classList.remove('show');
+  document.getElementById('pw-error').classList.remove('show');
+}
+function pwShowError(msg) {
+  const e = document.getElementById('pw-error');
+  e.textContent = msg; e.classList.add('show');
+  document.getElementById('pw-result').classList.remove('show');
+}
+function pwCalculate() {
+  const type = document.getElementById('pw-type').value;
+  const solve = pwGetSolve();
+  const alpha = parseFloat(document.getElementById('pw-alpha').value);
+  const zAlpha = normInv(1 - alpha/2);
+  document.getElementById('pw-error').classList.remove('show');
+
+  try {
+    let resultHTML = '';
+    if (type === 'means2' || type === 'onemean' || type === 'meanspaired') {
+      const delta = parseFloat(document.getElementById('pw-delta').value);
+      const sd = parseFloat(document.getElementById('pw-sd').value);
+      if (!delta || !sd || sd <= 0) return pwShowError('Please enter a non-zero mean difference and a positive SD.');
+      const ratio = (type === 'means2') ? parseFloat(document.getElementById('pw-ratio').value || 1) : 1;
+      const k = (type === 'means2') ? 1 + 1/ratio : 1; // multiplier reflecting variance of two-group comparison
+      const effSize = Math.abs(delta) / sd;
+
+      if (solve === 'n') {
+        const power = parseFloat(document.getElementById('pw-power').value);
+        const zBeta = normInv(power);
+        let n1 = k * Math.pow((zAlpha + zBeta) / effSize, 2);
+        n1 = Math.ceil(n1);
+        const n2 = (type === 'means2') ? Math.ceil(n1 / ratio) : n1;
+        const total = (type === 'means2') ? n1 + n2 : n1;
+        resultHTML = pwResultBlock(
+          type === 'means2' ? `n = ${n1}` : `n = ${n1}`,
+          type === 'means2' ? `per group (group 2: n = ${n2})` : (type==='onemean' ? 'in the single sample' : 'pairs'),
+          [
+            ['Total sample size', fmtNum(total, 0)],
+            ['Effect size (Cohen\'s d)', effSize.toFixed(2)],
+            ['Power', fmtPct(power)],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `Formula: n per group = (1 + 1/ratio) × ((z<sub>&alpha;/2</sub> + z<sub>&beta;</sub>) / d)&sup2;, where d = |mean difference| / SD. This assumes a two-sided independent-samples t-test with equal variances (Lehr's/standard normal-approximation formula). For small expected n (&lt;30 per group), confirm with exact t-distribution software (e.g. G*Power, R's pwr.t.test) before finalising.`
+        );
+      } else {
+        const n = parseFloat(document.getElementById('pw-n').value);
+        if (!n || n < 2) return pwShowError('Please enter a sample size of at least 2.');
+        const ncp = effSize / Math.sqrt(k / n);
+        const power = normCDF(ncp - zAlpha);
+        resultHTML = pwResultBlock(
+          fmtPct(Math.max(0, Math.min(1, power))), 'achieved power',
+          [
+            ['Effect size (Cohen\'s d)', effSize.toFixed(2)],
+            ['Sample size used', fmtNum(n,0)],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `This is the power to detect the specified mean difference at the given sample size, using the normal approximation to the t-test. Power below 80% is generally considered under-powered for a confirmatory trial.`
+        );
+      }
+    } else if (type === 'props2') {
+      const p1 = parseFloat(document.getElementById('pw-p1').value);
+      const p2 = parseFloat(document.getElementById('pw-p2').value);
+      const ratio = parseFloat(document.getElementById('pw-ratio').value || 1);
+      if (isNaN(p1) || isNaN(p2) || p1 <= 0 || p1 >= 1 || p2 <= 0 || p2 >= 1) return pwShowError('Please enter both proportions as decimals strictly between 0 and 1.');
+      if (p1 === p2) return pwShowError('The two proportions must differ to calculate a sample size.');
+      const pBar = (p1 + ratio*p2) / (1 + ratio); // not used directly; using per-arm variance formula below
+      const diff = Math.abs(p2 - p1);
+
+      if (solve === 'n') {
+        const power = parseFloat(document.getElementById('pw-power').value);
+        const zBeta = normInv(power);
+        const pbar2 = (p1 + p2) / 2;
+        const term1 = zAlpha * Math.sqrt((1+1/ratio) * pbar2 * (1-pbar2));
+        const term2 = zBeta * Math.sqrt(p1*(1-p1) + p2*(1-p2)/ratio);
+        let n1 = Math.pow(term1 + term2, 2) / Math.pow(diff, 2);
+        n1 = Math.ceil(n1);
+        const n2 = Math.ceil(n1 * ratio);
+        resultHTML = pwResultBlock(`n = ${n1}`, `in group 1 (group 2: n = ${n2})`,
+          [
+            ['Total sample size', fmtNum(n1+n2,0)],
+            ['Absolute risk difference', fmtPct(diff)],
+            ['Power', fmtPct(power)],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `Formula: standard two-proportion z-test sample size (pooled variance under H&#8320;, unpooled under H&#8321;). For small expected event counts in either arm (&lt;5), consider Fisher's exact test and simulate power rather than relying on this normal approximation.`
+        );
+      } else {
+        const n1 = parseFloat(document.getElementById('pw-n').value);
+        if (!n1 || n1 < 2) return pwShowError('Please enter a sample size of at least 2.');
+        const n2 = n1 * ratio;
+        const pbar2 = (p1 + p2) / 2;
+        const se0 = Math.sqrt((1+1/ratio) * pbar2 * (1-pbar2) / n1);
+        const se1 = Math.sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2);
+        const z = (diff - zAlpha*se0) / se1;
+        const power = normCDF(z);
+        resultHTML = pwResultBlock(fmtPct(Math.max(0,Math.min(1,power))), 'achieved power',
+          [
+            ['Absolute risk difference', fmtPct(diff)],
+            ['n1 / n2', `${fmtNum(n1,0)} / ${fmtNum(n2,0)}`],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `Power to detect the specified difference in proportions at the given sample sizes, using the normal approximation two-proportion z-test.`
+        );
+      }
+    } else if (type === 'propspaired') {
+      const pa = parseFloat(document.getElementById('pw-pa').value);
+      const pb = parseFloat(document.getElementById('pw-pb').value);
+      if (isNaN(pa) || isNaN(pb) || pa < 0 || pb < 0 || pa+pb > 1 || pa === pb) return pwShowError('Enter two distinct discordant-pair proportions that sum to ≤ 1.');
+      const pDiscord = pa + pb;
+      const psi = pb / pa; // odds-ratio-like
+      if (solve === 'n') {
+        const power = parseFloat(document.getElementById('pw-power').value);
+        const zBeta = normInv(power);
+        let n = Math.pow(zAlpha*Math.sqrt(pDiscord) + zBeta*Math.sqrt(pDiscord - Math.pow(pa-pb,2)), 2) / Math.pow(pa-pb, 2);
+        n = Math.ceil(n);
+        resultHTML = pwResultBlock(`n = ${n}`, 'pairs',
+          [
+            ['Discordant proportion', fmtPct(pDiscord)],
+            ['Power', fmtPct(power)],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `McNemar's test sample size formula for paired binary outcomes (e.g. two raters, before/after). Ensure pa and pb reflect realistic discordant-pair rates from pilot data.`
+        );
+      } else {
+        const n = parseFloat(document.getElementById('pw-n').value);
+        if (!n || n < 2) return pwShowError('Please enter a sample size of at least 2.');
+        const z = (Math.abs(pa-pb)*Math.sqrt(n) - zAlpha*Math.sqrt(pDiscord)) / Math.sqrt(pDiscord - Math.pow(pa-pb,2));
+        const power = normCDF(z);
+        resultHTML = pwResultBlock(fmtPct(Math.max(0,Math.min(1,power))), 'achieved power',
+          [['Discordant proportion', fmtPct(pDiscord)], ['Pairs (n)', fmtNum(n,0)], ['Alpha (2-sided)', alpha]],
+          `Power for McNemar's test at the given number of pairs.`
+        );
+      }
+    } else if (type === 'survival') {
+      const hr = parseFloat(document.getElementById('pw-hr').value);
+      const ratio = parseFloat(document.getElementById('pw-ratio').value || 1);
+      if (!hr || hr <= 0 || hr === 1) return pwShowError('Enter a hazard ratio greater than 0 and different from 1.');
+      const lnHR = Math.log(hr);
+      const propFactor = ratio / Math.pow(1+ratio, 2); // for unequal allocation
+
+      if (solve === 'n') {
+        const power = parseFloat(document.getElementById('pw-power').value);
+        const zBeta = normInv(power);
+        let events = Math.pow(zAlpha + zBeta, 2) / (propFactor * Math.pow(lnHR, 2));
+        events = Math.ceil(events);
+        resultHTML = pwResultBlock(`${events}`, 'total events required (Schoenfeld)',
+          [
+            ['Hazard ratio', hr],
+            ['Power', fmtPct(power)],
+            ['Alpha (2-sided)', alpha]
+          ],
+          `Schoenfeld's formula gives the number of <em>events</em>, not patients — total sample size depends on accrual time, follow-up duration and the underlying event (e.g. survival) rate, and should be back-calculated separately (e.g. via an exponential survival assumption or simulation). This is the standard formula behind log-rank test power calculations for RCTs (e.g. as used in SWOG, EORTC and NCI-sponsored trial designs).`
+        );
+      } else {
+        const events = parseFloat(document.getElementById('pw-n').value);
+        if (!events || events < 2) return pwShowError('Please enter at least 2 events.');
+        const z = Math.sqrt(propFactor * events) * Math.abs(lnHR) - zAlpha;
+        const power = normCDF(z);
+        resultHTML = pwResultBlock(fmtPct(Math.max(0,Math.min(1,power))), 'achieved power',
+          [['Hazard ratio', hr], ['Events observed', fmtNum(events,0)], ['Alpha (2-sided)', alpha]],
+          `Power to detect the specified hazard ratio with the given number of observed events (Schoenfeld approximation).`
+        );
+      }
+    }
+    const r = document.getElementById('pw-result');
+    r.innerHTML = resultHTML;
+    r.classList.add('show');
+  } catch (err) {
+    pwShowError('Could not calculate — please check that all fields are filled with valid numbers.');
+  }
+}
+function pwResultBlock(headline, unit, stats, note) {
+  return `<div class="headline">${headline}<span class="unit">${unit}</span></div>
+    <div class="tool-result-grid">${stats.map(s => `<div class="tool-result-stat"><div class="label">${s[0]}</div><div class="value">${s[1]}</div></div>`).join('')}</div>
+    <div class="tool-note">${note}</div>`;
+}
+function pwReset() {
+  document.getElementById('pw-type').value = 'means2';
+  document.querySelector('input[name="pw-solve"][value="n"]').checked = true;
+  pwRenderFields();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 2 — STATISTICAL TEST SELECTOR (decision tree)
+   ════════════════════════════════════════════════════════════════ */
+const TS_TREE = {
+  start: {
+    q: "What type of outcome (dependent variable) are you analysing?",
+    opts: [
+      ["Continuous (e.g. blood pressure, tumour size, lab value)", "outcome_continuous"],
+      ["Categorical / binary (e.g. response yes/no, mutation present/absent)", "outcome_categorical"],
+      ["Ordinal (e.g. tumour grade, pain score 0–10, Likert scale)", "outcome_ordinal"],
+      ["Time-to-event (e.g. overall survival, time to progression)", "outcome_survival"]
+    ]
+  },
+  outcome_continuous: {
+    q: "How many groups are you comparing?",
+    opts: [
+      ["One group vs a fixed/reference value", "cont_one"],
+      ["Two groups", "cont_two_design"],
+      ["Three or more groups", "cont_many_design"],
+      ["Looking at association between two continuous variables", "cont_assoc"]
+    ]
+  },
+  cont_one: {
+    q: "Is the variable approximately normally distributed?",
+    opts: [
+      ["Yes (or n is large, ~30+)", {test:"One-sample t-test", code:"t.test(x, mu = reference_value)", assumptions:"Data approximately normal, or n large enough for CLT to apply.", when:"Comparing a single sample mean to a known/reference value (e.g. comparing a cohort's mean tumour marker to a population norm)."}],
+      ["No / small sample with skew", {test:"Wilcoxon signed-rank test", code:"wilcox.test(x, mu = reference_value)", assumptions:"Symmetric distribution around the median (relaxed vs t-test, but not assumption-free).", when:"Non-parametric alternative to the one-sample t-test."}]
+    ]
+  },
+  cont_two_design: {
+    q: "Are the two groups independent or paired (matched/repeated measures)?",
+    opts: [
+      ["Independent (different patients in each group)", "cont_two_indep"],
+      ["Paired (same patients, before/after, or matched pairs)", "cont_two_paired"]
+    ]
+  },
+  cont_two_indep: {
+    q: "Is the outcome approximately normally distributed in both groups?",
+    opts: [
+      ["Yes", {test:"Independent-samples t-test", code:"t.test(y ~ group, data = df, var.equal = FALSE)", assumptions:"Approximate normality in each group; Welch's version (var.equal=FALSE) relaxes the equal-variance assumption and is generally the safer default.", when:"Comparing means between two independent groups, e.g. treatment vs control arm in an RCT."}],
+      ["No / skewed or small samples", {test:"Mann-Whitney U test (Wilcoxon rank-sum)", code:"wilcox.test(y ~ group, data = df)", assumptions:"Does not require normality; tests whether distributions differ (technically a comparison of stochastic dominance / ranks, often interpreted as comparing medians).", when:"Non-parametric alternative when normality is violated or sample sizes are small."}]
+    ]
+  },
+  cont_two_paired: {
+    q: "Are the paired differences approximately normally distributed?",
+    opts: [
+      ["Yes", {test:"Paired t-test", code:"t.test(y1, y2, paired = TRUE)", assumptions:"The differences (not the raw values) should be approximately normal.", when:"Before/after measurements on the same subjects, or matched pairs."}],
+      ["No", {test:"Wilcoxon signed-rank test", code:"wilcox.test(y1, y2, paired = TRUE)", assumptions:"Symmetric distribution of differences around the median.", when:"Non-parametric alternative to the paired t-test."}]
+    ]
+  },
+  cont_many_design: {
+    q: "Are the groups independent or repeated measures on the same subjects?",
+    opts: [
+      ["Independent groups", "cont_many_indep"],
+      ["Repeated measures (same subjects, multiple time points/conditions)", "cont_many_repeated"]
+    ]
+  },
+  cont_many_indep: {
+    q: "Is the outcome approximately normally distributed (with reasonably similar variances across groups)?",
+    opts: [
+      ["Yes", {test:"One-way ANOVA (+ post-hoc, e.g. Tukey)", code:"aov(y ~ group, data = df); TukeyHSD(...)", assumptions:"Normality within groups, homogeneity of variance (check with Levene's test). If violated, consider Welch's ANOVA.", when:"Comparing means across 3+ independent groups, e.g. three dose levels."}],
+      ["No / skewed", {test:"Kruskal-Wallis test (+ post-hoc, e.g. Dunn's test)", code:"kruskal.test(y ~ group, data = df)", assumptions:"Non-parametric; does not assume normality, but assumes similarly-shaped distributions for a clean median interpretation.", when:"Non-parametric alternative to one-way ANOVA."}]
+    ]
+  },
+  cont_many_repeated: {
+    q: "Is the outcome approximately normally distributed?",
+    opts: [
+      ["Yes", {test:"Repeated-measures ANOVA (or mixed-effects model)", code:"lme4::lmer(y ~ time + (1|id), data = df)", assumptions:"Sphericity (or use a mixed model to avoid this assumption entirely — generally preferred for clinical longitudinal data with missingness).", when:"Comparing means across 3+ time points/conditions within the same subjects."}],
+      ["No / skewed", {test:"Friedman test", code:"friedman.test(y ~ time | id, data = df)", assumptions:"Non-parametric alternative; data should be at least ordinal.", when:"Non-parametric repeated-measures alternative."}]
+    ]
+  },
+  cont_assoc: {
+    q: "Is the relationship expected to be linear, and is at least one variable normally distributed?",
+    opts: [
+      ["Yes — linear, approximately normal", {test:"Pearson correlation (r)", code:"cor.test(x, y, method = 'pearson')", assumptions:"Linear relationship, both variables approximately normally distributed, no major outliers.", when:"Quantifying the strength/direction of a linear association between two continuous variables."}],
+      ["No — non-linear, ordinal, or skewed", {test:"Spearman's rank correlation (&rho;)", code:"cor.test(x, y, method = 'spearman')", assumptions:"Monotonic (not necessarily linear) relationship; robust to outliers and non-normality.", when:"Non-parametric alternative to Pearson correlation."}]
+    ]
+  },
+  outcome_categorical: {
+    q: "How many groups are being compared, and are observations independent?",
+    opts: [
+      ["Two independent groups, binary outcome (2×2 table)", "cat_2x2"],
+      ["Paired/matched binary outcome (e.g. before/after)", "cat_paired"],
+      ["More than 2 groups or >2 categories (r×c table)", "cat_rxc"]
+    ]
+  },
+  cat_2x2: {
+    q: "Are expected cell counts all ≥5?",
+    opts: [
+      ["Yes", {test:"Chi-squared test (&chi;&sup2;)", code:"chisq.test(table(group, outcome))", assumptions:"Independent observations; expected cell counts ≥5 in at least 80% of cells (no cell <1).", when:"Testing association between two binary/categorical variables, e.g. treatment arm vs response."}],
+      ["No (small/sparse cells)", {test:"Fisher's exact test", code:"fisher.test(table(group, outcome))", assumptions:"Exact test — valid for any sample size, particularly important with small expected counts.", when:"Same as chi-squared but appropriate when cell counts are small."}]
+    ]
+  },
+  cat_paired: {
+    q: "This is a classic paired-binary comparison.",
+    opts: [
+      ["Show recommended test", {test:"McNemar's test", code:"mcnemar.test(table(before, after))", assumptions:"Paired binary data; tests whether the discordant pair proportions differ.", when:"E.g. comparing two diagnostic tests on the same patients, or response before vs after an intervention."}]
+    ]
+  },
+  cat_rxc: {
+    q: "Is the outcome ordinal (ordered categories) or purely nominal?",
+    opts: [
+      ["Nominal (unordered categories)", {test:"Chi-squared test for r×c tables (or Fisher's exact for small samples)", code:"chisq.test(table(group, outcome))", assumptions:"As for 2×2 — adequate expected cell counts, or use Fisher's exact / simulated p-value if sparse.", when:"E.g. comparing 3 treatment arms against a 4-category response."}],
+      ["Ordinal outcome across independent groups", {test:"Cochran-Armitage trend test, or ordinal logistic regression", code:"MASS::polr(outcome ~ group, data = df)", assumptions:"Proportional odds assumption (test with Brant test) if using ordinal logistic regression.", when:"When the outcome categories have a natural order, e.g. tumour response (CR/PR/SD/PD)."}]
+    ]
+  },
+  outcome_ordinal: {
+    q: "How many groups are being compared?",
+    opts: [
+      ["Two independent groups", {test:"Mann-Whitney U test", code:"wilcox.test(y ~ group, data = df)", assumptions:"Treats ordinal data via ranks; doesn't assume equal interval spacing between categories.", when:"E.g. comparing pain scores between two treatment arms."}],
+      ["Two paired/matched samples", {test:"Wilcoxon signed-rank test", code:"wilcox.test(y1, y2, paired = TRUE)", assumptions:"Paired ordinal/continuous data; symmetric difference distribution.", when:"E.g. pain score before vs after treatment in the same patients."}],
+      ["Three or more independent groups", {test:"Kruskal-Wallis test", code:"kruskal.test(y ~ group, data = df)", assumptions:"Non-parametric; suitable for ordinal outcomes across 3+ groups.", when:"E.g. comparing toxicity grade across three dose cohorts."}],
+      ["Association with another ordinal/continuous variable", {test:"Spearman's rank correlation", code:"cor.test(x, y, method = 'spearman')", assumptions:"Monotonic relationship; robust to non-normality.", when:"E.g. correlating biomarker level with tumour grade."}]
+    ]
+  },
+  outcome_survival: {
+    q: "What's the goal of the analysis?",
+    opts: [
+      ["Compare survival between 2+ groups (e.g. treatment vs control)", {test:"Log-rank test (+ Kaplan-Meier curves)", code:"survival::survdiff(Surv(time, event) ~ group, data = df)", assumptions:"Proportional hazards between groups over time (check with a log(-log(S)) plot or Schoenfeld residuals); censoring independent of the event.", when:"The standard test for comparing time-to-event outcomes between groups, e.g. OS or PFS in an RCT."}],
+      ["Estimate the effect of one or more covariates on survival", {test:"Cox proportional hazards regression", code:"survival::coxph(Surv(time, event) ~ x1 + x2, data = df)", assumptions:"Proportional hazards over time; covariates linearly related to log-hazard (check with Schoenfeld residuals / martingale residuals).", when:"Adjusting for confounders, or estimating a hazard ratio for a continuous/categorical predictor."}],
+      ["Hazards are clearly non-proportional, or interested in absolute risk", {test:"Restricted mean survival time (RMST), or flexible parametric/competing-risks models", code:"survRM2::rmst2(time, event, arm)", assumptions:"Does not require proportional hazards; estimates area under the survival curve up to a chosen time horizon &tau;.", when:"When KM curves cross, or you want a clinically interpretable absolute time-based summary instead of a hazard ratio."}]
+    ]
+  }
+};
+let tsCurrentNode = 'start';
+let tsHistory = [];
+
+function tsRenderNode() {
+  const node = TS_TREE[tsCurrentNode];
+  const treeEl = document.getElementById('ts-tree');
+  document.getElementById('ts-back').style.display = tsHistory.length ? 'inline-block' : 'none';
+  document.getElementById('ts-path').textContent = tsHistory.length ? tsHistory.map(h => h.label).join(' › ') : '';
+
+  let html = `<div class="tool-tree-q">${node.q}</div><div class="tool-tree-opts">`;
+  node.opts.forEach((opt, i) => {
+    html += `<button type="button" class="tool-tree-opt" onclick="tsChoose(${i})">${opt[0]}</button>`;
+  });
+  html += `</div>`;
+  treeEl.innerHTML = html;
+  document.getElementById('ts-result').classList.remove('show');
+}
+function tsChoose(i) {
+  const node = TS_TREE[tsCurrentNode];
+  const opt = node.opts[i];
+  tsHistory.push({node: tsCurrentNode, label: opt[0].split('(')[0].trim().slice(0, 40)});
+  if (typeof opt[1] === 'string') {
+    tsCurrentNode = opt[1];
+    tsRenderNode();
+  } else {
+    tsShowResult(opt[1]);
+  }
+}
+function tsShowResult(result) {
+  document.getElementById('ts-tree').innerHTML = '';
+  document.getElementById('ts-path').textContent = tsHistory.map(h => h.label).join(' › ');
+  const r = document.getElementById('ts-result');
+  r.innerHTML = `<div class="headline" style="font-size:18px;">${result.test}</div>
+    <div class="tool-result-grid" style="grid-template-columns:1fr;">
+      <div class="tool-result-stat"><div class="label">When to use</div><div class="value" style="font-size:12.5px;font-weight:normal;">${result.when}</div></div>
+      <div class="tool-result-stat"><div class="label">Key assumptions</div><div class="value" style="font-size:12.5px;font-weight:normal;">${result.assumptions}</div></div>
+      <div class="tool-result-stat"><div class="label">R syntax</div><div class="value" style="font-size:12px;font-weight:normal;font-family:monospace;background:#fff;padding:4px 6px;border-radius:3px;display:inline-block;">${result.code}</div></div>
+    </div>`;
+  r.classList.add('show');
+}
+function tsBack() {
+  if (!tsHistory.length) return;
+  const prev = tsHistory.pop();
+  tsCurrentNode = prev.node;
+  tsRenderNode();
+}
+function tsReset() {
+  tsCurrentNode = 'start';
+  tsHistory = [];
+  tsRenderNode();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 3 — DIAGNOSTIC TEST CALCULATOR
+   ════════════════════════════════════════════════════════════════ */
+function dxShowError(msg) {
+  const e = document.getElementById('dx-error');
+  e.textContent = msg; e.classList.add('show');
+  document.getElementById('dx-result').classList.remove('show');
+}
+function dxCalculate() {
+  document.getElementById('dx-error').classList.remove('show');
+  const tp = parseFloat(document.getElementById('dx-tp').value);
+  const fp = parseFloat(document.getElementById('dx-fp').value);
+  const fn = parseFloat(document.getElementById('dx-fn').value);
+  const tn = parseFloat(document.getElementById('dx-tn').value);
+  if ([tp,fp,fn,tn].some(v => isNaN(v) || v < 0)) {
+    return dxShowError('Please enter non-negative whole numbers in all four cells.');
+  }
+  const total = tp+fp+fn+tn;
+  if (total === 0) return dxShowError('All four cells are zero — nothing to calculate.');
+
+  const sens = tp / (tp+fn || NaN);
+  const spec = tn / (tn+fp || NaN);
+  const samplePrev = (tp+fn) / total;
+  const prevInput = document.getElementById('dx-prev').value;
+  const prev = (prevInput !== '' && !isNaN(parseFloat(prevInput))) ? parseFloat(prevInput)/100 : samplePrev;
+
+  // PPV/NPV recalculated at the chosen prevalence via Bayes' theorem
+  const ppv = (sens*prev) / (sens*prev + (1-spec)*(1-prev));
+  const npv = (spec*(1-prev)) / (spec*(1-prev) + (1-sens)*prev);
+  const lrPos = sens / (1-spec);
+  const lrNeg = (1-sens) / spec;
+  const accuracy = (tp+tn) / total;
+
+  const sensCI = wilsonCI(tp, tp+fn);
+  const specCI = wilsonCI(tn, tn+fp);
+  const ppvCI = wilsonCI(tp, tp+fp);
+  const npvCI = wilsonCI(tn, tn+fn);
+
+  const ciStr = (ci) => (isFinite(ci[0]) && isFinite(ci[1])) ? `(95% CI ${fmtPct(ci[0])}–${fmtPct(ci[1])})` : '';
+
+  const r = document.getElementById('dx-result');
+  r.innerHTML = `
+    <div class="tool-result-grid">
+      <div class="tool-result-stat"><div class="label">Sensitivity</div><div class="value">${fmtPct(sens)}</div><div class="ci">${ciStr(sensCI)}</div></div>
+      <div class="tool-result-stat"><div class="label">Specificity</div><div class="value">${fmtPct(spec)}</div><div class="ci">${ciStr(specCI)}</div></div>
+      <div class="tool-result-stat"><div class="label">PPV ${prevInput!==''?'(adj.)':''}</div><div class="value">${fmtPct(ppv)}</div><div class="ci">${prevInput===''?ciStr(ppvCI):'at entered prevalence'}</div></div>
+      <div class="tool-result-stat"><div class="label">NPV ${prevInput!==''?'(adj.)':''}</div><div class="value">${fmtPct(npv)}</div><div class="ci">${prevInput===''?ciStr(npvCI):'at entered prevalence'}</div></div>
+      <div class="tool-result-stat"><div class="label">LR+</div><div class="value">${isFinite(lrPos)?lrPos.toFixed(2):'∞'}</div></div>
+      <div class="tool-result-stat"><div class="label">LR−</div><div class="value">${isFinite(lrNeg)?lrNeg.toFixed(2):'0'}</div></div>
+      <div class="tool-result-stat"><div class="label">Accuracy</div><div class="value">${fmtPct(accuracy)}</div></div>
+      <div class="tool-result-stat"><div class="label">Prevalence used</div><div class="value">${fmtPct(prev)}</div></div>
+    </div>
+    <div class="tool-note">Sensitivity/specificity CIs use the Wilson score method. PPV/NPV are recalculated via Bayes' theorem at the prevalence shown above — sensitivity and specificity are properties of the test, but PPV/NPV depend heavily on the population's prior prevalence, so adjust the prevalence field to match your clinical setting (not necessarily your study's sampling fractions, especially in case-control designs).</div>`;
+  r.classList.add('show');
+}
+function dxReset() {
+  ['dx-tp','dx-fp','dx-fn','dx-tn','dx-prev'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('dx-result').classList.remove('show');
+  document.getElementById('dx-error').classList.remove('show');
+}
+
+/* ── Initialise tool panels on load ── */
+if (document.getElementById('pw-fields')) pwRenderFields();
+if (document.getElementById('ts-tree')) tsRenderNode();
+
+
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 4 — SURVIVAL COMPARISON CALCULATOR
+   ════════════════════════════════════════════════════════════════ */
+function svGetMode() {
+  return document.querySelector('input[name="sv-mode"]:checked').value;
+}
+function svRenderFields() {
+  const mode = svGetMode();
+  const f = document.getElementById('sv-fields');
+  let html = '';
+  if (mode === 'events') {
+    html = `
+      <div class="tool-field"><label>Arm A — events observed</label><input type="number" id="sv-eventsA" min="0" placeholder="e.g. 45"></div>
+      <div class="tool-field"><label>Arm A — total patients</label><input type="number" id="sv-totalA" min="1" placeholder="e.g. 100"></div>
+      <div class="tool-field"><label>Arm B — events observed</label><input type="number" id="sv-eventsB" min="0" placeholder="e.g. 30"></div>
+      <div class="tool-field"><label>Arm B — total patients</label><input type="number" id="sv-totalB" min="1" placeholder="e.g. 100"></div>`;
+  } else {
+    html = `
+      <div class="tool-field"><label>Arm A — median survival (months)</label><input type="number" id="sv-medA" min="0" step="any" placeholder="e.g. 12"></div>
+      <div class="tool-field"><label>Arm B — median survival (months)</label><input type="number" id="sv-medB" min="0" step="any" placeholder="e.g. 18"></div>
+      <div class="tool-field"><label>Total events across both arms <span class="hint">for an approximate CI</span></label><input type="number" id="sv-totalevents" min="4" placeholder="e.g. 60"></div>`;
+  }
+  f.innerHTML = html;
+  document.getElementById('sv-result').classList.remove('show');
+  document.getElementById('sv-error').classList.remove('show');
+}
+function svShowError(msg) {
+  const e = document.getElementById('sv-error');
+  e.textContent = msg; e.classList.add('show');
+  document.getElementById('sv-result').classList.remove('show');
+}
+function svCalculate() {
+  document.getElementById('sv-error').classList.remove('show');
+  const mode = svGetMode();
+  try {
+    if (mode === 'events') {
+      const eA = parseFloat(document.getElementById('sv-eventsA').value);
+      const nA = parseFloat(document.getElementById('sv-totalA').value);
+      const eB = parseFloat(document.getElementById('sv-eventsB').value);
+      const nB = parseFloat(document.getElementById('sv-totalB').value);
+      if ([eA,nA,eB,nB].some(v => isNaN(v) || v < 0) || nA < 1 || nB < 1) {
+        return svShowError('Please enter valid non-negative event counts and positive arm totals.');
+      }
+      if (eA > nA || eB > nB) return svShowError('Events observed cannot exceed total patients in that arm.');
+      const totalEvents = eA + eB;
+      if (totalEvents < 4) return svShowError('Too few events for a stable estimate — at least a handful of events in total are needed.');
+      // Approximate log-rank-style HR using the observed/expected method on a single combined risk set summary
+      // Expected events per arm under H0, proportional to arm size (simple approximation, not a full log-rank over risk sets)
+      const totalN = nA + nB;
+      const expA = totalEvents * (nA / totalN);
+      const expB = totalEvents * (nB / totalN);
+      const hr = (eB / expB) / (eA / expA);
+      // Variance approximation for log(HR): 1/eA + 1/eB (standard Peto approximation)
+      const seLnHR = Math.sqrt(1/eA + 1/eB);
+      const lnHR = Math.log(hr);
+      const z = lnHR / seLnHR;
+      const pValue = 2 * (1 - normCDF(Math.abs(z)));
+      const ciLow = Math.exp(lnHR - 1.959964*seLnHR);
+      const ciHigh = Math.exp(lnHR + 1.959964*seLnHR);
+
+      const r = document.getElementById('sv-result');
+      r.innerHTML = `
+        <div class="headline">HR ${hr.toFixed(2)}<span class="unit">(B vs A)</span></div>
+        <div class="tool-result-grid">
+          <div class="tool-result-stat"><div class="label">95% CI</div><div class="value" style="font-size:13px;">${ciLow.toFixed(2)}–${ciHigh.toFixed(2)}</div></div>
+          <div class="tool-result-stat"><div class="label">Approx. p-value</div><div class="value" style="font-size:13px;">${pValue < 0.001 ? '<0.001' : pValue.toFixed(3)}</div></div>
+          <div class="tool-result-stat"><div class="label">Event rate A</div><div class="value">${fmtPct(eA/nA)}</div></div>
+          <div class="tool-result-stat"><div class="label">Event rate B</div><div class="value">${fmtPct(eB/nB)}</div></div>
+        </div>
+        <div class="tool-note">This uses the Peto observed-minus-expected approximation (expected events allocated proportionally to arm size, variance ≈ 1/e<sub>A</sub> + 1/e<sub>B</sub>), which is a reasonable approximation when the two arms have similar censoring patterns and the hazard ratio is not extreme. It does <strong>not</strong> account for the timing of events (true log-rank uses risk sets at each event time), so treat this as a quick sanity check rather than a substitute for fitting <code>survival::coxph()</code> or <code>survdiff()</code> on the full time-to-event data.</div>`;
+      r.classList.add('show');
+    } else {
+      const medA = parseFloat(document.getElementById('sv-medA').value);
+      const medB = parseFloat(document.getElementById('sv-medB').value);
+      const totalEvents = parseFloat(document.getElementById('sv-totalevents').value);
+      if (!medA || !medB || medA <= 0 || medB <= 0) return svShowError('Please enter positive median survival times for both arms.');
+      const hr = medA / medB; // HR of B vs A under exponential assumption
+      const lnHR = Math.log(hr);
+      let ciStr = 'enter total events for a CI estimate';
+      if (totalEvents && totalEvents >= 4) {
+        const seLnHR = 2 / Math.sqrt(totalEvents); // approx SE for log(HR) under exponential, ~2/sqrt(events)
+        const ciLow = Math.exp(lnHR - 1.959964*seLnHR);
+        const ciHigh = Math.exp(lnHR + 1.959964*seLnHR);
+        ciStr = `${ciLow.toFixed(2)}–${ciHigh.toFixed(2)}`;
+      }
+      const r = document.getElementById('sv-result');
+      r.innerHTML = `
+        <div class="headline">HR ${hr.toFixed(2)}<span class="unit">(B vs A)</span></div>
+        <div class="tool-result-grid">
+          <div class="tool-result-stat"><div class="label">Approx. 95% CI</div><div class="value" style="font-size:13px;">${ciStr}</div></div>
+          <div class="tool-result-stat"><div class="label">Median A</div><div class="value">${medA}</div></div>
+          <div class="tool-result-stat"><div class="label">Median B</div><div class="value">${medB}</div></div>
+        </div>
+        <div class="tool-note">This back-calculates a hazard ratio from median survival times by assuming <strong>exponential (constant-hazard) survival</strong> in both arms (HR = median<sub>A</sub> / median<sub>B</sub>). Real clinical survival curves are rarely exactly exponential — this is a rough conversion for talks/abstracts where only medians are reported, not a substitute for the actual HR from a Cox model fitted to patient-level data. If the KM curves cross or have a clear plateau (e.g. with immunotherapy), this approximation will be misleading — consider RMST instead.</div>`;
+      r.classList.add('show');
+    }
+  } catch(err) {
+    svShowError('Could not calculate — please check that all fields contain valid numbers.');
+  }
+}
+function svReset() {
+  document.querySelector('input[name="sv-mode"][value="events"]').checked = true;
+  svRenderFields();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 5 — META-ANALYSIS POOLING CALCULATOR
+   ════════════════════════════════════════════════════════════════ */
+let mtRowCount = 0;
+function mtRowHTML(idx, measure) {
+  if (measure === 'ratio') {
+    return `<div class="tool-grid cols-3" id="mt-row-${idx}" style="align-items:end;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--border);">
+      <div class="tool-field"><label>Study label</label><input type="text" id="mt-label-${idx}" placeholder="e.g. Smith 2020"></div>
+      <div class="tool-field"><label>Effect (HR/RR/OR)</label><input type="number" id="mt-effect-${idx}" step="any" min="0" placeholder="e.g. 0.75"></div>
+      <div class="tool-field"><label>95% CI (low, high)</label>
+        <div style="display:flex;gap:6px;">
+          <input type="number" id="mt-cilow-${idx}" step="any" min="0" placeholder="low" style="width:50%;padding:7px 9px;border:1px solid var(--border);border-radius:4px;font-size:13px;background:var(--light);">
+          <input type="number" id="mt-cihigh-${idx}" step="any" min="0" placeholder="high" style="width:50%;padding:7px 9px;border:1px solid var(--border);border-radius:4px;font-size:13px;background:var(--light);">
+        </div>
+      </div>
+    </div>`;
+  } else {
+    return `<div class="tool-grid cols-3" id="mt-row-${idx}" style="align-items:end;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--border);">
+      <div class="tool-field"><label>Study label</label><input type="text" id="mt-label-${idx}" placeholder="e.g. Smith 2020"></div>
+      <div class="tool-field"><label>Mean difference</label><input type="number" id="mt-effect-${idx}" step="any" placeholder="e.g. 2.4"></div>
+      <div class="tool-field"><label>Standard error of difference</label><input type="number" id="mt-se-${idx}" step="any" min="0" placeholder="e.g. 0.8"></div>
+    </div>`;
+  }
+}
+function mtAddRow() {
+  const measure = document.getElementById('mt-measure').value;
+  const container = document.getElementById('mt-rows');
+  const div = document.createElement('div');
+  div.innerHTML = mtRowHTML(mtRowCount, measure);
+  container.appendChild(div.firstElementChild);
+  mtRowCount++;
+}
+function mtRenderRows() {
+  document.getElementById('mt-rows').innerHTML = '';
+  mtRowCount = 0;
+  mtAddRow(); mtAddRow(); mtAddRow();
+  document.getElementById('mt-result').classList.remove('show');
+  document.getElementById('mt-error').classList.remove('show');
+}
+function mtShowError(msg) {
+  const e = document.getElementById('mt-error');
+  e.textContent = msg; e.classList.add('show');
+  document.getElementById('mt-result').classList.remove('show');
+}
+function mtCalculate() {
+  document.getElementById('mt-error').classList.remove('show');
+  const measure = document.getElementById('mt-measure').value;
+  const studies = [];
+  for (let i = 0; i < mtRowCount; i++) {
+    const rowEl = document.getElementById('mt-row-' + i);
+    if (!rowEl) continue;
+    const label = document.getElementById('mt-label-' + i).value || ('Study ' + (i+1));
+    if (measure === 'ratio') {
+      const effect = parseFloat(document.getElementById('mt-effect-' + i).value);
+      const ciLow = parseFloat(document.getElementById('mt-cilow-' + i).value);
+      const ciHigh = parseFloat(document.getElementById('mt-cihigh-' + i).value);
+      if (isNaN(effect) || isNaN(ciLow) || isNaN(ciHigh) || effect<=0 || ciLow<=0 || ciHigh<=0) continue;
+      const logEffect = Math.log(effect);
+      const seLog = (Math.log(ciHigh) - Math.log(ciLow)) / (2*1.959964);
+      if (seLog <= 0) continue;
+      studies.push({label, yi: logEffect, sei: seLog, raw: effect});
+    } else {
+      const effect = parseFloat(document.getElementById('mt-effect-' + i).value);
+      const se = parseFloat(document.getElementById('mt-se-' + i).value);
+      if (isNaN(effect) || isNaN(se) || se<=0) continue;
+      studies.push({label, yi: effect, sei: se, raw: effect});
+    }
+  }
+  if (studies.length < 2) return mtShowError('Please enter valid data (effect + CI, or effect + SE) for at least 2 studies.');
+
+  // Fixed-effect (inverse-variance) pooling
+  const weights = studies.map(s => 1 / (s.sei*s.sei));
+  const sumW = weights.reduce((a,b)=>a+b,0);
+  const pooledFE = studies.reduce((acc,s,i) => acc + weights[i]*s.yi, 0) / sumW;
+  const seFE = Math.sqrt(1/sumW);
+
+  // Heterogeneity: Cochran's Q, I^2, tau^2 (DerSimonian-Laird)
+  const Q = studies.reduce((acc,s,i) => acc + weights[i]*Math.pow(s.yi - pooledFE, 2), 0);
+  const df = studies.length - 1;
+  const sumW2 = weights.reduce((a,b)=>a+b*b,0);
+  const C = sumW - (sumW2/sumW);
+  let tau2 = (Q - df) / C;
+  if (tau2 < 0 || !isFinite(tau2)) tau2 = 0;
+  const iSquared = Math.max(0, (Q - df) / Q) * 100;
+
+  // Random-effects (DerSimonian-Laird) pooling
+  const weightsRE = studies.map(s => 1 / (s.sei*s.sei + tau2));
+  const sumWRE = weightsRE.reduce((a,b)=>a+b,0);
+  const pooledRE = studies.reduce((acc,s,i) => acc + weightsRE[i]*s.yi, 0) / sumWRE;
+  const seRE = Math.sqrt(1/sumWRE);
+
+  const isRatio = measure === 'ratio';
+  const fmt = (logVal, seVal) => {
+    if (isRatio) {
+      const est = Math.exp(logVal);
+      const lo = Math.exp(logVal - 1.959964*seVal);
+      const hi = Math.exp(logVal + 1.959964*seVal);
+      return {est: est.toFixed(2), ci: `${lo.toFixed(2)}–${hi.toFixed(2)}`};
+    } else {
+      const lo = logVal - 1.959964*seVal;
+      const hi = logVal + 1.959964*seVal;
+      return {est: logVal.toFixed(2), ci: `${lo.toFixed(2)}–${hi.toFixed(2)}`};
+    }
+  };
+  const feFmt = fmt(pooledFE, seFE);
+  const reFmt = fmt(pooledRE, seRE);
+  const pValQ = 1 - chiSqCDF(Q, df);
+
+  const r = document.getElementById('mt-result');
+  r.innerHTML = `
+    <div class="tool-result-grid">
+      <div class="tool-result-stat"><div class="label">Fixed-effect pooled</div><div class="value">${feFmt.est}</div><div class="ci">95% CI ${feFmt.ci}</div></div>
+      <div class="tool-result-stat"><div class="label">Random-effects pooled</div><div class="value">${reFmt.est}</div><div class="ci">95% CI ${reFmt.ci}</div></div>
+      <div class="tool-result-stat"><div class="label">I&sup2; (heterogeneity)</div><div class="value">${iSquared.toFixed(0)}%</div></div>
+      <div class="tool-result-stat"><div class="label">Cochran's Q (df=${df})</div><div class="value" style="font-size:13px;">${Q.toFixed(2)}, p=${pValQ<0.001?'<0.001':pValQ.toFixed(3)}</div></div>
+    </div>
+    <div class="tool-note">I&sup2; interpretation (Higgins &amp; Thompson): 0–40% might not be important; 30–60% moderate; 50–90% substantial; 75–100% considerable heterogeneity. With ${studies.length} studies and I&sup2;=${iSquared.toFixed(0)}%, ${iSquared > 50 ? 'consider reporting the random-effects estimate as primary and investigating sources of heterogeneity (e.g. subgroup or meta-regression).' : 'the fixed-effect and random-effects estimates should be similar, and pooling is reasonably well justified.'} Studies included: ${studies.map(s=>s.label).join(', ')}.</div>`;
+  r.classList.add('show');
+}
+function mtReset() {
+  document.getElementById('mt-measure').value = 'ratio';
+  mtRenderRows();
+}
+// Chi-squared CDF via regularized lower incomplete gamma function (Wilson-Hilferty approximation, adequate for df>=1)
+function chiSqCDF(x, k) {
+  if (x <= 0) return 0;
+  // Wilson-Hilferty approximation: (x/k)^(1/3) approx normal
+  const term = Math.pow(x/k, 1/3);
+  const mean = 1 - 2/(9*k);
+  const sd = Math.sqrt(2/(9*k));
+  const z = (term - mean) / sd;
+  return normCDF(z);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 6 — MULTIPLE TESTING CORRECTION
+   ════════════════════════════════════════════════════════════════ */
+function mtcShowError(msg) {
+  const e = document.getElementById('mtc-error');
+  e.textContent = msg; e.classList.add('show');
+  document.getElementById('mtc-result').classList.remove('show');
+}
+function mtcCalculate() {
+  document.getElementById('mtc-error').classList.remove('show');
+  const raw = document.getElementById('mtc-input').value;
+  const alpha = parseFloat(document.getElementById('mtc-alpha').value);
+  if (!alpha || alpha <= 0 || alpha >= 1) return mtcShowError('Please enter an alpha/FDR threshold strictly between 0 and 1.');
+
+  const pvals = raw.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length).map(Number);
+  if (pvals.some(p => isNaN(p) || p < 0 || p > 1)) return mtcShowError('Please enter only valid p-values between 0 and 1, separated by commas or new lines.');
+  if (pvals.length < 2) return mtcShowError('Please enter at least 2 p-values to correct for multiple testing.');
+
+  const m = pvals.length;
+  // Build indexed array, sort ascending for Holm and BH
+  const indexed = pvals.map((p, i) => ({p, i})).sort((a,b) => a.p - b.p);
+
+  // Bonferroni: compare each raw p to alpha/m
+  const bonfThresh = alpha / m;
+
+  // Holm-Bonferroni: step-down
+  let holmReject = new Array(m).fill(false);
+  let holmStop = false;
+  for (let k = 0; k < m; k++) {
+    const thresh = alpha / (m - k);
+    if (!holmStop && indexed[k].p <= thresh) {
+      holmReject[indexed[k].i] = true;
+    } else {
+      holmStop = true; // once we fail to reject, all subsequent (larger p) also fail
+    }
+  }
+
+  // Benjamini-Hochberg: step-up
+  let bhReject = new Array(m).fill(false);
+  let bhCutoffRank = -1;
+  for (let k = m - 1; k >= 0; k--) {
+    const thresh = ((k+1) / m) * alpha;
+    if (indexed[k].p <= thresh) { bhCutoffRank = k; break; }
+  }
+  if (bhCutoffRank >= 0) {
+    for (let k = 0; k <= bhCutoffRank; k++) bhReject[indexed[k].i] = true;
+  }
+
+  // Build results table in original input order
+  const rows = pvals.map((p, i) => {
+    const rank = indexed.findIndex(x => x.i === i) + 1;
+    const bonfSig = p <= bonfThresh;
+    const holmSig = holmReject[i];
+    const bhSig = bhReject[i];
+    return {p, rank, bonfSig, holmSig, bhSig};
+  });
+
+  const nBonf = rows.filter(r=>r.bonfSig).length;
+  const nHolm = rows.filter(r=>r.holmSig).length;
+  const nBH = rows.filter(r=>r.bhSig).length;
+
+  let tableHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;">
+    <tr style="background:#fff;"><th style="padding:5px 8px;border:1px solid var(--border);text-align:left;">#</th><th style="padding:5px 8px;border:1px solid var(--border);">Raw p</th><th style="padding:5px 8px;border:1px solid var(--border);">Bonferroni</th><th style="padding:5px 8px;border:1px solid var(--border);">Holm</th><th style="padding:5px 8px;border:1px solid var(--border);">BH (FDR)</th></tr>`;
+  rows.forEach((r, i) => {
+    const mark = (sig) => sig ? '<span style="color:var(--green);font-weight:bold;">significant</span>' : '<span style="color:var(--grey);">—</span>';
+    tableHTML += `<tr><td style="padding:5px 8px;border:1px solid var(--border);">${i+1}</td><td style="padding:5px 8px;border:1px solid var(--border);text-align:center;">${r.p}</td><td style="padding:5px 8px;border:1px solid var(--border);text-align:center;">${mark(r.bonfSig)}</td><td style="padding:5px 8px;border:1px solid var(--border);text-align:center;">${mark(r.holmSig)}</td><td style="padding:5px 8px;border:1px solid var(--border);text-align:center;">${mark(r.bhSig)}</td></tr>`;
+  });
+  tableHTML += `</table>`;
+
+  const rTotal = document.getElementById('mtc-result');
+  rTotal.innerHTML = `
+    <div class="tool-result-grid">
+      <div class="tool-result-stat"><div class="label">Tests entered</div><div class="value">${m}</div></div>
+      <div class="tool-result-stat"><div class="label">Bonferroni sig.</div><div class="value">${nBonf}</div></div>
+      <div class="tool-result-stat"><div class="label">Holm sig.</div><div class="value">${nHolm}</div></div>
+      <div class="tool-result-stat"><div class="label">BH (FDR) sig.</div><div class="value">${nBH}</div></div>
+    </div>
+    ${tableHTML}
+    <div class="tool-note">Bonferroni (most conservative, controls family-wise error rate) flags a test significant if raw p ≤ &alpha;/m = ${bonfThresh.toFixed(4)}. Holm-Bonferroni is uniformly more powerful than Bonferroni while still controlling family-wise error. Benjamini-Hochberg controls the <em>false discovery rate</em> rather than family-wise error and is typically the least conservative — appropriate for exploratory/hypothesis-generating analyses (e.g. -omics) rather than confirmatory hypothesis testing.</div>`;
+  rTotal.classList.add('show');
+}
+function mtcReset() {
+  document.getElementById('mtc-input').value = '';
+  document.getElementById('mtc-alpha').value = '0.05';
+  document.getElementById('mtc-result').classList.remove('show');
+  document.getElementById('mtc-error').classList.remove('show');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 7 — TRIAL DESIGN ADVISOR (rule-based questionnaire)
+   ════════════════════════════════════════════════════════════════ */
+function trCalculate() {
+  const aim = document.getElementById('tr-aim').value;
+  const stage = document.getElementById('tr-stage').value;
+  const endpoint = document.getElementById('tr-endpoint').value;
+  const blind = document.getElementById('tr-blind').value;
+  const crossover = document.getElementById('tr-crossover').value;
+
+  let designName = '', designDetail = [], analysisNote = '', sizeNote = '';
+
+  if (aim === 'dosefinding') {
+    designName = stage === 'rare' ? 'Bayesian adaptive dose-finding (e.g. CRM, BOIN)' : 'Phase I dose-escalation (e.g. 3+3 or Bayesian CRM)';
+    designDetail = [
+      'Single-arm, sequential cohorts with dose escalation/de-escalation rules.',
+      'Primary endpoint typically dose-limiting toxicity (DLT) rate within a defined window.',
+      'No formal hypothesis test of efficacy at this stage — focus is on identifying a recommended phase II dose (RP2D).'
+    ];
+    analysisNote = 'Analysis is typically descriptive (DLT rates by dose level, MTD/RP2D estimate with credible interval if Bayesian).';
+  } else if (aim === 'diagnostic') {
+    designName = 'Diagnostic test accuracy study';
+    designDetail = [
+      'Cross-sectional design comparing the index test against a reference standard, in a population representative of the intended clinical use case.',
+      'Avoid case-control designs for accuracy studies (inflates apparent accuracy) — use a consecutive or random sample of patients with suspected disease.',
+      'Report alongside STARD 2015 guidance.'
+    ];
+    analysisNote = 'Use the Diagnostic Test Calculator (2×2 table tool) for sensitivity, specificity, predictive values and likelihood ratios.';
+  } else if (aim === 'mechanistic') {
+    designName = stage === 'early' ? 'Single-arm mechanistic/translational study with paired pre/post sampling' : 'Randomised mechanistic trial with embedded translational endpoints';
+    designDetail = [
+      'Consider a paired (within-patient) design if biological plausibility supports comparing pre- vs post-intervention biomarker change — this reduces between-patient variability and the required sample size.',
+      'Pre-specify the translational hypothesis and analysis plan before unblinding, even if the primary clinical endpoint is secondary to the mechanistic question.',
+      'Plan tissue/sample logistics (consent, storage, batch effects) as carefully as the clinical design.'
+    ];
+    analysisNote = 'If paired biomarker data, the Sample Size & Power Calculator\'s "paired means" option applies directly.';
+  } else {
+    // superiority or noninferiority
+    const core = (aim === 'noninferiority')
+      ? 'Randomised, non-inferiority trial'
+      : 'Randomised controlled superiority trial';
+    designName = core + (blind === 'yes' ? ' (double-blind)' : ' (open-label)');
+    designDetail = [];
+    if (aim === 'noninferiority') {
+      designDetail.push('Requires a pre-specified non-inferiority margin, justified by prior superiority trials of the active comparator vs placebo (or by clinical judgement of the smallest difference that would matter).');
+      designDetail.push('Consider both intention-to-treat and per-protocol analyses, since ITT alone can bias towards "no difference" (i.e. towards declaring non-inferiority) if adherence is poor.');
+    } else {
+      designDetail.push('Intention-to-treat analysis as primary, to preserve the benefit of randomisation.');
+    }
+    if (stage === 'rare') {
+      designDetail.push('With a small eligible population, consider a Bayesian design, a platform/basket trial sharing infrastructure across rare subtypes, or a Simon two-stage design if single-arm is unavoidable — see the Small Sample Strategies chapter.');
+    }
+    if (blind === 'no') {
+      designDetail.push('Open-label design — strengthen the design with a blinded independent endpoint review (e.g. blinded central radiology review for imaging-based endpoints) to reduce assessment bias.');
+    }
+    if (crossover === 'yes') {
+      designDetail.push('Significant crossover/non-adherence expected — pre-specify an estimand under ICH E9(R1) (e.g. treatment-policy vs hypothetical) and plan sensitivity analyses (e.g. rank-preserving structural failure time models, IPCW) alongside the primary ITT analysis.');
+    }
+    if (endpoint === 'composite') {
+      designDetail.push('With co-primary or composite endpoints, pre-specify the multiplicity strategy (e.g. hierarchical/gatekeeping testing, or split alpha) — see the Multiple Testing Correction tool.');
+    }
+    analysisNote = ({
+      survival: 'Use the Survival Comparison or Sample Size & Power Calculator (log-rank/Schoenfeld option) for sample size and the eventual hazard ratio.',
+      binary: 'Use the Sample Size & Power Calculator\'s "two independent proportions" option.',
+      continuous: 'Use the Sample Size & Power Calculator\'s "two independent means" option.',
+      composite: 'Size for the primary component first, then check power is still adequate accounting for the multiplicity adjustment chosen.'
+    })[endpoint];
+  }
+
+  const r = document.getElementById('tr-result');
+  r.innerHTML = `
+    <div class="headline" style="font-size:18px;">${designName}</div>
+    <ul style="margin:10px 0 0 18px;padding:0;font-size:12.5px;line-height:1.7;color:var(--navy);">
+      ${designDetail.map(d => `<li style="margin-bottom:4px;">${d}</li>`).join('')}
+    </ul>
+    <div class="tool-note">${analysisNote}<br><br><strong>This is a structured starting point based on the inputs given, not a finished protocol.</strong> Discuss the actual design — including the estimand, primary analysis population, and statistical analysis plan — with a trial statistician before finalising.</div>`;
+  r.classList.add('show');
+}
+function trReset() {
+  ['tr-aim','tr-stage','tr-endpoint','tr-blind','tr-crossover'].forEach(id => document.getElementById(id).selectedIndex = 0);
+  document.getElementById('tr-result').classList.remove('show');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOOL 8 — CONFOUNDER / MEDIATOR / COLLIDER CLASSIFIER
+   ════════════════════════════════════════════════════════════════ */
+function cfClassify() {
+  const exp = document.getElementById('cf-exp').value;
+  const out = document.getElementById('cf-out').value;
+  const interact = document.getElementById('cf-interact').value;
+
+  let label = '', advice = '', colour = 'var(--orange)';
+
+  if (exp === 'caused_by_exposure' && out === 'yes') {
+    label = 'Mediator';
+    advice = 'This variable sits on the causal pathway between exposure and outcome (exposure → variable → outcome). Adjusting for it in the main analysis would block part of the effect you\'re trying to estimate, biasing the total effect towards null. Only adjust for it if you specifically want the <em>direct effect</em> (not mediated by this variable) — and if so, use formal mediation analysis methods rather than simple regression adjustment.';
+  } else if (exp === 'caused_by_outcome' || out === 'caused_by_outcome') {
+    label = 'Collider (or downstream of the outcome)';
+    advice = 'This variable is caused by the outcome (or by both exposure and outcome). Adjusting for a collider can <em>induce</em> a spurious association between exposure and outcome where none exists, or distort the true association — this is collider-stratification bias. As a rule, do not adjust for variables that occur causally after the outcome.';
+    colour = '#b3261e';
+  } else if (exp === 'yes' && out === 'yes') {
+    label = 'Confounder';
+    advice = 'This variable affects both exposure and outcome independently — the classic definition of a confounder. It should generally be adjusted for (via regression, stratification, matching, or propensity scores) to obtain an unbiased estimate of the exposure–outcome association. Confirm this isn\'t actually a mediator by checking the temporal order: a true confounder precedes the exposure.';
+    colour = 'var(--green)';
+  } else if (exp === 'no' && out === 'yes' && interact === 'no') {
+    label = 'Precision variable (outcome predictor only)';
+    advice = 'This variable predicts the outcome but is unrelated to exposure assignment — it\'s not a confounder, but adjusting for it can still be worthwhile: it often improves precision (narrower CIs) without introducing bias, particularly in randomised trials where exposure is assigned independently of all covariates by design.';
+    colour = 'var(--teal)';
+  } else if (exp === 'no' && out === 'no' && interact === 'no') {
+    label = 'Not related to either — no adjustment needed';
+    advice = 'Based on your answers, this variable has no causal relationship with exposure or outcome and shows no effect modification. It can generally be left out of the model. Double-check this against domain knowledge / a DAG rather than relying solely on statistical association in your sample.';
+    colour = 'var(--grey)';
+  } else {
+    label = 'Insufficient information for a clean classification';
+    advice = 'Your answers don\'t map onto one of the standard categories — this can happen with complex causal structures (e.g. time-varying confounding, or a variable that is both a confounder for part of the pathway and a mediator for another). Consider drawing an explicit DAG (e.g. with DAGitty) to reason through adjustment sets formally, or discuss with a statistician.';
+  }
+
+  if (interact === 'yes' && exp !== 'caused_by_outcome' && out !== 'caused_by_outcome') {
+    advice += ' <br><br><strong>Additionally:</strong> since the exposure effect appears to differ across levels of this variable, it may also be an <strong>effect modifier</strong>. Consider reporting subgroup-specific effect estimates (with appropriate caution about multiplicity) or including a formal interaction term, in addition to whatever adjustment decision you make above.';
+  }
+
+  const r = document.getElementById('cf-result');
+  r.innerHTML = `<div class="headline" style="font-size:18px;color:${colour};">${label}</div>
+    <div class="tool-note" style="border-top:none;padding-top:6px;margin-top:8px;font-size:12.5px;">${advice}</div>`;
+  r.classList.add('show');
+}
+function cfReset() {
+  ['cf-exp','cf-out','cf-interact'].forEach(id => document.getElementById(id).selectedIndex = 0);
+  document.getElementById('cf-result').classList.remove('show');
+}
+
+/* ── Initialise new tool panels on load ── */
+if (document.getElementById('sv-fields')) svRenderFields();
+if (document.getElementById('mt-rows')) mtRenderRows();
+
+
 document.getElementById('btn-prev').disabled = true;
 </script>
 </body>
